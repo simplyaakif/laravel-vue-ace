@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Queries;
+use App\Http\Resources\QueriesResource;
+use App\Http\Requests;
 use Illuminate\Http\Request;
 
 class QueriesController extends Controller
@@ -14,17 +16,8 @@ class QueriesController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $queries = Queries::paginate(5);
+        return QueriesResource::collection($queries);
     }
 
     /**
@@ -35,7 +28,15 @@ class QueriesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $query = $request->isMethod('put') ? Queries::findOrFail($request->qr_id) : new Queries;
+        $query->id = $request->input('qr_id');
+        $query->qr_name = $request->input('qr_name');
+        $query->qr_course = $request->input('qr_course');
+
+        if($query->save()){
+            return new QueriesResource($query);
+        }
+
     }
 
     /**
@@ -46,30 +47,8 @@ class QueriesController extends Controller
      */
     public function show(Queries $queries)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Queries  $queries
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Queries $queries)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Queries  $queries
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Queries $queries)
-    {
-        //
+        $query = Queries::findOrFail($queries->id);
+        return new QueriesResource($query);
     }
 
     /**
@@ -80,6 +59,9 @@ class QueriesController extends Controller
      */
     public function destroy(Queries $queries)
     {
-        //
+        $query = Queries::findOrFail($queries->id);
+        if ($query->delete()){
+            return new QueriesResource($query);
+        }
     }
 }

@@ -14,3 +14,14 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+//List Queries
+Route::get('queries','QueriesController@index'); 
+//List Query
+Route::get('queries/{queries}','QueriesController@show'); 
+//Create Query
+Route::post('queries','QueriesController@store'); 
+//Update Query
+Route::put('queries','QueriesController@store'); 
+//Delete Query
+Route::delete('queries/{queries}','QueriesController@destroy'); 

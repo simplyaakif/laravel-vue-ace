@@ -16,10 +16,10 @@ class CreateQueriesTable extends Migration
         Schema::create('queries', function (Blueprint $table) {
             $table->increments('id');
             $table->string('qr_name');
-            $table->string('qr_phone');
-            $table->string('qr_email');
-            $table->string('qr_address');
-            $table->string('qr_learningtype');
+            $table->string('qr_phone')->nullable();
+            $table->string('qr_email')->nullable();
+            $table->string('qr_address')->nullable();
+            $table->string('qr_learningtype')->nullable();
             $table->string('qr_course');
             $table->timestamps();
         });
