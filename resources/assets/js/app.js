@@ -8,6 +8,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import VueResource from 'vue-resource';
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -15,7 +16,13 @@ window.Vue = require('vue');
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example-component', require('./components/ExampleComponent.vue'));
+Vue.use(VueResource);
+
+// Vue.component('example-component', require('./components/ExampleComponent.vue'));
+
+//Navigartion Bar Added
+Vue.component('navbar', require('./components/Navbar.vue'));
+Vue.component('queries', require('./components/Queries.vue'));
 
 const app = new Vue({
     el: '#app'

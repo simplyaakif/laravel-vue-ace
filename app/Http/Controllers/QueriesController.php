@@ -16,7 +16,7 @@ class QueriesController extends Controller
      */
     public function index()
     {
-        $queries = Queries::paginate(5);
+        $queries = Queries::paginate(15);
         return QueriesResource::collection($queries);
     }
 

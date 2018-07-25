@@ -12,16 +12,16 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('main');
 });
 
 //List Queries
-Route::get('queries','QueriesController@index'); 
+Route::get('api/queries','QueriesController@index'); 
 //List Query
-Route::get('queries/{queries}','QueriesController@show'); 
+Route::get('api/queries/{queries}','QueriesController@show'); 
 //Create Query
-Route::post('queries','QueriesController@store'); 
+Route::post('api/queries','QueriesController@store'); 
 //Update Query
-Route::put('queries','QueriesController@store'); 
+Route::put('api/queries','QueriesController@store'); 
 //Delete Query
-Route::delete('queries/{queries}','QueriesController@destroy'); 
+Route::delete('api/queries/{queries}','QueriesController@destroy'); 
