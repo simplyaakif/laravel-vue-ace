@@ -12,5 +12,6 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         factory('App\Queries', 10)->create();
+        factory('App\Contact',10)->create();
     }
 }

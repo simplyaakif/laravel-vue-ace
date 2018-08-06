@@ -25,3 +25,16 @@ Route::post('api/queries','QueriesController@store');
 Route::put('api/queries','QueriesController@store'); 
 //Delete Query
 Route::delete('api/queries/{queries}','QueriesController@destroy'); 
+
+
+
+//List contact
+Route::get('api/contact','ContactController@index'); 
+//List Query
+Route::get('api/contact/{contact}','ContactController@show'); 
+//Create Query
+Route::post('api/contact','ContactController@store'); 
+//Update Query
+Route::put('api/contact','ContactController@store'); 
+//Delete Query
+Route::delete('api/contact/{contact}','ContactController@destroy'); 
