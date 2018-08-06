@@ -60,8 +60,14 @@
         }
     },
 
+    created() {
+    this.fetchData();
+    },
+
+
     methods: {
         fetchData: function() {
+
             this.$http.get('http://127.0.0.1:8000/api/queries')
                 .then(response => {
                     return response.json();
@@ -72,6 +78,7 @@
                 });
 
         }
+        
     }
 }
 </script>
