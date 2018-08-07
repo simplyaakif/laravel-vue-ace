@@ -54802,6 +54802,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -54811,6 +54834,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 contact_message: ''
             },
             search: '',
+            pagination: {},
             flag: false,
             contacts: []
         };
@@ -54842,8 +54866,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(data);
                 _this2.contacts = data.data;
             });
+        },
+        makePagination: function makePagination(meta, links) {
+            var pagination = {
+                current_page: meta.current_page,
+                last_page: meta.last_page,
+                next_page_url: links.next,
+                prev_page_url: links.prev
+            };
+            this.pageination = pagination;
         }
-
     }
 });
 
@@ -54862,71 +54894,123 @@ var render = function() {
       _vm._v("Manage all your contact form queries in a blink of an eye.")
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-10" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.search,
-                expression: "search"
-              }
-            ],
-            staticClass: "form-control mg-b-20",
-            attrs: {
-              type: "text",
-              placeholder: "Search for some data in here."
-            },
-            domProps: { value: _vm.search },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
+    _c("div", { staticClass: "br-section-wrapper" }, [
+      _c("div", { staticClass: "container" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-10" }, [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.search,
+                  expression: "search"
                 }
-                _vm.search = $event.target.value
+              ],
+              staticClass: "form-control mg-b-20",
+              attrs: {
+                type: "text",
+                placeholder: "Search for some data in here."
+              },
+              domProps: { value: _vm.search },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.search = $event.target.value
+                }
               }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-2" }, [
-          _c(
-            "button",
-            { staticClass: "btn btn-primary", on: { click: _vm.fetchData } },
-            [_vm._v("Get Contact Forms")]
-          )
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-md-2" }, [
+            _c(
+              "button",
+              { staticClass: "btn btn-primary", on: { click: _vm.fetchData } },
+              [_vm._v("Get Contact Forms")]
+            )
+          ])
         ])
       ]),
       _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "table",
-          { staticClass: "table table-striped table-dark" },
-          _vm._l(_vm.filterContacts, function(contact, n) {
-            return _c("tr", { key: contact.id }, [
-              _c("td", [_vm._v(_vm._s(n + 1))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(contact.contact_name))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(contact.contact_mobile))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(contact.contact_email))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(contact.contact_message))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(contact.contact_status))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(contact.created_at))])
-            ])
-          })
-        )
+      _vm._m(0),
+      _vm._v(" "),
+      _c("div", { staticClass: "containe" }, [
+        _c("div", { staticClass: "ro" }, [
+          _c(
+            "table",
+            { staticClass: "table table-striped table-dark" },
+            _vm._l(_vm.filterContacts, function(contact, n) {
+              return _c("tr", { key: contact.id }, [
+                _c("td", [_vm._v(_vm._s(n + 1))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(contact.contact_name))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(contact.contact_mobile))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(contact.contact_email))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(contact.contact_message))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(contact.contact_status))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(contact.created_at))])
+              ])
+            })
+          )
+        ])
       ])
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      {
+        staticClass:
+          "ht-60 mg-b-20 bd d-flex align-items-center justify-content-center"
+      },
+      [
+        _c("nav", { attrs: { "aria-label": "Page navigation" } }, [
+          _c("ul", { staticClass: "pagination pagination-basic mg-b-0" }, [
+            _c("li", { staticClass: "page-item active" }, [
+              _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
+                _vm._v("1")
+              ])
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "page-item" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#", "aria-label": "Next" }
+                },
+                [_c("i", { staticClass: "fa fa-angle-right" })]
+              )
+            ]),
+            _vm._v(" "),
+            _c("li", { staticClass: "page-item" }, [
+              _c(
+                "a",
+                {
+                  staticClass: "page-link",
+                  attrs: { href: "#", "aria-label": "Last" }
+                },
+                [_c("i", { staticClass: "fa fa-angle-double-right" })]
+              )
+            ])
+          ])
+        ])
+      ]
+    )
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
