@@ -21,7 +21,7 @@
         <link href="{{asset('lib/chartist/chartist.css')}}" rel="stylesheet">
 
 
-        <!-- <link rel="stylesheet" href=" {{asset('css/app.css')}} "> -->
+        <link rel="stylesheet" href=" {{asset('css/app.css')}} ">
         <link rel="stylesheet" href=" {{asset('css/bracket.css')}} ">
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
@@ -29,8 +29,10 @@
     <body>
 
         <div id="app">
-            <navbar></navbar>
-            <queries></queries>
+            <app></app>
+            {{-- <navbar></navbar> --}}
+           
+            {{-- <queries></queries> --}}
         </div>
 
 

@@ -19,6 +19,7 @@ class CreateContactsTable extends Migration
             $table->string('contact_mobile','30');
             $table->string('contact_email','30');
             $table->text('contact_message');
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

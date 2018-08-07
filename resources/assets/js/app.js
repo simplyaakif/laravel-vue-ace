@@ -8,22 +8,49 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
+Vue.use(VueRouter);
 Vue.use(VueResource);
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue'));
-
 //Navigartion Bar Added
+
+Vue.component('app', require('./components/App.vue'));
 Vue.component('navbar', require('./components/Navbar.vue'));
 Vue.component('queries', require('./components/Queries.vue'));
+Vue.component('contacts', require('./components/Contacts.vue'));
+
+import App from './components/App';
+import Queries from './components/Queries';
+import Contacts from './components/Contacts';
+import Home from './components/Home';
+
+const router = new VueRouter({
+    mode: 'history',
+    routes: [
+        {
+            path: '/',
+            name: 'home',
+            component: Home
+        },
+        {
+            path: '/queries',
+            name: 'queries',
+            component: Queries
+        },
+        {
+            path: '/contacts',
+            name: 'contacts',
+            component: Contacts,
+        },
+    ],
+});
+
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    components: {App},
+    router,
 });

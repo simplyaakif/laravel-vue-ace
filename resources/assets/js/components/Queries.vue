@@ -1,16 +1,9 @@
 
 <template>
     <div>
-        <div class="br-mainpanel" >
-    <div class="pd-30">
         <h2 class="text-center">Query Register</h2>
         <p class="text-center">Manage all your queries in a blink of an eye.</p>
         <div class="container">
-            <!-- <ul class="">
-                <li v-for="query in queries" :key="query.id">
-                    {{query.qr_name}} - {{query.qr_course}} - {{query.qr_number}}
-                </li>
-            </ul> -->
             <div class="row">
                 <div class="col-md-10">
                 <input class="form-control mg-b-20" type="text" placeholder="Search for some data in here." v-model="search">
@@ -32,8 +25,6 @@
                 </table>
             </div>
         </div>
-    </div>
-    </div>
     </div>
 </template>
 

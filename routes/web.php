@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('main');
 });
 
+
 //List Queries
 Route::get('api/queries','QueriesController@index'); 
 //List Query
@@ -29,12 +30,23 @@ Route::delete('api/queries/{queries}','QueriesController@destroy');
 
 
 //List contact
-Route::get('api/contact','ContactController@index'); 
+Route::get('api/contacts','ContactController@index'); 
 //List Query
-Route::get('api/contact/{contact}','ContactController@show'); 
+Route::get('api/contacts/{contact}','ContactController@show'); 
 //Create Query
-Route::post('api/contact','ContactController@store'); 
+Route::post('api/contacts','ContactController@store'); 
 //Update Query
-Route::put('api/contact','ContactController@store'); 
+Route::put('api/contacts','ContactController@store'); 
 //Delete Query
-Route::delete('api/contact/{contact}','ContactController@destroy'); 
+Route::delete('api/contacts/{contact}','ContactController@destroy'); 
+
+
+
+
+
+
+
+
+Route::get('/{vue_capture?}', function () {
+    return view('main');
+})->where('vue_capture', '[\/\w\.-]*');
