@@ -14,7 +14,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::paginate(15);
+        $contacts = Contact::orderBy('id', 'desc')->paginate(5);
         return ContactResource::collection($contacts);
     }
 

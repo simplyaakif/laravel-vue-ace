@@ -8,11 +8,15 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+// Vue.use(require('vue-moment'));
+import VueMoment from 'vue-moment';
 import VueRouter from 'vue-router';
 import VueResource from 'vue-resource';
 
+
 Vue.use(VueRouter);
 Vue.use(VueResource);
+Vue.use(VueMoment);
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue'));
 //Navigartion Bar Added
