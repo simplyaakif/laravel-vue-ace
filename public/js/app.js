@@ -13980,7 +13980,7 @@ var normalizeComponent = __webpack_require__(2)
 /* script */
 var __vue_script__ = null
 /* template */
-var __vue_template__ = __webpack_require__(48)
+var __vue_template__ = __webpack_require__(49)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -14025,9 +14025,9 @@ module.exports = Component.exports
 var disposed = false
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(51)
+var __vue_script__ = __webpack_require__(52)
 /* template */
-var __vue_template__ = __webpack_require__(52)
+var __vue_template__ = __webpack_require__(53)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -14072,13 +14072,13 @@ module.exports = Component.exports
 var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(53)
+  __webpack_require__(54)
 }
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(56)
+var __vue_script__ = __webpack_require__(57)
 /* template */
-var __vue_template__ = __webpack_require__(57)
+var __vue_template__ = __webpack_require__(58)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -14218,7 +14218,7 @@ if (typeof DEBUG !== 'undefined' && DEBUG) {
   ) }
 }
 
-var listToStyles = __webpack_require__(55)
+var listToStyles = __webpack_require__(56)
 
 /*
 type StyleObject = {
@@ -14431,7 +14431,7 @@ function applyToTag (styleElement, obj) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(18);
-module.exports = __webpack_require__(63);
+module.exports = __webpack_require__(64);
 
 
 /***/ }),
@@ -14440,17 +14440,17 @@ module.exports = __webpack_require__(63);
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_moment__ = __webpack_require__(67);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_moment__ = __webpack_require__(45);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_moment__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(45);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_resource__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_router__ = __webpack_require__(46);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue_resource__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_App__ = __webpack_require__(12);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_App___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__components_App__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Queries__ = __webpack_require__(13);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_Queries___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__components_Queries__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Contacts__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__components_Contacts___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__components_Contacts__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Home__ = __webpack_require__(58);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Home__ = __webpack_require__(59);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Home___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_Home__);
 
 /**
@@ -14475,7 +14475,7 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_vue_moment___default.a);
 //Navigartion Bar Added
 
 Vue.component('app', __webpack_require__(12));
-Vue.component('navbar', __webpack_require__(49));
+Vue.component('navbar', __webpack_require__(50));
 Vue.component('queries', __webpack_require__(13));
 Vue.component('contacts', __webpack_require__(14));
 
@@ -47778,7548 +47778,6 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 /* 45 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/**
-  * vue-router v3.0.1
-  * (c) 2017 Evan You
-  * @license MIT
-  */
-/*  */
-
-function assert (condition, message) {
-  if (!condition) {
-    throw new Error(("[vue-router] " + message))
-  }
-}
-
-function warn (condition, message) {
-  if ("development" !== 'production' && !condition) {
-    typeof console !== 'undefined' && console.warn(("[vue-router] " + message));
-  }
-}
-
-function isError (err) {
-  return Object.prototype.toString.call(err).indexOf('Error') > -1
-}
-
-var View = {
-  name: 'router-view',
-  functional: true,
-  props: {
-    name: {
-      type: String,
-      default: 'default'
-    }
-  },
-  render: function render (_, ref) {
-    var props = ref.props;
-    var children = ref.children;
-    var parent = ref.parent;
-    var data = ref.data;
-
-    data.routerView = true;
-
-    // directly use parent context's createElement() function
-    // so that components rendered by router-view can resolve named slots
-    var h = parent.$createElement;
-    var name = props.name;
-    var route = parent.$route;
-    var cache = parent._routerViewCache || (parent._routerViewCache = {});
-
-    // determine current view depth, also check to see if the tree
-    // has been toggled inactive but kept-alive.
-    var depth = 0;
-    var inactive = false;
-    while (parent && parent._routerRoot !== parent) {
-      if (parent.$vnode && parent.$vnode.data.routerView) {
-        depth++;
-      }
-      if (parent._inactive) {
-        inactive = true;
-      }
-      parent = parent.$parent;
-    }
-    data.routerViewDepth = depth;
-
-    // render previous view if the tree is inactive and kept-alive
-    if (inactive) {
-      return h(cache[name], data, children)
-    }
-
-    var matched = route.matched[depth];
-    // render empty node if no matched route
-    if (!matched) {
-      cache[name] = null;
-      return h()
-    }
-
-    var component = cache[name] = matched.components[name];
-
-    // attach instance registration hook
-    // this will be called in the instance's injected lifecycle hooks
-    data.registerRouteInstance = function (vm, val) {
-      // val could be undefined for unregistration
-      var current = matched.instances[name];
-      if (
-        (val && current !== vm) ||
-        (!val && current === vm)
-      ) {
-        matched.instances[name] = val;
-      }
-    }
-
-    // also register instance in prepatch hook
-    // in case the same component instance is reused across different routes
-    ;(data.hook || (data.hook = {})).prepatch = function (_, vnode) {
-      matched.instances[name] = vnode.componentInstance;
-    };
-
-    // resolve props
-    var propsToPass = data.props = resolveProps(route, matched.props && matched.props[name]);
-    if (propsToPass) {
-      // clone to prevent mutation
-      propsToPass = data.props = extend({}, propsToPass);
-      // pass non-declared props as attrs
-      var attrs = data.attrs = data.attrs || {};
-      for (var key in propsToPass) {
-        if (!component.props || !(key in component.props)) {
-          attrs[key] = propsToPass[key];
-          delete propsToPass[key];
-        }
-      }
-    }
-
-    return h(component, data, children)
-  }
-};
-
-function resolveProps (route, config) {
-  switch (typeof config) {
-    case 'undefined':
-      return
-    case 'object':
-      return config
-    case 'function':
-      return config(route)
-    case 'boolean':
-      return config ? route.params : undefined
-    default:
-      if (true) {
-        warn(
-          false,
-          "props in \"" + (route.path) + "\" is a " + (typeof config) + ", " +
-          "expecting an object, function or boolean."
-        );
-      }
-  }
-}
-
-function extend (to, from) {
-  for (var key in from) {
-    to[key] = from[key];
-  }
-  return to
-}
-
-/*  */
-
-var encodeReserveRE = /[!'()*]/g;
-var encodeReserveReplacer = function (c) { return '%' + c.charCodeAt(0).toString(16); };
-var commaRE = /%2C/g;
-
-// fixed encodeURIComponent which is more conformant to RFC3986:
-// - escapes [!'()*]
-// - preserve commas
-var encode = function (str) { return encodeURIComponent(str)
-  .replace(encodeReserveRE, encodeReserveReplacer)
-  .replace(commaRE, ','); };
-
-var decode = decodeURIComponent;
-
-function resolveQuery (
-  query,
-  extraQuery,
-  _parseQuery
-) {
-  if ( extraQuery === void 0 ) extraQuery = {};
-
-  var parse = _parseQuery || parseQuery;
-  var parsedQuery;
-  try {
-    parsedQuery = parse(query || '');
-  } catch (e) {
-    "development" !== 'production' && warn(false, e.message);
-    parsedQuery = {};
-  }
-  for (var key in extraQuery) {
-    parsedQuery[key] = extraQuery[key];
-  }
-  return parsedQuery
-}
-
-function parseQuery (query) {
-  var res = {};
-
-  query = query.trim().replace(/^(\?|#|&)/, '');
-
-  if (!query) {
-    return res
-  }
-
-  query.split('&').forEach(function (param) {
-    var parts = param.replace(/\+/g, ' ').split('=');
-    var key = decode(parts.shift());
-    var val = parts.length > 0
-      ? decode(parts.join('='))
-      : null;
-
-    if (res[key] === undefined) {
-      res[key] = val;
-    } else if (Array.isArray(res[key])) {
-      res[key].push(val);
-    } else {
-      res[key] = [res[key], val];
-    }
-  });
-
-  return res
-}
-
-function stringifyQuery (obj) {
-  var res = obj ? Object.keys(obj).map(function (key) {
-    var val = obj[key];
-
-    if (val === undefined) {
-      return ''
-    }
-
-    if (val === null) {
-      return encode(key)
-    }
-
-    if (Array.isArray(val)) {
-      var result = [];
-      val.forEach(function (val2) {
-        if (val2 === undefined) {
-          return
-        }
-        if (val2 === null) {
-          result.push(encode(key));
-        } else {
-          result.push(encode(key) + '=' + encode(val2));
-        }
-      });
-      return result.join('&')
-    }
-
-    return encode(key) + '=' + encode(val)
-  }).filter(function (x) { return x.length > 0; }).join('&') : null;
-  return res ? ("?" + res) : ''
-}
-
-/*  */
-
-
-var trailingSlashRE = /\/?$/;
-
-function createRoute (
-  record,
-  location,
-  redirectedFrom,
-  router
-) {
-  var stringifyQuery$$1 = router && router.options.stringifyQuery;
-
-  var query = location.query || {};
-  try {
-    query = clone(query);
-  } catch (e) {}
-
-  var route = {
-    name: location.name || (record && record.name),
-    meta: (record && record.meta) || {},
-    path: location.path || '/',
-    hash: location.hash || '',
-    query: query,
-    params: location.params || {},
-    fullPath: getFullPath(location, stringifyQuery$$1),
-    matched: record ? formatMatch(record) : []
-  };
-  if (redirectedFrom) {
-    route.redirectedFrom = getFullPath(redirectedFrom, stringifyQuery$$1);
-  }
-  return Object.freeze(route)
-}
-
-function clone (value) {
-  if (Array.isArray(value)) {
-    return value.map(clone)
-  } else if (value && typeof value === 'object') {
-    var res = {};
-    for (var key in value) {
-      res[key] = clone(value[key]);
-    }
-    return res
-  } else {
-    return value
-  }
-}
-
-// the starting route that represents the initial state
-var START = createRoute(null, {
-  path: '/'
-});
-
-function formatMatch (record) {
-  var res = [];
-  while (record) {
-    res.unshift(record);
-    record = record.parent;
-  }
-  return res
-}
-
-function getFullPath (
-  ref,
-  _stringifyQuery
-) {
-  var path = ref.path;
-  var query = ref.query; if ( query === void 0 ) query = {};
-  var hash = ref.hash; if ( hash === void 0 ) hash = '';
-
-  var stringify = _stringifyQuery || stringifyQuery;
-  return (path || '/') + stringify(query) + hash
-}
-
-function isSameRoute (a, b) {
-  if (b === START) {
-    return a === b
-  } else if (!b) {
-    return false
-  } else if (a.path && b.path) {
-    return (
-      a.path.replace(trailingSlashRE, '') === b.path.replace(trailingSlashRE, '') &&
-      a.hash === b.hash &&
-      isObjectEqual(a.query, b.query)
-    )
-  } else if (a.name && b.name) {
-    return (
-      a.name === b.name &&
-      a.hash === b.hash &&
-      isObjectEqual(a.query, b.query) &&
-      isObjectEqual(a.params, b.params)
-    )
-  } else {
-    return false
-  }
-}
-
-function isObjectEqual (a, b) {
-  if ( a === void 0 ) a = {};
-  if ( b === void 0 ) b = {};
-
-  // handle null value #1566
-  if (!a || !b) { return a === b }
-  var aKeys = Object.keys(a);
-  var bKeys = Object.keys(b);
-  if (aKeys.length !== bKeys.length) {
-    return false
-  }
-  return aKeys.every(function (key) {
-    var aVal = a[key];
-    var bVal = b[key];
-    // check nested equality
-    if (typeof aVal === 'object' && typeof bVal === 'object') {
-      return isObjectEqual(aVal, bVal)
-    }
-    return String(aVal) === String(bVal)
-  })
-}
-
-function isIncludedRoute (current, target) {
-  return (
-    current.path.replace(trailingSlashRE, '/').indexOf(
-      target.path.replace(trailingSlashRE, '/')
-    ) === 0 &&
-    (!target.hash || current.hash === target.hash) &&
-    queryIncludes(current.query, target.query)
-  )
-}
-
-function queryIncludes (current, target) {
-  for (var key in target) {
-    if (!(key in current)) {
-      return false
-    }
-  }
-  return true
-}
-
-/*  */
-
-// work around weird flow bug
-var toTypes = [String, Object];
-var eventTypes = [String, Array];
-
-var Link = {
-  name: 'router-link',
-  props: {
-    to: {
-      type: toTypes,
-      required: true
-    },
-    tag: {
-      type: String,
-      default: 'a'
-    },
-    exact: Boolean,
-    append: Boolean,
-    replace: Boolean,
-    activeClass: String,
-    exactActiveClass: String,
-    event: {
-      type: eventTypes,
-      default: 'click'
-    }
-  },
-  render: function render (h) {
-    var this$1 = this;
-
-    var router = this.$router;
-    var current = this.$route;
-    var ref = router.resolve(this.to, current, this.append);
-    var location = ref.location;
-    var route = ref.route;
-    var href = ref.href;
-
-    var classes = {};
-    var globalActiveClass = router.options.linkActiveClass;
-    var globalExactActiveClass = router.options.linkExactActiveClass;
-    // Support global empty active class
-    var activeClassFallback = globalActiveClass == null
-            ? 'router-link-active'
-            : globalActiveClass;
-    var exactActiveClassFallback = globalExactActiveClass == null
-            ? 'router-link-exact-active'
-            : globalExactActiveClass;
-    var activeClass = this.activeClass == null
-            ? activeClassFallback
-            : this.activeClass;
-    var exactActiveClass = this.exactActiveClass == null
-            ? exactActiveClassFallback
-            : this.exactActiveClass;
-    var compareTarget = location.path
-      ? createRoute(null, location, null, router)
-      : route;
-
-    classes[exactActiveClass] = isSameRoute(current, compareTarget);
-    classes[activeClass] = this.exact
-      ? classes[exactActiveClass]
-      : isIncludedRoute(current, compareTarget);
-
-    var handler = function (e) {
-      if (guardEvent(e)) {
-        if (this$1.replace) {
-          router.replace(location);
-        } else {
-          router.push(location);
-        }
-      }
-    };
-
-    var on = { click: guardEvent };
-    if (Array.isArray(this.event)) {
-      this.event.forEach(function (e) { on[e] = handler; });
-    } else {
-      on[this.event] = handler;
-    }
-
-    var data = {
-      class: classes
-    };
-
-    if (this.tag === 'a') {
-      data.on = on;
-      data.attrs = { href: href };
-    } else {
-      // find the first <a> child and apply listener and href
-      var a = findAnchor(this.$slots.default);
-      if (a) {
-        // in case the <a> is a static node
-        a.isStatic = false;
-        var extend = _Vue.util.extend;
-        var aData = a.data = extend({}, a.data);
-        aData.on = on;
-        var aAttrs = a.data.attrs = extend({}, a.data.attrs);
-        aAttrs.href = href;
-      } else {
-        // doesn't have <a> child, apply listener to self
-        data.on = on;
-      }
-    }
-
-    return h(this.tag, data, this.$slots.default)
-  }
-};
-
-function guardEvent (e) {
-  // don't redirect with control keys
-  if (e.metaKey || e.altKey || e.ctrlKey || e.shiftKey) { return }
-  // don't redirect when preventDefault called
-  if (e.defaultPrevented) { return }
-  // don't redirect on right click
-  if (e.button !== undefined && e.button !== 0) { return }
-  // don't redirect if `target="_blank"`
-  if (e.currentTarget && e.currentTarget.getAttribute) {
-    var target = e.currentTarget.getAttribute('target');
-    if (/\b_blank\b/i.test(target)) { return }
-  }
-  // this may be a Weex event which doesn't have this method
-  if (e.preventDefault) {
-    e.preventDefault();
-  }
-  return true
-}
-
-function findAnchor (children) {
-  if (children) {
-    var child;
-    for (var i = 0; i < children.length; i++) {
-      child = children[i];
-      if (child.tag === 'a') {
-        return child
-      }
-      if (child.children && (child = findAnchor(child.children))) {
-        return child
-      }
-    }
-  }
-}
-
-var _Vue;
-
-function install (Vue) {
-  if (install.installed && _Vue === Vue) { return }
-  install.installed = true;
-
-  _Vue = Vue;
-
-  var isDef = function (v) { return v !== undefined; };
-
-  var registerInstance = function (vm, callVal) {
-    var i = vm.$options._parentVnode;
-    if (isDef(i) && isDef(i = i.data) && isDef(i = i.registerRouteInstance)) {
-      i(vm, callVal);
-    }
-  };
-
-  Vue.mixin({
-    beforeCreate: function beforeCreate () {
-      if (isDef(this.$options.router)) {
-        this._routerRoot = this;
-        this._router = this.$options.router;
-        this._router.init(this);
-        Vue.util.defineReactive(this, '_route', this._router.history.current);
-      } else {
-        this._routerRoot = (this.$parent && this.$parent._routerRoot) || this;
-      }
-      registerInstance(this, this);
-    },
-    destroyed: function destroyed () {
-      registerInstance(this);
-    }
-  });
-
-  Object.defineProperty(Vue.prototype, '$router', {
-    get: function get () { return this._routerRoot._router }
-  });
-
-  Object.defineProperty(Vue.prototype, '$route', {
-    get: function get () { return this._routerRoot._route }
-  });
-
-  Vue.component('router-view', View);
-  Vue.component('router-link', Link);
-
-  var strats = Vue.config.optionMergeStrategies;
-  // use the same hook merging strategy for route hooks
-  strats.beforeRouteEnter = strats.beforeRouteLeave = strats.beforeRouteUpdate = strats.created;
-}
-
-/*  */
-
-var inBrowser = typeof window !== 'undefined';
-
-/*  */
-
-function resolvePath (
-  relative,
-  base,
-  append
-) {
-  var firstChar = relative.charAt(0);
-  if (firstChar === '/') {
-    return relative
-  }
-
-  if (firstChar === '?' || firstChar === '#') {
-    return base + relative
-  }
-
-  var stack = base.split('/');
-
-  // remove trailing segment if:
-  // - not appending
-  // - appending to trailing slash (last segment is empty)
-  if (!append || !stack[stack.length - 1]) {
-    stack.pop();
-  }
-
-  // resolve relative path
-  var segments = relative.replace(/^\//, '').split('/');
-  for (var i = 0; i < segments.length; i++) {
-    var segment = segments[i];
-    if (segment === '..') {
-      stack.pop();
-    } else if (segment !== '.') {
-      stack.push(segment);
-    }
-  }
-
-  // ensure leading slash
-  if (stack[0] !== '') {
-    stack.unshift('');
-  }
-
-  return stack.join('/')
-}
-
-function parsePath (path) {
-  var hash = '';
-  var query = '';
-
-  var hashIndex = path.indexOf('#');
-  if (hashIndex >= 0) {
-    hash = path.slice(hashIndex);
-    path = path.slice(0, hashIndex);
-  }
-
-  var queryIndex = path.indexOf('?');
-  if (queryIndex >= 0) {
-    query = path.slice(queryIndex + 1);
-    path = path.slice(0, queryIndex);
-  }
-
-  return {
-    path: path,
-    query: query,
-    hash: hash
-  }
-}
-
-function cleanPath (path) {
-  return path.replace(/\/\//g, '/')
-}
-
-var isarray = Array.isArray || function (arr) {
-  return Object.prototype.toString.call(arr) == '[object Array]';
-};
-
-/**
- * Expose `pathToRegexp`.
- */
-var pathToRegexp_1 = pathToRegexp;
-var parse_1 = parse;
-var compile_1 = compile;
-var tokensToFunction_1 = tokensToFunction;
-var tokensToRegExp_1 = tokensToRegExp;
-
-/**
- * The main path matching regexp utility.
- *
- * @type {RegExp}
- */
-var PATH_REGEXP = new RegExp([
-  // Match escaped characters that would otherwise appear in future matches.
-  // This allows the user to escape special characters that won't transform.
-  '(\\\\.)',
-  // Match Express-style parameters and un-named parameters with a prefix
-  // and optional suffixes. Matches appear as:
-  //
-  // "/:test(\\d+)?" => ["/", "test", "\d+", undefined, "?", undefined]
-  // "/route(\\d+)"  => [undefined, undefined, undefined, "\d+", undefined, undefined]
-  // "/*"            => ["/", undefined, undefined, undefined, undefined, "*"]
-  '([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?|(\\*))'
-].join('|'), 'g');
-
-/**
- * Parse a string for the raw tokens.
- *
- * @param  {string}  str
- * @param  {Object=} options
- * @return {!Array}
- */
-function parse (str, options) {
-  var tokens = [];
-  var key = 0;
-  var index = 0;
-  var path = '';
-  var defaultDelimiter = options && options.delimiter || '/';
-  var res;
-
-  while ((res = PATH_REGEXP.exec(str)) != null) {
-    var m = res[0];
-    var escaped = res[1];
-    var offset = res.index;
-    path += str.slice(index, offset);
-    index = offset + m.length;
-
-    // Ignore already escaped sequences.
-    if (escaped) {
-      path += escaped[1];
-      continue
-    }
-
-    var next = str[index];
-    var prefix = res[2];
-    var name = res[3];
-    var capture = res[4];
-    var group = res[5];
-    var modifier = res[6];
-    var asterisk = res[7];
-
-    // Push the current path onto the tokens.
-    if (path) {
-      tokens.push(path);
-      path = '';
-    }
-
-    var partial = prefix != null && next != null && next !== prefix;
-    var repeat = modifier === '+' || modifier === '*';
-    var optional = modifier === '?' || modifier === '*';
-    var delimiter = res[2] || defaultDelimiter;
-    var pattern = capture || group;
-
-    tokens.push({
-      name: name || key++,
-      prefix: prefix || '',
-      delimiter: delimiter,
-      optional: optional,
-      repeat: repeat,
-      partial: partial,
-      asterisk: !!asterisk,
-      pattern: pattern ? escapeGroup(pattern) : (asterisk ? '.*' : '[^' + escapeString(delimiter) + ']+?')
-    });
-  }
-
-  // Match any characters still remaining.
-  if (index < str.length) {
-    path += str.substr(index);
-  }
-
-  // If the path exists, push it onto the end.
-  if (path) {
-    tokens.push(path);
-  }
-
-  return tokens
-}
-
-/**
- * Compile a string to a template function for the path.
- *
- * @param  {string}             str
- * @param  {Object=}            options
- * @return {!function(Object=, Object=)}
- */
-function compile (str, options) {
-  return tokensToFunction(parse(str, options))
-}
-
-/**
- * Prettier encoding of URI path segments.
- *
- * @param  {string}
- * @return {string}
- */
-function encodeURIComponentPretty (str) {
-  return encodeURI(str).replace(/[\/?#]/g, function (c) {
-    return '%' + c.charCodeAt(0).toString(16).toUpperCase()
-  })
-}
-
-/**
- * Encode the asterisk parameter. Similar to `pretty`, but allows slashes.
- *
- * @param  {string}
- * @return {string}
- */
-function encodeAsterisk (str) {
-  return encodeURI(str).replace(/[?#]/g, function (c) {
-    return '%' + c.charCodeAt(0).toString(16).toUpperCase()
-  })
-}
-
-/**
- * Expose a method for transforming tokens into the path function.
- */
-function tokensToFunction (tokens) {
-  // Compile all the tokens into regexps.
-  var matches = new Array(tokens.length);
-
-  // Compile all the patterns before compilation.
-  for (var i = 0; i < tokens.length; i++) {
-    if (typeof tokens[i] === 'object') {
-      matches[i] = new RegExp('^(?:' + tokens[i].pattern + ')$');
-    }
-  }
-
-  return function (obj, opts) {
-    var path = '';
-    var data = obj || {};
-    var options = opts || {};
-    var encode = options.pretty ? encodeURIComponentPretty : encodeURIComponent;
-
-    for (var i = 0; i < tokens.length; i++) {
-      var token = tokens[i];
-
-      if (typeof token === 'string') {
-        path += token;
-
-        continue
-      }
-
-      var value = data[token.name];
-      var segment;
-
-      if (value == null) {
-        if (token.optional) {
-          // Prepend partial segment prefixes.
-          if (token.partial) {
-            path += token.prefix;
-          }
-
-          continue
-        } else {
-          throw new TypeError('Expected "' + token.name + '" to be defined')
-        }
-      }
-
-      if (isarray(value)) {
-        if (!token.repeat) {
-          throw new TypeError('Expected "' + token.name + '" to not repeat, but received `' + JSON.stringify(value) + '`')
-        }
-
-        if (value.length === 0) {
-          if (token.optional) {
-            continue
-          } else {
-            throw new TypeError('Expected "' + token.name + '" to not be empty')
-          }
-        }
-
-        for (var j = 0; j < value.length; j++) {
-          segment = encode(value[j]);
-
-          if (!matches[i].test(segment)) {
-            throw new TypeError('Expected all "' + token.name + '" to match "' + token.pattern + '", but received `' + JSON.stringify(segment) + '`')
-          }
-
-          path += (j === 0 ? token.prefix : token.delimiter) + segment;
-        }
-
-        continue
-      }
-
-      segment = token.asterisk ? encodeAsterisk(value) : encode(value);
-
-      if (!matches[i].test(segment)) {
-        throw new TypeError('Expected "' + token.name + '" to match "' + token.pattern + '", but received "' + segment + '"')
-      }
-
-      path += token.prefix + segment;
-    }
-
-    return path
-  }
-}
-
-/**
- * Escape a regular expression string.
- *
- * @param  {string} str
- * @return {string}
- */
-function escapeString (str) {
-  return str.replace(/([.+*?=^!:${}()[\]|\/\\])/g, '\\$1')
-}
-
-/**
- * Escape the capturing group by escaping special characters and meaning.
- *
- * @param  {string} group
- * @return {string}
- */
-function escapeGroup (group) {
-  return group.replace(/([=!:$\/()])/g, '\\$1')
-}
-
-/**
- * Attach the keys as a property of the regexp.
- *
- * @param  {!RegExp} re
- * @param  {Array}   keys
- * @return {!RegExp}
- */
-function attachKeys (re, keys) {
-  re.keys = keys;
-  return re
-}
-
-/**
- * Get the flags for a regexp from the options.
- *
- * @param  {Object} options
- * @return {string}
- */
-function flags (options) {
-  return options.sensitive ? '' : 'i'
-}
-
-/**
- * Pull out keys from a regexp.
- *
- * @param  {!RegExp} path
- * @param  {!Array}  keys
- * @return {!RegExp}
- */
-function regexpToRegexp (path, keys) {
-  // Use a negative lookahead to match only capturing groups.
-  var groups = path.source.match(/\((?!\?)/g);
-
-  if (groups) {
-    for (var i = 0; i < groups.length; i++) {
-      keys.push({
-        name: i,
-        prefix: null,
-        delimiter: null,
-        optional: false,
-        repeat: false,
-        partial: false,
-        asterisk: false,
-        pattern: null
-      });
-    }
-  }
-
-  return attachKeys(path, keys)
-}
-
-/**
- * Transform an array into a regexp.
- *
- * @param  {!Array}  path
- * @param  {Array}   keys
- * @param  {!Object} options
- * @return {!RegExp}
- */
-function arrayToRegexp (path, keys, options) {
-  var parts = [];
-
-  for (var i = 0; i < path.length; i++) {
-    parts.push(pathToRegexp(path[i], keys, options).source);
-  }
-
-  var regexp = new RegExp('(?:' + parts.join('|') + ')', flags(options));
-
-  return attachKeys(regexp, keys)
-}
-
-/**
- * Create a path regexp from string input.
- *
- * @param  {string}  path
- * @param  {!Array}  keys
- * @param  {!Object} options
- * @return {!RegExp}
- */
-function stringToRegexp (path, keys, options) {
-  return tokensToRegExp(parse(path, options), keys, options)
-}
-
-/**
- * Expose a function for taking tokens and returning a RegExp.
- *
- * @param  {!Array}          tokens
- * @param  {(Array|Object)=} keys
- * @param  {Object=}         options
- * @return {!RegExp}
- */
-function tokensToRegExp (tokens, keys, options) {
-  if (!isarray(keys)) {
-    options = /** @type {!Object} */ (keys || options);
-    keys = [];
-  }
-
-  options = options || {};
-
-  var strict = options.strict;
-  var end = options.end !== false;
-  var route = '';
-
-  // Iterate over the tokens and create our regexp string.
-  for (var i = 0; i < tokens.length; i++) {
-    var token = tokens[i];
-
-    if (typeof token === 'string') {
-      route += escapeString(token);
-    } else {
-      var prefix = escapeString(token.prefix);
-      var capture = '(?:' + token.pattern + ')';
-
-      keys.push(token);
-
-      if (token.repeat) {
-        capture += '(?:' + prefix + capture + ')*';
-      }
-
-      if (token.optional) {
-        if (!token.partial) {
-          capture = '(?:' + prefix + '(' + capture + '))?';
-        } else {
-          capture = prefix + '(' + capture + ')?';
-        }
-      } else {
-        capture = prefix + '(' + capture + ')';
-      }
-
-      route += capture;
-    }
-  }
-
-  var delimiter = escapeString(options.delimiter || '/');
-  var endsWithDelimiter = route.slice(-delimiter.length) === delimiter;
-
-  // In non-strict mode we allow a slash at the end of match. If the path to
-  // match already ends with a slash, we remove it for consistency. The slash
-  // is valid at the end of a path match, not in the middle. This is important
-  // in non-ending mode, where "/test/" shouldn't match "/test//route".
-  if (!strict) {
-    route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + '(?:' + delimiter + '(?=$))?';
-  }
-
-  if (end) {
-    route += '$';
-  } else {
-    // In non-ending mode, we need the capturing groups to match as much as
-    // possible by using a positive lookahead to the end or next path segment.
-    route += strict && endsWithDelimiter ? '' : '(?=' + delimiter + '|$)';
-  }
-
-  return attachKeys(new RegExp('^' + route, flags(options)), keys)
-}
-
-/**
- * Normalize the given path string, returning a regular expression.
- *
- * An empty array can be passed in for the keys, which will hold the
- * placeholder key descriptions. For example, using `/user/:id`, `keys` will
- * contain `[{ name: 'id', delimiter: '/', optional: false, repeat: false }]`.
- *
- * @param  {(string|RegExp|Array)} path
- * @param  {(Array|Object)=}       keys
- * @param  {Object=}               options
- * @return {!RegExp}
- */
-function pathToRegexp (path, keys, options) {
-  if (!isarray(keys)) {
-    options = /** @type {!Object} */ (keys || options);
-    keys = [];
-  }
-
-  options = options || {};
-
-  if (path instanceof RegExp) {
-    return regexpToRegexp(path, /** @type {!Array} */ (keys))
-  }
-
-  if (isarray(path)) {
-    return arrayToRegexp(/** @type {!Array} */ (path), /** @type {!Array} */ (keys), options)
-  }
-
-  return stringToRegexp(/** @type {string} */ (path), /** @type {!Array} */ (keys), options)
-}
-
-pathToRegexp_1.parse = parse_1;
-pathToRegexp_1.compile = compile_1;
-pathToRegexp_1.tokensToFunction = tokensToFunction_1;
-pathToRegexp_1.tokensToRegExp = tokensToRegExp_1;
-
-/*  */
-
-// $flow-disable-line
-var regexpCompileCache = Object.create(null);
-
-function fillParams (
-  path,
-  params,
-  routeMsg
-) {
-  try {
-    var filler =
-      regexpCompileCache[path] ||
-      (regexpCompileCache[path] = pathToRegexp_1.compile(path));
-    return filler(params || {}, { pretty: true })
-  } catch (e) {
-    if (true) {
-      warn(false, ("missing param for " + routeMsg + ": " + (e.message)));
-    }
-    return ''
-  }
-}
-
-/*  */
-
-function createRouteMap (
-  routes,
-  oldPathList,
-  oldPathMap,
-  oldNameMap
-) {
-  // the path list is used to control path matching priority
-  var pathList = oldPathList || [];
-  // $flow-disable-line
-  var pathMap = oldPathMap || Object.create(null);
-  // $flow-disable-line
-  var nameMap = oldNameMap || Object.create(null);
-
-  routes.forEach(function (route) {
-    addRouteRecord(pathList, pathMap, nameMap, route);
-  });
-
-  // ensure wildcard routes are always at the end
-  for (var i = 0, l = pathList.length; i < l; i++) {
-    if (pathList[i] === '*') {
-      pathList.push(pathList.splice(i, 1)[0]);
-      l--;
-      i--;
-    }
-  }
-
-  return {
-    pathList: pathList,
-    pathMap: pathMap,
-    nameMap: nameMap
-  }
-}
-
-function addRouteRecord (
-  pathList,
-  pathMap,
-  nameMap,
-  route,
-  parent,
-  matchAs
-) {
-  var path = route.path;
-  var name = route.name;
-  if (true) {
-    assert(path != null, "\"path\" is required in a route configuration.");
-    assert(
-      typeof route.component !== 'string',
-      "route config \"component\" for path: " + (String(path || name)) + " cannot be a " +
-      "string id. Use an actual component instead."
-    );
-  }
-
-  var pathToRegexpOptions = route.pathToRegexpOptions || {};
-  var normalizedPath = normalizePath(
-    path,
-    parent,
-    pathToRegexpOptions.strict
-  );
-
-  if (typeof route.caseSensitive === 'boolean') {
-    pathToRegexpOptions.sensitive = route.caseSensitive;
-  }
-
-  var record = {
-    path: normalizedPath,
-    regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
-    components: route.components || { default: route.component },
-    instances: {},
-    name: name,
-    parent: parent,
-    matchAs: matchAs,
-    redirect: route.redirect,
-    beforeEnter: route.beforeEnter,
-    meta: route.meta || {},
-    props: route.props == null
-      ? {}
-      : route.components
-        ? route.props
-        : { default: route.props }
-  };
-
-  if (route.children) {
-    // Warn if route is named, does not redirect and has a default child route.
-    // If users navigate to this route by name, the default child will
-    // not be rendered (GH Issue #629)
-    if (true) {
-      if (route.name && !route.redirect && route.children.some(function (child) { return /^\/?$/.test(child.path); })) {
-        warn(
-          false,
-          "Named Route '" + (route.name) + "' has a default child route. " +
-          "When navigating to this named route (:to=\"{name: '" + (route.name) + "'\"), " +
-          "the default child route will not be rendered. Remove the name from " +
-          "this route and use the name of the default child route for named " +
-          "links instead."
-        );
-      }
-    }
-    route.children.forEach(function (child) {
-      var childMatchAs = matchAs
-        ? cleanPath((matchAs + "/" + (child.path)))
-        : undefined;
-      addRouteRecord(pathList, pathMap, nameMap, child, record, childMatchAs);
-    });
-  }
-
-  if (route.alias !== undefined) {
-    var aliases = Array.isArray(route.alias)
-      ? route.alias
-      : [route.alias];
-
-    aliases.forEach(function (alias) {
-      var aliasRoute = {
-        path: alias,
-        children: route.children
-      };
-      addRouteRecord(
-        pathList,
-        pathMap,
-        nameMap,
-        aliasRoute,
-        parent,
-        record.path || '/' // matchAs
-      );
-    });
-  }
-
-  if (!pathMap[record.path]) {
-    pathList.push(record.path);
-    pathMap[record.path] = record;
-  }
-
-  if (name) {
-    if (!nameMap[name]) {
-      nameMap[name] = record;
-    } else if ("development" !== 'production' && !matchAs) {
-      warn(
-        false,
-        "Duplicate named routes definition: " +
-        "{ name: \"" + name + "\", path: \"" + (record.path) + "\" }"
-      );
-    }
-  }
-}
-
-function compileRouteRegex (path, pathToRegexpOptions) {
-  var regex = pathToRegexp_1(path, [], pathToRegexpOptions);
-  if (true) {
-    var keys = Object.create(null);
-    regex.keys.forEach(function (key) {
-      warn(!keys[key.name], ("Duplicate param keys in route with path: \"" + path + "\""));
-      keys[key.name] = true;
-    });
-  }
-  return regex
-}
-
-function normalizePath (path, parent, strict) {
-  if (!strict) { path = path.replace(/\/$/, ''); }
-  if (path[0] === '/') { return path }
-  if (parent == null) { return path }
-  return cleanPath(((parent.path) + "/" + path))
-}
-
-/*  */
-
-
-function normalizeLocation (
-  raw,
-  current,
-  append,
-  router
-) {
-  var next = typeof raw === 'string' ? { path: raw } : raw;
-  // named target
-  if (next.name || next._normalized) {
-    return next
-  }
-
-  // relative params
-  if (!next.path && next.params && current) {
-    next = assign({}, next);
-    next._normalized = true;
-    var params = assign(assign({}, current.params), next.params);
-    if (current.name) {
-      next.name = current.name;
-      next.params = params;
-    } else if (current.matched.length) {
-      var rawPath = current.matched[current.matched.length - 1].path;
-      next.path = fillParams(rawPath, params, ("path " + (current.path)));
-    } else if (true) {
-      warn(false, "relative params navigation requires a current route.");
-    }
-    return next
-  }
-
-  var parsedPath = parsePath(next.path || '');
-  var basePath = (current && current.path) || '/';
-  var path = parsedPath.path
-    ? resolvePath(parsedPath.path, basePath, append || next.append)
-    : basePath;
-
-  var query = resolveQuery(
-    parsedPath.query,
-    next.query,
-    router && router.options.parseQuery
-  );
-
-  var hash = next.hash || parsedPath.hash;
-  if (hash && hash.charAt(0) !== '#') {
-    hash = "#" + hash;
-  }
-
-  return {
-    _normalized: true,
-    path: path,
-    query: query,
-    hash: hash
-  }
-}
-
-function assign (a, b) {
-  for (var key in b) {
-    a[key] = b[key];
-  }
-  return a
-}
-
-/*  */
-
-
-function createMatcher (
-  routes,
-  router
-) {
-  var ref = createRouteMap(routes);
-  var pathList = ref.pathList;
-  var pathMap = ref.pathMap;
-  var nameMap = ref.nameMap;
-
-  function addRoutes (routes) {
-    createRouteMap(routes, pathList, pathMap, nameMap);
-  }
-
-  function match (
-    raw,
-    currentRoute,
-    redirectedFrom
-  ) {
-    var location = normalizeLocation(raw, currentRoute, false, router);
-    var name = location.name;
-
-    if (name) {
-      var record = nameMap[name];
-      if (true) {
-        warn(record, ("Route with name '" + name + "' does not exist"));
-      }
-      if (!record) { return _createRoute(null, location) }
-      var paramNames = record.regex.keys
-        .filter(function (key) { return !key.optional; })
-        .map(function (key) { return key.name; });
-
-      if (typeof location.params !== 'object') {
-        location.params = {};
-      }
-
-      if (currentRoute && typeof currentRoute.params === 'object') {
-        for (var key in currentRoute.params) {
-          if (!(key in location.params) && paramNames.indexOf(key) > -1) {
-            location.params[key] = currentRoute.params[key];
-          }
-        }
-      }
-
-      if (record) {
-        location.path = fillParams(record.path, location.params, ("named route \"" + name + "\""));
-        return _createRoute(record, location, redirectedFrom)
-      }
-    } else if (location.path) {
-      location.params = {};
-      for (var i = 0; i < pathList.length; i++) {
-        var path = pathList[i];
-        var record$1 = pathMap[path];
-        if (matchRoute(record$1.regex, location.path, location.params)) {
-          return _createRoute(record$1, location, redirectedFrom)
-        }
-      }
-    }
-    // no match
-    return _createRoute(null, location)
-  }
-
-  function redirect (
-    record,
-    location
-  ) {
-    var originalRedirect = record.redirect;
-    var redirect = typeof originalRedirect === 'function'
-        ? originalRedirect(createRoute(record, location, null, router))
-        : originalRedirect;
-
-    if (typeof redirect === 'string') {
-      redirect = { path: redirect };
-    }
-
-    if (!redirect || typeof redirect !== 'object') {
-      if (true) {
-        warn(
-          false, ("invalid redirect option: " + (JSON.stringify(redirect)))
-        );
-      }
-      return _createRoute(null, location)
-    }
-
-    var re = redirect;
-    var name = re.name;
-    var path = re.path;
-    var query = location.query;
-    var hash = location.hash;
-    var params = location.params;
-    query = re.hasOwnProperty('query') ? re.query : query;
-    hash = re.hasOwnProperty('hash') ? re.hash : hash;
-    params = re.hasOwnProperty('params') ? re.params : params;
-
-    if (name) {
-      // resolved named direct
-      var targetRecord = nameMap[name];
-      if (true) {
-        assert(targetRecord, ("redirect failed: named route \"" + name + "\" not found."));
-      }
-      return match({
-        _normalized: true,
-        name: name,
-        query: query,
-        hash: hash,
-        params: params
-      }, undefined, location)
-    } else if (path) {
-      // 1. resolve relative redirect
-      var rawPath = resolveRecordPath(path, record);
-      // 2. resolve params
-      var resolvedPath = fillParams(rawPath, params, ("redirect route with path \"" + rawPath + "\""));
-      // 3. rematch with existing query and hash
-      return match({
-        _normalized: true,
-        path: resolvedPath,
-        query: query,
-        hash: hash
-      }, undefined, location)
-    } else {
-      if (true) {
-        warn(false, ("invalid redirect option: " + (JSON.stringify(redirect))));
-      }
-      return _createRoute(null, location)
-    }
-  }
-
-  function alias (
-    record,
-    location,
-    matchAs
-  ) {
-    var aliasedPath = fillParams(matchAs, location.params, ("aliased route with path \"" + matchAs + "\""));
-    var aliasedMatch = match({
-      _normalized: true,
-      path: aliasedPath
-    });
-    if (aliasedMatch) {
-      var matched = aliasedMatch.matched;
-      var aliasedRecord = matched[matched.length - 1];
-      location.params = aliasedMatch.params;
-      return _createRoute(aliasedRecord, location)
-    }
-    return _createRoute(null, location)
-  }
-
-  function _createRoute (
-    record,
-    location,
-    redirectedFrom
-  ) {
-    if (record && record.redirect) {
-      return redirect(record, redirectedFrom || location)
-    }
-    if (record && record.matchAs) {
-      return alias(record, location, record.matchAs)
-    }
-    return createRoute(record, location, redirectedFrom, router)
-  }
-
-  return {
-    match: match,
-    addRoutes: addRoutes
-  }
-}
-
-function matchRoute (
-  regex,
-  path,
-  params
-) {
-  var m = path.match(regex);
-
-  if (!m) {
-    return false
-  } else if (!params) {
-    return true
-  }
-
-  for (var i = 1, len = m.length; i < len; ++i) {
-    var key = regex.keys[i - 1];
-    var val = typeof m[i] === 'string' ? decodeURIComponent(m[i]) : m[i];
-    if (key) {
-      params[key.name] = val;
-    }
-  }
-
-  return true
-}
-
-function resolveRecordPath (path, record) {
-  return resolvePath(path, record.parent ? record.parent.path : '/', true)
-}
-
-/*  */
-
-
-var positionStore = Object.create(null);
-
-function setupScroll () {
-  // Fix for #1585 for Firefox
-  window.history.replaceState({ key: getStateKey() }, '');
-  window.addEventListener('popstate', function (e) {
-    saveScrollPosition();
-    if (e.state && e.state.key) {
-      setStateKey(e.state.key);
-    }
-  });
-}
-
-function handleScroll (
-  router,
-  to,
-  from,
-  isPop
-) {
-  if (!router.app) {
-    return
-  }
-
-  var behavior = router.options.scrollBehavior;
-  if (!behavior) {
-    return
-  }
-
-  if (true) {
-    assert(typeof behavior === 'function', "scrollBehavior must be a function");
-  }
-
-  // wait until re-render finishes before scrolling
-  router.app.$nextTick(function () {
-    var position = getScrollPosition();
-    var shouldScroll = behavior(to, from, isPop ? position : null);
-
-    if (!shouldScroll) {
-      return
-    }
-
-    if (typeof shouldScroll.then === 'function') {
-      shouldScroll.then(function (shouldScroll) {
-        scrollToPosition((shouldScroll), position);
-      }).catch(function (err) {
-        if (true) {
-          assert(false, err.toString());
-        }
-      });
-    } else {
-      scrollToPosition(shouldScroll, position);
-    }
-  });
-}
-
-function saveScrollPosition () {
-  var key = getStateKey();
-  if (key) {
-    positionStore[key] = {
-      x: window.pageXOffset,
-      y: window.pageYOffset
-    };
-  }
-}
-
-function getScrollPosition () {
-  var key = getStateKey();
-  if (key) {
-    return positionStore[key]
-  }
-}
-
-function getElementPosition (el, offset) {
-  var docEl = document.documentElement;
-  var docRect = docEl.getBoundingClientRect();
-  var elRect = el.getBoundingClientRect();
-  return {
-    x: elRect.left - docRect.left - offset.x,
-    y: elRect.top - docRect.top - offset.y
-  }
-}
-
-function isValidPosition (obj) {
-  return isNumber(obj.x) || isNumber(obj.y)
-}
-
-function normalizePosition (obj) {
-  return {
-    x: isNumber(obj.x) ? obj.x : window.pageXOffset,
-    y: isNumber(obj.y) ? obj.y : window.pageYOffset
-  }
-}
-
-function normalizeOffset (obj) {
-  return {
-    x: isNumber(obj.x) ? obj.x : 0,
-    y: isNumber(obj.y) ? obj.y : 0
-  }
-}
-
-function isNumber (v) {
-  return typeof v === 'number'
-}
-
-function scrollToPosition (shouldScroll, position) {
-  var isObject = typeof shouldScroll === 'object';
-  if (isObject && typeof shouldScroll.selector === 'string') {
-    var el = document.querySelector(shouldScroll.selector);
-    if (el) {
-      var offset = shouldScroll.offset && typeof shouldScroll.offset === 'object' ? shouldScroll.offset : {};
-      offset = normalizeOffset(offset);
-      position = getElementPosition(el, offset);
-    } else if (isValidPosition(shouldScroll)) {
-      position = normalizePosition(shouldScroll);
-    }
-  } else if (isObject && isValidPosition(shouldScroll)) {
-    position = normalizePosition(shouldScroll);
-  }
-
-  if (position) {
-    window.scrollTo(position.x, position.y);
-  }
-}
-
-/*  */
-
-var supportsPushState = inBrowser && (function () {
-  var ua = window.navigator.userAgent;
-
-  if (
-    (ua.indexOf('Android 2.') !== -1 || ua.indexOf('Android 4.0') !== -1) &&
-    ua.indexOf('Mobile Safari') !== -1 &&
-    ua.indexOf('Chrome') === -1 &&
-    ua.indexOf('Windows Phone') === -1
-  ) {
-    return false
-  }
-
-  return window.history && 'pushState' in window.history
-})();
-
-// use User Timing api (if present) for more accurate key precision
-var Time = inBrowser && window.performance && window.performance.now
-  ? window.performance
-  : Date;
-
-var _key = genKey();
-
-function genKey () {
-  return Time.now().toFixed(3)
-}
-
-function getStateKey () {
-  return _key
-}
-
-function setStateKey (key) {
-  _key = key;
-}
-
-function pushState (url, replace) {
-  saveScrollPosition();
-  // try...catch the pushState call to get around Safari
-  // DOM Exception 18 where it limits to 100 pushState calls
-  var history = window.history;
-  try {
-    if (replace) {
-      history.replaceState({ key: _key }, '', url);
-    } else {
-      _key = genKey();
-      history.pushState({ key: _key }, '', url);
-    }
-  } catch (e) {
-    window.location[replace ? 'replace' : 'assign'](url);
-  }
-}
-
-function replaceState (url) {
-  pushState(url, true);
-}
-
-/*  */
-
-function runQueue (queue, fn, cb) {
-  var step = function (index) {
-    if (index >= queue.length) {
-      cb();
-    } else {
-      if (queue[index]) {
-        fn(queue[index], function () {
-          step(index + 1);
-        });
-      } else {
-        step(index + 1);
-      }
-    }
-  };
-  step(0);
-}
-
-/*  */
-
-function resolveAsyncComponents (matched) {
-  return function (to, from, next) {
-    var hasAsync = false;
-    var pending = 0;
-    var error = null;
-
-    flatMapComponents(matched, function (def, _, match, key) {
-      // if it's a function and doesn't have cid attached,
-      // assume it's an async component resolve function.
-      // we are not using Vue's default async resolving mechanism because
-      // we want to halt the navigation until the incoming component has been
-      // resolved.
-      if (typeof def === 'function' && def.cid === undefined) {
-        hasAsync = true;
-        pending++;
-
-        var resolve = once(function (resolvedDef) {
-          if (isESModule(resolvedDef)) {
-            resolvedDef = resolvedDef.default;
-          }
-          // save resolved on async factory in case it's used elsewhere
-          def.resolved = typeof resolvedDef === 'function'
-            ? resolvedDef
-            : _Vue.extend(resolvedDef);
-          match.components[key] = resolvedDef;
-          pending--;
-          if (pending <= 0) {
-            next();
-          }
-        });
-
-        var reject = once(function (reason) {
-          var msg = "Failed to resolve async component " + key + ": " + reason;
-          "development" !== 'production' && warn(false, msg);
-          if (!error) {
-            error = isError(reason)
-              ? reason
-              : new Error(msg);
-            next(error);
-          }
-        });
-
-        var res;
-        try {
-          res = def(resolve, reject);
-        } catch (e) {
-          reject(e);
-        }
-        if (res) {
-          if (typeof res.then === 'function') {
-            res.then(resolve, reject);
-          } else {
-            // new syntax in Vue 2.3
-            var comp = res.component;
-            if (comp && typeof comp.then === 'function') {
-              comp.then(resolve, reject);
-            }
-          }
-        }
-      }
-    });
-
-    if (!hasAsync) { next(); }
-  }
-}
-
-function flatMapComponents (
-  matched,
-  fn
-) {
-  return flatten(matched.map(function (m) {
-    return Object.keys(m.components).map(function (key) { return fn(
-      m.components[key],
-      m.instances[key],
-      m, key
-    ); })
-  }))
-}
-
-function flatten (arr) {
-  return Array.prototype.concat.apply([], arr)
-}
-
-var hasSymbol =
-  typeof Symbol === 'function' &&
-  typeof Symbol.toStringTag === 'symbol';
-
-function isESModule (obj) {
-  return obj.__esModule || (hasSymbol && obj[Symbol.toStringTag] === 'Module')
-}
-
-// in Webpack 2, require.ensure now also returns a Promise
-// so the resolve/reject functions may get called an extra time
-// if the user uses an arrow function shorthand that happens to
-// return that Promise.
-function once (fn) {
-  var called = false;
-  return function () {
-    var args = [], len = arguments.length;
-    while ( len-- ) args[ len ] = arguments[ len ];
-
-    if (called) { return }
-    called = true;
-    return fn.apply(this, args)
-  }
-}
-
-/*  */
-
-var History = function History (router, base) {
-  this.router = router;
-  this.base = normalizeBase(base);
-  // start with a route object that stands for "nowhere"
-  this.current = START;
-  this.pending = null;
-  this.ready = false;
-  this.readyCbs = [];
-  this.readyErrorCbs = [];
-  this.errorCbs = [];
-};
-
-History.prototype.listen = function listen (cb) {
-  this.cb = cb;
-};
-
-History.prototype.onReady = function onReady (cb, errorCb) {
-  if (this.ready) {
-    cb();
-  } else {
-    this.readyCbs.push(cb);
-    if (errorCb) {
-      this.readyErrorCbs.push(errorCb);
-    }
-  }
-};
-
-History.prototype.onError = function onError (errorCb) {
-  this.errorCbs.push(errorCb);
-};
-
-History.prototype.transitionTo = function transitionTo (location, onComplete, onAbort) {
-    var this$1 = this;
-
-  var route = this.router.match(location, this.current);
-  this.confirmTransition(route, function () {
-    this$1.updateRoute(route);
-    onComplete && onComplete(route);
-    this$1.ensureURL();
-
-    // fire ready cbs once
-    if (!this$1.ready) {
-      this$1.ready = true;
-      this$1.readyCbs.forEach(function (cb) { cb(route); });
-    }
-  }, function (err) {
-    if (onAbort) {
-      onAbort(err);
-    }
-    if (err && !this$1.ready) {
-      this$1.ready = true;
-      this$1.readyErrorCbs.forEach(function (cb) { cb(err); });
-    }
-  });
-};
-
-History.prototype.confirmTransition = function confirmTransition (route, onComplete, onAbort) {
-    var this$1 = this;
-
-  var current = this.current;
-  var abort = function (err) {
-    if (isError(err)) {
-      if (this$1.errorCbs.length) {
-        this$1.errorCbs.forEach(function (cb) { cb(err); });
-      } else {
-        warn(false, 'uncaught error during route navigation:');
-        console.error(err);
-      }
-    }
-    onAbort && onAbort(err);
-  };
-  if (
-    isSameRoute(route, current) &&
-    // in the case the route map has been dynamically appended to
-    route.matched.length === current.matched.length
-  ) {
-    this.ensureURL();
-    return abort()
-  }
-
-  var ref = resolveQueue(this.current.matched, route.matched);
-    var updated = ref.updated;
-    var deactivated = ref.deactivated;
-    var activated = ref.activated;
-
-  var queue = [].concat(
-    // in-component leave guards
-    extractLeaveGuards(deactivated),
-    // global before hooks
-    this.router.beforeHooks,
-    // in-component update hooks
-    extractUpdateHooks(updated),
-    // in-config enter guards
-    activated.map(function (m) { return m.beforeEnter; }),
-    // async components
-    resolveAsyncComponents(activated)
-  );
-
-  this.pending = route;
-  var iterator = function (hook, next) {
-    if (this$1.pending !== route) {
-      return abort()
-    }
-    try {
-      hook(route, current, function (to) {
-        if (to === false || isError(to)) {
-          // next(false) -> abort navigation, ensure current URL
-          this$1.ensureURL(true);
-          abort(to);
-        } else if (
-          typeof to === 'string' ||
-          (typeof to === 'object' && (
-            typeof to.path === 'string' ||
-            typeof to.name === 'string'
-          ))
-        ) {
-          // next('/') or next({ path: '/' }) -> redirect
-          abort();
-          if (typeof to === 'object' && to.replace) {
-            this$1.replace(to);
-          } else {
-            this$1.push(to);
-          }
-        } else {
-          // confirm transition and pass on the value
-          next(to);
-        }
-      });
-    } catch (e) {
-      abort(e);
-    }
-  };
-
-  runQueue(queue, iterator, function () {
-    var postEnterCbs = [];
-    var isValid = function () { return this$1.current === route; };
-    // wait until async components are resolved before
-    // extracting in-component enter guards
-    var enterGuards = extractEnterGuards(activated, postEnterCbs, isValid);
-    var queue = enterGuards.concat(this$1.router.resolveHooks);
-    runQueue(queue, iterator, function () {
-      if (this$1.pending !== route) {
-        return abort()
-      }
-      this$1.pending = null;
-      onComplete(route);
-      if (this$1.router.app) {
-        this$1.router.app.$nextTick(function () {
-          postEnterCbs.forEach(function (cb) { cb(); });
-        });
-      }
-    });
-  });
-};
-
-History.prototype.updateRoute = function updateRoute (route) {
-  var prev = this.current;
-  this.current = route;
-  this.cb && this.cb(route);
-  this.router.afterHooks.forEach(function (hook) {
-    hook && hook(route, prev);
-  });
-};
-
-function normalizeBase (base) {
-  if (!base) {
-    if (inBrowser) {
-      // respect <base> tag
-      var baseEl = document.querySelector('base');
-      base = (baseEl && baseEl.getAttribute('href')) || '/';
-      // strip full URL origin
-      base = base.replace(/^https?:\/\/[^\/]+/, '');
-    } else {
-      base = '/';
-    }
-  }
-  // make sure there's the starting slash
-  if (base.charAt(0) !== '/') {
-    base = '/' + base;
-  }
-  // remove trailing slash
-  return base.replace(/\/$/, '')
-}
-
-function resolveQueue (
-  current,
-  next
-) {
-  var i;
-  var max = Math.max(current.length, next.length);
-  for (i = 0; i < max; i++) {
-    if (current[i] !== next[i]) {
-      break
-    }
-  }
-  return {
-    updated: next.slice(0, i),
-    activated: next.slice(i),
-    deactivated: current.slice(i)
-  }
-}
-
-function extractGuards (
-  records,
-  name,
-  bind,
-  reverse
-) {
-  var guards = flatMapComponents(records, function (def, instance, match, key) {
-    var guard = extractGuard(def, name);
-    if (guard) {
-      return Array.isArray(guard)
-        ? guard.map(function (guard) { return bind(guard, instance, match, key); })
-        : bind(guard, instance, match, key)
-    }
-  });
-  return flatten(reverse ? guards.reverse() : guards)
-}
-
-function extractGuard (
-  def,
-  key
-) {
-  if (typeof def !== 'function') {
-    // extend now so that global mixins are applied.
-    def = _Vue.extend(def);
-  }
-  return def.options[key]
-}
-
-function extractLeaveGuards (deactivated) {
-  return extractGuards(deactivated, 'beforeRouteLeave', bindGuard, true)
-}
-
-function extractUpdateHooks (updated) {
-  return extractGuards(updated, 'beforeRouteUpdate', bindGuard)
-}
-
-function bindGuard (guard, instance) {
-  if (instance) {
-    return function boundRouteGuard () {
-      return guard.apply(instance, arguments)
-    }
-  }
-}
-
-function extractEnterGuards (
-  activated,
-  cbs,
-  isValid
-) {
-  return extractGuards(activated, 'beforeRouteEnter', function (guard, _, match, key) {
-    return bindEnterGuard(guard, match, key, cbs, isValid)
-  })
-}
-
-function bindEnterGuard (
-  guard,
-  match,
-  key,
-  cbs,
-  isValid
-) {
-  return function routeEnterGuard (to, from, next) {
-    return guard(to, from, function (cb) {
-      next(cb);
-      if (typeof cb === 'function') {
-        cbs.push(function () {
-          // #750
-          // if a router-view is wrapped with an out-in transition,
-          // the instance may not have been registered at this time.
-          // we will need to poll for registration until current route
-          // is no longer valid.
-          poll(cb, match.instances, key, isValid);
-        });
-      }
-    })
-  }
-}
-
-function poll (
-  cb, // somehow flow cannot infer this is a function
-  instances,
-  key,
-  isValid
-) {
-  if (instances[key]) {
-    cb(instances[key]);
-  } else if (isValid()) {
-    setTimeout(function () {
-      poll(cb, instances, key, isValid);
-    }, 16);
-  }
-}
-
-/*  */
-
-
-var HTML5History = (function (History$$1) {
-  function HTML5History (router, base) {
-    var this$1 = this;
-
-    History$$1.call(this, router, base);
-
-    var expectScroll = router.options.scrollBehavior;
-
-    if (expectScroll) {
-      setupScroll();
-    }
-
-    var initLocation = getLocation(this.base);
-    window.addEventListener('popstate', function (e) {
-      var current = this$1.current;
-
-      // Avoiding first `popstate` event dispatched in some browsers but first
-      // history route not updated since async guard at the same time.
-      var location = getLocation(this$1.base);
-      if (this$1.current === START && location === initLocation) {
-        return
-      }
-
-      this$1.transitionTo(location, function (route) {
-        if (expectScroll) {
-          handleScroll(router, route, current, true);
-        }
-      });
-    });
-  }
-
-  if ( History$$1 ) HTML5History.__proto__ = History$$1;
-  HTML5History.prototype = Object.create( History$$1 && History$$1.prototype );
-  HTML5History.prototype.constructor = HTML5History;
-
-  HTML5History.prototype.go = function go (n) {
-    window.history.go(n);
-  };
-
-  HTML5History.prototype.push = function push (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    var ref = this;
-    var fromRoute = ref.current;
-    this.transitionTo(location, function (route) {
-      pushState(cleanPath(this$1.base + route.fullPath));
-      handleScroll(this$1.router, route, fromRoute, false);
-      onComplete && onComplete(route);
-    }, onAbort);
-  };
-
-  HTML5History.prototype.replace = function replace (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    var ref = this;
-    var fromRoute = ref.current;
-    this.transitionTo(location, function (route) {
-      replaceState(cleanPath(this$1.base + route.fullPath));
-      handleScroll(this$1.router, route, fromRoute, false);
-      onComplete && onComplete(route);
-    }, onAbort);
-  };
-
-  HTML5History.prototype.ensureURL = function ensureURL (push) {
-    if (getLocation(this.base) !== this.current.fullPath) {
-      var current = cleanPath(this.base + this.current.fullPath);
-      push ? pushState(current) : replaceState(current);
-    }
-  };
-
-  HTML5History.prototype.getCurrentLocation = function getCurrentLocation () {
-    return getLocation(this.base)
-  };
-
-  return HTML5History;
-}(History));
-
-function getLocation (base) {
-  var path = window.location.pathname;
-  if (base && path.indexOf(base) === 0) {
-    path = path.slice(base.length);
-  }
-  return (path || '/') + window.location.search + window.location.hash
-}
-
-/*  */
-
-
-var HashHistory = (function (History$$1) {
-  function HashHistory (router, base, fallback) {
-    History$$1.call(this, router, base);
-    // check history fallback deeplinking
-    if (fallback && checkFallback(this.base)) {
-      return
-    }
-    ensureSlash();
-  }
-
-  if ( History$$1 ) HashHistory.__proto__ = History$$1;
-  HashHistory.prototype = Object.create( History$$1 && History$$1.prototype );
-  HashHistory.prototype.constructor = HashHistory;
-
-  // this is delayed until the app mounts
-  // to avoid the hashchange listener being fired too early
-  HashHistory.prototype.setupListeners = function setupListeners () {
-    var this$1 = this;
-
-    var router = this.router;
-    var expectScroll = router.options.scrollBehavior;
-    var supportsScroll = supportsPushState && expectScroll;
-
-    if (supportsScroll) {
-      setupScroll();
-    }
-
-    window.addEventListener(supportsPushState ? 'popstate' : 'hashchange', function () {
-      var current = this$1.current;
-      if (!ensureSlash()) {
-        return
-      }
-      this$1.transitionTo(getHash(), function (route) {
-        if (supportsScroll) {
-          handleScroll(this$1.router, route, current, true);
-        }
-        if (!supportsPushState) {
-          replaceHash(route.fullPath);
-        }
-      });
-    });
-  };
-
-  HashHistory.prototype.push = function push (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    var ref = this;
-    var fromRoute = ref.current;
-    this.transitionTo(location, function (route) {
-      pushHash(route.fullPath);
-      handleScroll(this$1.router, route, fromRoute, false);
-      onComplete && onComplete(route);
-    }, onAbort);
-  };
-
-  HashHistory.prototype.replace = function replace (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    var ref = this;
-    var fromRoute = ref.current;
-    this.transitionTo(location, function (route) {
-      replaceHash(route.fullPath);
-      handleScroll(this$1.router, route, fromRoute, false);
-      onComplete && onComplete(route);
-    }, onAbort);
-  };
-
-  HashHistory.prototype.go = function go (n) {
-    window.history.go(n);
-  };
-
-  HashHistory.prototype.ensureURL = function ensureURL (push) {
-    var current = this.current.fullPath;
-    if (getHash() !== current) {
-      push ? pushHash(current) : replaceHash(current);
-    }
-  };
-
-  HashHistory.prototype.getCurrentLocation = function getCurrentLocation () {
-    return getHash()
-  };
-
-  return HashHistory;
-}(History));
-
-function checkFallback (base) {
-  var location = getLocation(base);
-  if (!/^\/#/.test(location)) {
-    window.location.replace(
-      cleanPath(base + '/#' + location)
-    );
-    return true
-  }
-}
-
-function ensureSlash () {
-  var path = getHash();
-  if (path.charAt(0) === '/') {
-    return true
-  }
-  replaceHash('/' + path);
-  return false
-}
-
-function getHash () {
-  // We can't use window.location.hash here because it's not
-  // consistent across browsers - Firefox will pre-decode it!
-  var href = window.location.href;
-  var index = href.indexOf('#');
-  return index === -1 ? '' : href.slice(index + 1)
-}
-
-function getUrl (path) {
-  var href = window.location.href;
-  var i = href.indexOf('#');
-  var base = i >= 0 ? href.slice(0, i) : href;
-  return (base + "#" + path)
-}
-
-function pushHash (path) {
-  if (supportsPushState) {
-    pushState(getUrl(path));
-  } else {
-    window.location.hash = path;
-  }
-}
-
-function replaceHash (path) {
-  if (supportsPushState) {
-    replaceState(getUrl(path));
-  } else {
-    window.location.replace(getUrl(path));
-  }
-}
-
-/*  */
-
-
-var AbstractHistory = (function (History$$1) {
-  function AbstractHistory (router, base) {
-    History$$1.call(this, router, base);
-    this.stack = [];
-    this.index = -1;
-  }
-
-  if ( History$$1 ) AbstractHistory.__proto__ = History$$1;
-  AbstractHistory.prototype = Object.create( History$$1 && History$$1.prototype );
-  AbstractHistory.prototype.constructor = AbstractHistory;
-
-  AbstractHistory.prototype.push = function push (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    this.transitionTo(location, function (route) {
-      this$1.stack = this$1.stack.slice(0, this$1.index + 1).concat(route);
-      this$1.index++;
-      onComplete && onComplete(route);
-    }, onAbort);
-  };
-
-  AbstractHistory.prototype.replace = function replace (location, onComplete, onAbort) {
-    var this$1 = this;
-
-    this.transitionTo(location, function (route) {
-      this$1.stack = this$1.stack.slice(0, this$1.index).concat(route);
-      onComplete && onComplete(route);
-    }, onAbort);
-  };
-
-  AbstractHistory.prototype.go = function go (n) {
-    var this$1 = this;
-
-    var targetIndex = this.index + n;
-    if (targetIndex < 0 || targetIndex >= this.stack.length) {
-      return
-    }
-    var route = this.stack[targetIndex];
-    this.confirmTransition(route, function () {
-      this$1.index = targetIndex;
-      this$1.updateRoute(route);
-    });
-  };
-
-  AbstractHistory.prototype.getCurrentLocation = function getCurrentLocation () {
-    var current = this.stack[this.stack.length - 1];
-    return current ? current.fullPath : '/'
-  };
-
-  AbstractHistory.prototype.ensureURL = function ensureURL () {
-    // noop
-  };
-
-  return AbstractHistory;
-}(History));
-
-/*  */
-
-var VueRouter = function VueRouter (options) {
-  if ( options === void 0 ) options = {};
-
-  this.app = null;
-  this.apps = [];
-  this.options = options;
-  this.beforeHooks = [];
-  this.resolveHooks = [];
-  this.afterHooks = [];
-  this.matcher = createMatcher(options.routes || [], this);
-
-  var mode = options.mode || 'hash';
-  this.fallback = mode === 'history' && !supportsPushState && options.fallback !== false;
-  if (this.fallback) {
-    mode = 'hash';
-  }
-  if (!inBrowser) {
-    mode = 'abstract';
-  }
-  this.mode = mode;
-
-  switch (mode) {
-    case 'history':
-      this.history = new HTML5History(this, options.base);
-      break
-    case 'hash':
-      this.history = new HashHistory(this, options.base, this.fallback);
-      break
-    case 'abstract':
-      this.history = new AbstractHistory(this, options.base);
-      break
-    default:
-      if (true) {
-        assert(false, ("invalid mode: " + mode));
-      }
-  }
-};
-
-var prototypeAccessors = { currentRoute: { configurable: true } };
-
-VueRouter.prototype.match = function match (
-  raw,
-  current,
-  redirectedFrom
-) {
-  return this.matcher.match(raw, current, redirectedFrom)
-};
-
-prototypeAccessors.currentRoute.get = function () {
-  return this.history && this.history.current
-};
-
-VueRouter.prototype.init = function init (app /* Vue component instance */) {
-    var this$1 = this;
-
-  "development" !== 'production' && assert(
-    install.installed,
-    "not installed. Make sure to call `Vue.use(VueRouter)` " +
-    "before creating root instance."
-  );
-
-  this.apps.push(app);
-
-  // main app already initialized.
-  if (this.app) {
-    return
-  }
-
-  this.app = app;
-
-  var history = this.history;
-
-  if (history instanceof HTML5History) {
-    history.transitionTo(history.getCurrentLocation());
-  } else if (history instanceof HashHistory) {
-    var setupHashListener = function () {
-      history.setupListeners();
-    };
-    history.transitionTo(
-      history.getCurrentLocation(),
-      setupHashListener,
-      setupHashListener
-    );
-  }
-
-  history.listen(function (route) {
-    this$1.apps.forEach(function (app) {
-      app._route = route;
-    });
-  });
-};
-
-VueRouter.prototype.beforeEach = function beforeEach (fn) {
-  return registerHook(this.beforeHooks, fn)
-};
-
-VueRouter.prototype.beforeResolve = function beforeResolve (fn) {
-  return registerHook(this.resolveHooks, fn)
-};
-
-VueRouter.prototype.afterEach = function afterEach (fn) {
-  return registerHook(this.afterHooks, fn)
-};
-
-VueRouter.prototype.onReady = function onReady (cb, errorCb) {
-  this.history.onReady(cb, errorCb);
-};
-
-VueRouter.prototype.onError = function onError (errorCb) {
-  this.history.onError(errorCb);
-};
-
-VueRouter.prototype.push = function push (location, onComplete, onAbort) {
-  this.history.push(location, onComplete, onAbort);
-};
-
-VueRouter.prototype.replace = function replace (location, onComplete, onAbort) {
-  this.history.replace(location, onComplete, onAbort);
-};
-
-VueRouter.prototype.go = function go (n) {
-  this.history.go(n);
-};
-
-VueRouter.prototype.back = function back () {
-  this.go(-1);
-};
-
-VueRouter.prototype.forward = function forward () {
-  this.go(1);
-};
-
-VueRouter.prototype.getMatchedComponents = function getMatchedComponents (to) {
-  var route = to
-    ? to.matched
-      ? to
-      : this.resolve(to).route
-    : this.currentRoute;
-  if (!route) {
-    return []
-  }
-  return [].concat.apply([], route.matched.map(function (m) {
-    return Object.keys(m.components).map(function (key) {
-      return m.components[key]
-    })
-  }))
-};
-
-VueRouter.prototype.resolve = function resolve (
-  to,
-  current,
-  append
-) {
-  var location = normalizeLocation(
-    to,
-    current || this.history.current,
-    append,
-    this
-  );
-  var route = this.match(location, current);
-  var fullPath = route.redirectedFrom || route.fullPath;
-  var base = this.history.base;
-  var href = createHref(base, fullPath, this.mode);
-  return {
-    location: location,
-    route: route,
-    href: href,
-    // for backwards compat
-    normalizedTo: location,
-    resolved: route
-  }
-};
-
-VueRouter.prototype.addRoutes = function addRoutes (routes) {
-  this.matcher.addRoutes(routes);
-  if (this.history.current !== START) {
-    this.history.transitionTo(this.history.getCurrentLocation());
-  }
-};
-
-Object.defineProperties( VueRouter.prototype, prototypeAccessors );
-
-function registerHook (list, fn) {
-  list.push(fn);
-  return function () {
-    var i = list.indexOf(fn);
-    if (i > -1) { list.splice(i, 1); }
-  }
-}
-
-function createHref (base, fullPath, mode) {
-  var path = mode === 'hash' ? '#' + fullPath : fullPath;
-  return base ? cleanPath(base + '/' + path) : path
-}
-
-VueRouter.install = install;
-VueRouter.version = '3.0.1';
-
-if (inBrowser && window.Vue) {
-  window.Vue.use(VueRouter);
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (VueRouter);
-
-
-/***/ }),
-/* 46 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* unused harmony export Url */
-/* unused harmony export Http */
-/* unused harmony export Resource */
-/*!
- * vue-resource v1.5.1
- * https://github.com/pagekit/vue-resource
- * Released under the MIT License.
- */
-
-/**
- * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
- */
-
-var RESOLVED = 0;
-var REJECTED = 1;
-var PENDING = 2;
-
-function Promise$1(executor) {
-
-    this.state = PENDING;
-    this.value = undefined;
-    this.deferred = [];
-
-    var promise = this;
-
-    try {
-        executor(function (x) {
-            promise.resolve(x);
-        }, function (r) {
-            promise.reject(r);
-        });
-    } catch (e) {
-        promise.reject(e);
-    }
-}
-
-Promise$1.reject = function (r) {
-    return new Promise$1(function (resolve, reject) {
-        reject(r);
-    });
-};
-
-Promise$1.resolve = function (x) {
-    return new Promise$1(function (resolve, reject) {
-        resolve(x);
-    });
-};
-
-Promise$1.all = function all(iterable) {
-    return new Promise$1(function (resolve, reject) {
-        var count = 0, result = [];
-
-        if (iterable.length === 0) {
-            resolve(result);
-        }
-
-        function resolver(i) {
-            return function (x) {
-                result[i] = x;
-                count += 1;
-
-                if (count === iterable.length) {
-                    resolve(result);
-                }
-            };
-        }
-
-        for (var i = 0; i < iterable.length; i += 1) {
-            Promise$1.resolve(iterable[i]).then(resolver(i), reject);
-        }
-    });
-};
-
-Promise$1.race = function race(iterable) {
-    return new Promise$1(function (resolve, reject) {
-        for (var i = 0; i < iterable.length; i += 1) {
-            Promise$1.resolve(iterable[i]).then(resolve, reject);
-        }
-    });
-};
-
-var p = Promise$1.prototype;
-
-p.resolve = function resolve(x) {
-    var promise = this;
-
-    if (promise.state === PENDING) {
-        if (x === promise) {
-            throw new TypeError('Promise settled with itself.');
-        }
-
-        var called = false;
-
-        try {
-            var then = x && x['then'];
-
-            if (x !== null && typeof x === 'object' && typeof then === 'function') {
-                then.call(x, function (x) {
-                    if (!called) {
-                        promise.resolve(x);
-                    }
-                    called = true;
-
-                }, function (r) {
-                    if (!called) {
-                        promise.reject(r);
-                    }
-                    called = true;
-                });
-                return;
-            }
-        } catch (e) {
-            if (!called) {
-                promise.reject(e);
-            }
-            return;
-        }
-
-        promise.state = RESOLVED;
-        promise.value = x;
-        promise.notify();
-    }
-};
-
-p.reject = function reject(reason) {
-    var promise = this;
-
-    if (promise.state === PENDING) {
-        if (reason === promise) {
-            throw new TypeError('Promise settled with itself.');
-        }
-
-        promise.state = REJECTED;
-        promise.value = reason;
-        promise.notify();
-    }
-};
-
-p.notify = function notify() {
-    var promise = this;
-
-    nextTick(function () {
-        if (promise.state !== PENDING) {
-            while (promise.deferred.length) {
-                var deferred = promise.deferred.shift(),
-                    onResolved = deferred[0],
-                    onRejected = deferred[1],
-                    resolve = deferred[2],
-                    reject = deferred[3];
-
-                try {
-                    if (promise.state === RESOLVED) {
-                        if (typeof onResolved === 'function') {
-                            resolve(onResolved.call(undefined, promise.value));
-                        } else {
-                            resolve(promise.value);
-                        }
-                    } else if (promise.state === REJECTED) {
-                        if (typeof onRejected === 'function') {
-                            resolve(onRejected.call(undefined, promise.value));
-                        } else {
-                            reject(promise.value);
-                        }
-                    }
-                } catch (e) {
-                    reject(e);
-                }
-            }
-        }
-    });
-};
-
-p.then = function then(onResolved, onRejected) {
-    var promise = this;
-
-    return new Promise$1(function (resolve, reject) {
-        promise.deferred.push([onResolved, onRejected, resolve, reject]);
-        promise.notify();
-    });
-};
-
-p.catch = function (onRejected) {
-    return this.then(undefined, onRejected);
-};
-
-/**
- * Promise adapter.
- */
-
-if (typeof Promise === 'undefined') {
-    window.Promise = Promise$1;
-}
-
-function PromiseObj(executor, context) {
-
-    if (executor instanceof Promise) {
-        this.promise = executor;
-    } else {
-        this.promise = new Promise(executor.bind(context));
-    }
-
-    this.context = context;
-}
-
-PromiseObj.all = function (iterable, context) {
-    return new PromiseObj(Promise.all(iterable), context);
-};
-
-PromiseObj.resolve = function (value, context) {
-    return new PromiseObj(Promise.resolve(value), context);
-};
-
-PromiseObj.reject = function (reason, context) {
-    return new PromiseObj(Promise.reject(reason), context);
-};
-
-PromiseObj.race = function (iterable, context) {
-    return new PromiseObj(Promise.race(iterable), context);
-};
-
-var p$1 = PromiseObj.prototype;
-
-p$1.bind = function (context) {
-    this.context = context;
-    return this;
-};
-
-p$1.then = function (fulfilled, rejected) {
-
-    if (fulfilled && fulfilled.bind && this.context) {
-        fulfilled = fulfilled.bind(this.context);
-    }
-
-    if (rejected && rejected.bind && this.context) {
-        rejected = rejected.bind(this.context);
-    }
-
-    return new PromiseObj(this.promise.then(fulfilled, rejected), this.context);
-};
-
-p$1.catch = function (rejected) {
-
-    if (rejected && rejected.bind && this.context) {
-        rejected = rejected.bind(this.context);
-    }
-
-    return new PromiseObj(this.promise.catch(rejected), this.context);
-};
-
-p$1.finally = function (callback) {
-
-    return this.then(function (value) {
-        callback.call(this);
-        return value;
-    }, function (reason) {
-        callback.call(this);
-        return Promise.reject(reason);
-    }
-    );
-};
-
-/**
- * Utility functions.
- */
-
-var ref = {};
-var hasOwnProperty = ref.hasOwnProperty;
-var ref$1 = [];
-var slice = ref$1.slice;
-var debug = false, ntick;
-
-var inBrowser = typeof window !== 'undefined';
-
-function Util (ref) {
-    var config = ref.config;
-    var nextTick = ref.nextTick;
-
-    ntick = nextTick;
-    debug = config.debug || !config.silent;
-}
-
-function warn(msg) {
-    if (typeof console !== 'undefined' && debug) {
-        console.warn('[VueResource warn]: ' + msg);
-    }
-}
-
-function error(msg) {
-    if (typeof console !== 'undefined') {
-        console.error(msg);
-    }
-}
-
-function nextTick(cb, ctx) {
-    return ntick(cb, ctx);
-}
-
-function trim(str) {
-    return str ? str.replace(/^\s*|\s*$/g, '') : '';
-}
-
-function trimEnd(str, chars) {
-
-    if (str && chars === undefined) {
-        return str.replace(/\s+$/, '');
-    }
-
-    if (!str || !chars) {
-        return str;
-    }
-
-    return str.replace(new RegExp(("[" + chars + "]+$")), '');
-}
-
-function toLower(str) {
-    return str ? str.toLowerCase() : '';
-}
-
-function toUpper(str) {
-    return str ? str.toUpperCase() : '';
-}
-
-var isArray = Array.isArray;
-
-function isString(val) {
-    return typeof val === 'string';
-}
-
-function isFunction(val) {
-    return typeof val === 'function';
-}
-
-function isObject(obj) {
-    return obj !== null && typeof obj === 'object';
-}
-
-function isPlainObject(obj) {
-    return isObject(obj) && Object.getPrototypeOf(obj) == Object.prototype;
-}
-
-function isBlob(obj) {
-    return typeof Blob !== 'undefined' && obj instanceof Blob;
-}
-
-function isFormData(obj) {
-    return typeof FormData !== 'undefined' && obj instanceof FormData;
-}
-
-function when(value, fulfilled, rejected) {
-
-    var promise = PromiseObj.resolve(value);
-
-    if (arguments.length < 2) {
-        return promise;
-    }
-
-    return promise.then(fulfilled, rejected);
-}
-
-function options(fn, obj, opts) {
-
-    opts = opts || {};
-
-    if (isFunction(opts)) {
-        opts = opts.call(obj);
-    }
-
-    return merge(fn.bind({$vm: obj, $options: opts}), fn, {$options: opts});
-}
-
-function each(obj, iterator) {
-
-    var i, key;
-
-    if (isArray(obj)) {
-        for (i = 0; i < obj.length; i++) {
-            iterator.call(obj[i], obj[i], i);
-        }
-    } else if (isObject(obj)) {
-        for (key in obj) {
-            if (hasOwnProperty.call(obj, key)) {
-                iterator.call(obj[key], obj[key], key);
-            }
-        }
-    }
-
-    return obj;
-}
-
-var assign = Object.assign || _assign;
-
-function merge(target) {
-
-    var args = slice.call(arguments, 1);
-
-    args.forEach(function (source) {
-        _merge(target, source, true);
-    });
-
-    return target;
-}
-
-function defaults(target) {
-
-    var args = slice.call(arguments, 1);
-
-    args.forEach(function (source) {
-
-        for (var key in source) {
-            if (target[key] === undefined) {
-                target[key] = source[key];
-            }
-        }
-
-    });
-
-    return target;
-}
-
-function _assign(target) {
-
-    var args = slice.call(arguments, 1);
-
-    args.forEach(function (source) {
-        _merge(target, source);
-    });
-
-    return target;
-}
-
-function _merge(target, source, deep) {
-    for (var key in source) {
-        if (deep && (isPlainObject(source[key]) || isArray(source[key]))) {
-            if (isPlainObject(source[key]) && !isPlainObject(target[key])) {
-                target[key] = {};
-            }
-            if (isArray(source[key]) && !isArray(target[key])) {
-                target[key] = [];
-            }
-            _merge(target[key], source[key], deep);
-        } else if (source[key] !== undefined) {
-            target[key] = source[key];
-        }
-    }
-}
-
-/**
- * Root Prefix Transform.
- */
-
-function root (options$$1, next) {
-
-    var url = next(options$$1);
-
-    if (isString(options$$1.root) && !/^(https?:)?\//.test(url)) {
-        url = trimEnd(options$$1.root, '/') + '/' + url;
-    }
-
-    return url;
-}
-
-/**
- * Query Parameter Transform.
- */
-
-function query (options$$1, next) {
-
-    var urlParams = Object.keys(Url.options.params), query = {}, url = next(options$$1);
-
-    each(options$$1.params, function (value, key) {
-        if (urlParams.indexOf(key) === -1) {
-            query[key] = value;
-        }
-    });
-
-    query = Url.params(query);
-
-    if (query) {
-        url += (url.indexOf('?') == -1 ? '?' : '&') + query;
-    }
-
-    return url;
-}
-
-/**
- * URL Template v2.0.6 (https://github.com/bramstein/url-template)
- */
-
-function expand(url, params, variables) {
-
-    var tmpl = parse(url), expanded = tmpl.expand(params);
-
-    if (variables) {
-        variables.push.apply(variables, tmpl.vars);
-    }
-
-    return expanded;
-}
-
-function parse(template) {
-
-    var operators = ['+', '#', '.', '/', ';', '?', '&'], variables = [];
-
-    return {
-        vars: variables,
-        expand: function expand(context) {
-            return template.replace(/\{([^{}]+)\}|([^{}]+)/g, function (_, expression, literal) {
-                if (expression) {
-
-                    var operator = null, values = [];
-
-                    if (operators.indexOf(expression.charAt(0)) !== -1) {
-                        operator = expression.charAt(0);
-                        expression = expression.substr(1);
-                    }
-
-                    expression.split(/,/g).forEach(function (variable) {
-                        var tmp = /([^:*]*)(?::(\d+)|(\*))?/.exec(variable);
-                        values.push.apply(values, getValues(context, operator, tmp[1], tmp[2] || tmp[3]));
-                        variables.push(tmp[1]);
-                    });
-
-                    if (operator && operator !== '+') {
-
-                        var separator = ',';
-
-                        if (operator === '?') {
-                            separator = '&';
-                        } else if (operator !== '#') {
-                            separator = operator;
-                        }
-
-                        return (values.length !== 0 ? operator : '') + values.join(separator);
-                    } else {
-                        return values.join(',');
-                    }
-
-                } else {
-                    return encodeReserved(literal);
-                }
-            });
-        }
-    };
-}
-
-function getValues(context, operator, key, modifier) {
-
-    var value = context[key], result = [];
-
-    if (isDefined(value) && value !== '') {
-        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
-            value = value.toString();
-
-            if (modifier && modifier !== '*') {
-                value = value.substring(0, parseInt(modifier, 10));
-            }
-
-            result.push(encodeValue(operator, value, isKeyOperator(operator) ? key : null));
-        } else {
-            if (modifier === '*') {
-                if (Array.isArray(value)) {
-                    value.filter(isDefined).forEach(function (value) {
-                        result.push(encodeValue(operator, value, isKeyOperator(operator) ? key : null));
-                    });
-                } else {
-                    Object.keys(value).forEach(function (k) {
-                        if (isDefined(value[k])) {
-                            result.push(encodeValue(operator, value[k], k));
-                        }
-                    });
-                }
-            } else {
-                var tmp = [];
-
-                if (Array.isArray(value)) {
-                    value.filter(isDefined).forEach(function (value) {
-                        tmp.push(encodeValue(operator, value));
-                    });
-                } else {
-                    Object.keys(value).forEach(function (k) {
-                        if (isDefined(value[k])) {
-                            tmp.push(encodeURIComponent(k));
-                            tmp.push(encodeValue(operator, value[k].toString()));
-                        }
-                    });
-                }
-
-                if (isKeyOperator(operator)) {
-                    result.push(encodeURIComponent(key) + '=' + tmp.join(','));
-                } else if (tmp.length !== 0) {
-                    result.push(tmp.join(','));
-                }
-            }
-        }
-    } else {
-        if (operator === ';') {
-            result.push(encodeURIComponent(key));
-        } else if (value === '' && (operator === '&' || operator === '?')) {
-            result.push(encodeURIComponent(key) + '=');
-        } else if (value === '') {
-            result.push('');
-        }
-    }
-
-    return result;
-}
-
-function isDefined(value) {
-    return value !== undefined && value !== null;
-}
-
-function isKeyOperator(operator) {
-    return operator === ';' || operator === '&' || operator === '?';
-}
-
-function encodeValue(operator, value, key) {
-
-    value = (operator === '+' || operator === '#') ? encodeReserved(value) : encodeURIComponent(value);
-
-    if (key) {
-        return encodeURIComponent(key) + '=' + value;
-    } else {
-        return value;
-    }
-}
-
-function encodeReserved(str) {
-    return str.split(/(%[0-9A-Fa-f]{2})/g).map(function (part) {
-        if (!/%[0-9A-Fa-f]/.test(part)) {
-            part = encodeURI(part);
-        }
-        return part;
-    }).join('');
-}
-
-/**
- * URL Template (RFC 6570) Transform.
- */
-
-function template (options) {
-
-    var variables = [], url = expand(options.url, options.params, variables);
-
-    variables.forEach(function (key) {
-        delete options.params[key];
-    });
-
-    return url;
-}
-
-/**
- * Service for URL templating.
- */
-
-function Url(url, params) {
-
-    var self = this || {}, options$$1 = url, transform;
-
-    if (isString(url)) {
-        options$$1 = {url: url, params: params};
-    }
-
-    options$$1 = merge({}, Url.options, self.$options, options$$1);
-
-    Url.transforms.forEach(function (handler) {
-
-        if (isString(handler)) {
-            handler = Url.transform[handler];
-        }
-
-        if (isFunction(handler)) {
-            transform = factory(handler, transform, self.$vm);
-        }
-
-    });
-
-    return transform(options$$1);
-}
-
-/**
- * Url options.
- */
-
-Url.options = {
-    url: '',
-    root: null,
-    params: {}
-};
-
-/**
- * Url transforms.
- */
-
-Url.transform = {template: template, query: query, root: root};
-Url.transforms = ['template', 'query', 'root'];
-
-/**
- * Encodes a Url parameter string.
- *
- * @param {Object} obj
- */
-
-Url.params = function (obj) {
-
-    var params = [], escape = encodeURIComponent;
-
-    params.add = function (key, value) {
-
-        if (isFunction(value)) {
-            value = value();
-        }
-
-        if (value === null) {
-            value = '';
-        }
-
-        this.push(escape(key) + '=' + escape(value));
-    };
-
-    serialize(params, obj);
-
-    return params.join('&').replace(/%20/g, '+');
-};
-
-/**
- * Parse a URL and return its components.
- *
- * @param {String} url
- */
-
-Url.parse = function (url) {
-
-    var el = document.createElement('a');
-
-    if (document.documentMode) {
-        el.href = url;
-        url = el.href;
-    }
-
-    el.href = url;
-
-    return {
-        href: el.href,
-        protocol: el.protocol ? el.protocol.replace(/:$/, '') : '',
-        port: el.port,
-        host: el.host,
-        hostname: el.hostname,
-        pathname: el.pathname.charAt(0) === '/' ? el.pathname : '/' + el.pathname,
-        search: el.search ? el.search.replace(/^\?/, '') : '',
-        hash: el.hash ? el.hash.replace(/^#/, '') : ''
-    };
-};
-
-function factory(handler, next, vm) {
-    return function (options$$1) {
-        return handler.call(vm, options$$1, next);
-    };
-}
-
-function serialize(params, obj, scope) {
-
-    var array = isArray(obj), plain = isPlainObject(obj), hash;
-
-    each(obj, function (value, key) {
-
-        hash = isObject(value) || isArray(value);
-
-        if (scope) {
-            key = scope + '[' + (plain || hash ? key : '') + ']';
-        }
-
-        if (!scope && array) {
-            params.add(value.name, value.value);
-        } else if (hash) {
-            serialize(params, value, key);
-        } else {
-            params.add(key, value);
-        }
-    });
-}
-
-/**
- * XDomain client (Internet Explorer).
- */
-
-function xdrClient (request) {
-    return new PromiseObj(function (resolve) {
-
-        var xdr = new XDomainRequest(), handler = function (ref) {
-                var type = ref.type;
-
-
-                var status = 0;
-
-                if (type === 'load') {
-                    status = 200;
-                } else if (type === 'error') {
-                    status = 500;
-                }
-
-                resolve(request.respondWith(xdr.responseText, {status: status}));
-            };
-
-        request.abort = function () { return xdr.abort(); };
-
-        xdr.open(request.method, request.getUrl());
-
-        if (request.timeout) {
-            xdr.timeout = request.timeout;
-        }
-
-        xdr.onload = handler;
-        xdr.onabort = handler;
-        xdr.onerror = handler;
-        xdr.ontimeout = handler;
-        xdr.onprogress = function () {};
-        xdr.send(request.getBody());
-    });
-}
-
-/**
- * CORS Interceptor.
- */
-
-var SUPPORTS_CORS = inBrowser && 'withCredentials' in new XMLHttpRequest();
-
-function cors (request) {
-
-    if (inBrowser) {
-
-        var orgUrl = Url.parse(location.href);
-        var reqUrl = Url.parse(request.getUrl());
-
-        if (reqUrl.protocol !== orgUrl.protocol || reqUrl.host !== orgUrl.host) {
-
-            request.crossOrigin = true;
-            request.emulateHTTP = false;
-
-            if (!SUPPORTS_CORS) {
-                request.client = xdrClient;
-            }
-        }
-    }
-
-}
-
-/**
- * Form data Interceptor.
- */
-
-function form (request) {
-
-    if (isFormData(request.body)) {
-        request.headers.delete('Content-Type');
-    } else if (isObject(request.body) && request.emulateJSON) {
-        request.body = Url.params(request.body);
-        request.headers.set('Content-Type', 'application/x-www-form-urlencoded');
-    }
-
-}
-
-/**
- * JSON Interceptor.
- */
-
-function json (request) {
-
-    var type = request.headers.get('Content-Type') || '';
-
-    if (isObject(request.body) && type.indexOf('application/json') === 0) {
-        request.body = JSON.stringify(request.body);
-    }
-
-    return function (response) {
-
-        return response.bodyText ? when(response.text(), function (text) {
-
-            var type = response.headers.get('Content-Type') || '';
-
-            if (type.indexOf('application/json') === 0 || isJson(text)) {
-
-                try {
-                    response.body = JSON.parse(text);
-                } catch (e) {
-                    response.body = null;
-                }
-
-            } else {
-                response.body = text;
-            }
-
-            return response;
-
-        }) : response;
-
-    };
-}
-
-function isJson(str) {
-
-    var start = str.match(/^\s*(\[|\{)/);
-    var end = {'[': /]\s*$/, '{': /}\s*$/};
-
-    return start && end[start[1]].test(str);
-}
-
-/**
- * JSONP client (Browser).
- */
-
-function jsonpClient (request) {
-    return new PromiseObj(function (resolve) {
-
-        var name = request.jsonp || 'callback', callback = request.jsonpCallback || '_jsonp' + Math.random().toString(36).substr(2), body = null, handler, script;
-
-        handler = function (ref) {
-            var type = ref.type;
-
-
-            var status = 0;
-
-            if (type === 'load' && body !== null) {
-                status = 200;
-            } else if (type === 'error') {
-                status = 500;
-            }
-
-            if (status && window[callback]) {
-                delete window[callback];
-                document.body.removeChild(script);
-            }
-
-            resolve(request.respondWith(body, {status: status}));
-        };
-
-        window[callback] = function (result) {
-            body = JSON.stringify(result);
-        };
-
-        request.abort = function () {
-            handler({type: 'abort'});
-        };
-
-        request.params[name] = callback;
-
-        if (request.timeout) {
-            setTimeout(request.abort, request.timeout);
-        }
-
-        script = document.createElement('script');
-        script.src = request.getUrl();
-        script.type = 'text/javascript';
-        script.async = true;
-        script.onload = handler;
-        script.onerror = handler;
-
-        document.body.appendChild(script);
-    });
-}
-
-/**
- * JSONP Interceptor.
- */
-
-function jsonp (request) {
-
-    if (request.method == 'JSONP') {
-        request.client = jsonpClient;
-    }
-
-}
-
-/**
- * Before Interceptor.
- */
-
-function before (request) {
-
-    if (isFunction(request.before)) {
-        request.before.call(this, request);
-    }
-
-}
-
-/**
- * HTTP method override Interceptor.
- */
-
-function method (request) {
-
-    if (request.emulateHTTP && /^(PUT|PATCH|DELETE)$/i.test(request.method)) {
-        request.headers.set('X-HTTP-Method-Override', request.method);
-        request.method = 'POST';
-    }
-
-}
-
-/**
- * Header Interceptor.
- */
-
-function header (request) {
-
-    var headers = assign({}, Http.headers.common,
-        !request.crossOrigin ? Http.headers.custom : {},
-        Http.headers[toLower(request.method)]
-    );
-
-    each(headers, function (value, name) {
-        if (!request.headers.has(name)) {
-            request.headers.set(name, value);
-        }
-    });
-
-}
-
-/**
- * XMLHttp client (Browser).
- */
-
-function xhrClient (request) {
-    return new PromiseObj(function (resolve) {
-
-        var xhr = new XMLHttpRequest(), handler = function (event) {
-
-                var response = request.respondWith(
-                'response' in xhr ? xhr.response : xhr.responseText, {
-                    status: xhr.status === 1223 ? 204 : xhr.status, // IE9 status bug
-                    statusText: xhr.status === 1223 ? 'No Content' : trim(xhr.statusText)
-                });
-
-                each(trim(xhr.getAllResponseHeaders()).split('\n'), function (row) {
-                    response.headers.append(row.slice(0, row.indexOf(':')), row.slice(row.indexOf(':') + 1));
-                });
-
-                resolve(response);
-            };
-
-        request.abort = function () { return xhr.abort(); };
-
-        xhr.open(request.method, request.getUrl(), true);
-
-        if (request.timeout) {
-            xhr.timeout = request.timeout;
-        }
-
-        if (request.responseType && 'responseType' in xhr) {
-            xhr.responseType = request.responseType;
-        }
-
-        if (request.withCredentials || request.credentials) {
-            xhr.withCredentials = true;
-        }
-
-        if (!request.crossOrigin) {
-            request.headers.set('X-Requested-With', 'XMLHttpRequest');
-        }
-
-        // deprecated use downloadProgress
-        if (isFunction(request.progress) && request.method === 'GET') {
-            xhr.addEventListener('progress', request.progress);
-        }
-
-        if (isFunction(request.downloadProgress)) {
-            xhr.addEventListener('progress', request.downloadProgress);
-        }
-
-        // deprecated use uploadProgress
-        if (isFunction(request.progress) && /^(POST|PUT)$/i.test(request.method)) {
-            xhr.upload.addEventListener('progress', request.progress);
-        }
-
-        if (isFunction(request.uploadProgress) && xhr.upload) {
-            xhr.upload.addEventListener('progress', request.uploadProgress);
-        }
-
-        request.headers.forEach(function (value, name) {
-            xhr.setRequestHeader(name, value);
-        });
-
-        xhr.onload = handler;
-        xhr.onabort = handler;
-        xhr.onerror = handler;
-        xhr.ontimeout = handler;
-        xhr.send(request.getBody());
-    });
-}
-
-/**
- * Http client (Node).
- */
-
-function nodeClient (request) {
-
-    var client = __webpack_require__(47);
-
-    return new PromiseObj(function (resolve) {
-
-        var url = request.getUrl();
-        var body = request.getBody();
-        var method = request.method;
-        var headers = {}, handler;
-
-        request.headers.forEach(function (value, name) {
-            headers[name] = value;
-        });
-
-        client(url, {body: body, method: method, headers: headers}).then(handler = function (resp) {
-
-            var response = request.respondWith(resp.body, {
-                status: resp.statusCode,
-                statusText: trim(resp.statusMessage)
-            });
-
-            each(resp.headers, function (value, name) {
-                response.headers.set(name, value);
-            });
-
-            resolve(response);
-
-        }, function (error$$1) { return handler(error$$1.response); });
-    });
-}
-
-/**
- * Base client.
- */
-
-function Client (context) {
-
-    var reqHandlers = [sendRequest], resHandlers = [];
-
-    if (!isObject(context)) {
-        context = null;
-    }
-
-    function Client(request) {
-        while (reqHandlers.length) {
-
-            var handler = reqHandlers.pop();
-
-            if (isFunction(handler)) {
-
-                var response = (void 0), next = (void 0);
-
-                response = handler.call(context, request, function (val) { return next = val; }) || next;
-
-                if (isObject(response)) {
-                    return new PromiseObj(function (resolve, reject) {
-
-                        resHandlers.forEach(function (handler) {
-                            response = when(response, function (response) {
-                                return handler.call(context, response) || response;
-                            }, reject);
-                        });
-
-                        when(response, resolve, reject);
-
-                    }, context);
-                }
-
-                if (isFunction(response)) {
-                    resHandlers.unshift(response);
-                }
-
-            } else {
-                warn(("Invalid interceptor of type " + (typeof handler) + ", must be a function"));
-            }
-        }
-    }
-
-    Client.use = function (handler) {
-        reqHandlers.push(handler);
-    };
-
-    return Client;
-}
-
-function sendRequest(request) {
-
-    var client = request.client || (inBrowser ? xhrClient : nodeClient);
-
-    return client(request);
-}
-
-/**
- * HTTP Headers.
- */
-
-var Headers = function Headers(headers) {
-    var this$1 = this;
-
-
-    this.map = {};
-
-    each(headers, function (value, name) { return this$1.append(name, value); });
-};
-
-Headers.prototype.has = function has (name) {
-    return getName(this.map, name) !== null;
-};
-
-Headers.prototype.get = function get (name) {
-
-    var list = this.map[getName(this.map, name)];
-
-    return list ? list.join() : null;
-};
-
-Headers.prototype.getAll = function getAll (name) {
-    return this.map[getName(this.map, name)] || [];
-};
-
-Headers.prototype.set = function set (name, value) {
-    this.map[normalizeName(getName(this.map, name) || name)] = [trim(value)];
-};
-
-Headers.prototype.append = function append (name, value) {
-
-    var list = this.map[getName(this.map, name)];
-
-    if (list) {
-        list.push(trim(value));
-    } else {
-        this.set(name, value);
-    }
-};
-
-Headers.prototype.delete = function delete$1 (name) {
-    delete this.map[getName(this.map, name)];
-};
-
-Headers.prototype.deleteAll = function deleteAll () {
-    this.map = {};
-};
-
-Headers.prototype.forEach = function forEach (callback, thisArg) {
-        var this$1 = this;
-
-    each(this.map, function (list, name) {
-        each(list, function (value) { return callback.call(thisArg, value, name, this$1); });
-    });
-};
-
-function getName(map, name) {
-    return Object.keys(map).reduce(function (prev, curr) {
-        return toLower(name) === toLower(curr) ? curr : prev;
-    }, null);
-}
-
-function normalizeName(name) {
-
-    if (/[^a-z0-9\-#$%&'*+.^_`|~]/i.test(name)) {
-        throw new TypeError('Invalid character in header field name');
-    }
-
-    return trim(name);
-}
-
-/**
- * HTTP Response.
- */
-
-var Response = function Response(body, ref) {
-    var url = ref.url;
-    var headers = ref.headers;
-    var status = ref.status;
-    var statusText = ref.statusText;
-
-
-    this.url = url;
-    this.ok = status >= 200 && status < 300;
-    this.status = status || 0;
-    this.statusText = statusText || '';
-    this.headers = new Headers(headers);
-    this.body = body;
-
-    if (isString(body)) {
-
-        this.bodyText = body;
-
-    } else if (isBlob(body)) {
-
-        this.bodyBlob = body;
-
-        if (isBlobText(body)) {
-            this.bodyText = blobText(body);
-        }
-    }
-};
-
-Response.prototype.blob = function blob () {
-    return when(this.bodyBlob);
-};
-
-Response.prototype.text = function text () {
-    return when(this.bodyText);
-};
-
-Response.prototype.json = function json () {
-    return when(this.text(), function (text) { return JSON.parse(text); });
-};
-
-Object.defineProperty(Response.prototype, 'data', {
-
-    get: function get() {
-        return this.body;
-    },
-
-    set: function set(body) {
-        this.body = body;
-    }
-
-});
-
-function blobText(body) {
-    return new PromiseObj(function (resolve) {
-
-        var reader = new FileReader();
-
-        reader.readAsText(body);
-        reader.onload = function () {
-            resolve(reader.result);
-        };
-
-    });
-}
-
-function isBlobText(body) {
-    return body.type.indexOf('text') === 0 || body.type.indexOf('json') !== -1;
-}
-
-/**
- * HTTP Request.
- */
-
-var Request = function Request(options$$1) {
-
-    this.body = null;
-    this.params = {};
-
-    assign(this, options$$1, {
-        method: toUpper(options$$1.method || 'GET')
-    });
-
-    if (!(this.headers instanceof Headers)) {
-        this.headers = new Headers(this.headers);
-    }
-};
-
-Request.prototype.getUrl = function getUrl () {
-    return Url(this);
-};
-
-Request.prototype.getBody = function getBody () {
-    return this.body;
-};
-
-Request.prototype.respondWith = function respondWith (body, options$$1) {
-    return new Response(body, assign(options$$1 || {}, {url: this.getUrl()}));
-};
-
-/**
- * Service for sending network requests.
- */
-
-var COMMON_HEADERS = {'Accept': 'application/json, text/plain, */*'};
-var JSON_CONTENT_TYPE = {'Content-Type': 'application/json;charset=utf-8'};
-
-function Http(options$$1) {
-
-    var self = this || {}, client = Client(self.$vm);
-
-    defaults(options$$1 || {}, self.$options, Http.options);
-
-    Http.interceptors.forEach(function (handler) {
-
-        if (isString(handler)) {
-            handler = Http.interceptor[handler];
-        }
-
-        if (isFunction(handler)) {
-            client.use(handler);
-        }
-
-    });
-
-    return client(new Request(options$$1)).then(function (response) {
-
-        return response.ok ? response : PromiseObj.reject(response);
-
-    }, function (response) {
-
-        if (response instanceof Error) {
-            error(response);
-        }
-
-        return PromiseObj.reject(response);
-    });
-}
-
-Http.options = {};
-
-Http.headers = {
-    put: JSON_CONTENT_TYPE,
-    post: JSON_CONTENT_TYPE,
-    patch: JSON_CONTENT_TYPE,
-    delete: JSON_CONTENT_TYPE,
-    common: COMMON_HEADERS,
-    custom: {}
-};
-
-Http.interceptor = {before: before, method: method, jsonp: jsonp, json: json, form: form, header: header, cors: cors};
-Http.interceptors = ['before', 'method', 'jsonp', 'json', 'form', 'header', 'cors'];
-
-['get', 'delete', 'head', 'jsonp'].forEach(function (method$$1) {
-
-    Http[method$$1] = function (url, options$$1) {
-        return this(assign(options$$1 || {}, {url: url, method: method$$1}));
-    };
-
-});
-
-['post', 'put', 'patch'].forEach(function (method$$1) {
-
-    Http[method$$1] = function (url, body, options$$1) {
-        return this(assign(options$$1 || {}, {url: url, method: method$$1, body: body}));
-    };
-
-});
-
-/**
- * Service for interacting with RESTful services.
- */
-
-function Resource(url, params, actions, options$$1) {
-
-    var self = this || {}, resource = {};
-
-    actions = assign({},
-        Resource.actions,
-        actions
-    );
-
-    each(actions, function (action, name) {
-
-        action = merge({url: url, params: assign({}, params)}, options$$1, action);
-
-        resource[name] = function () {
-            return (self.$http || Http)(opts(action, arguments));
-        };
-    });
-
-    return resource;
-}
-
-function opts(action, args) {
-
-    var options$$1 = assign({}, action), params = {}, body;
-
-    switch (args.length) {
-
-        case 2:
-
-            params = args[0];
-            body = args[1];
-
-            break;
-
-        case 1:
-
-            if (/^(POST|PUT|PATCH)$/i.test(options$$1.method)) {
-                body = args[0];
-            } else {
-                params = args[0];
-            }
-
-            break;
-
-        case 0:
-
-            break;
-
-        default:
-
-            throw 'Expected up to 2 arguments [params, body], got ' + args.length + ' arguments';
-    }
-
-    options$$1.body = body;
-    options$$1.params = assign({}, options$$1.params, params);
-
-    return options$$1;
-}
-
-Resource.actions = {
-
-    get: {method: 'GET'},
-    save: {method: 'POST'},
-    query: {method: 'GET'},
-    update: {method: 'PUT'},
-    remove: {method: 'DELETE'},
-    delete: {method: 'DELETE'}
-
-};
-
-/**
- * Install plugin.
- */
-
-function plugin(Vue) {
-
-    if (plugin.installed) {
-        return;
-    }
-
-    Util(Vue);
-
-    Vue.url = Url;
-    Vue.http = Http;
-    Vue.resource = Resource;
-    Vue.Promise = PromiseObj;
-
-    Object.defineProperties(Vue.prototype, {
-
-        $url: {
-            get: function get() {
-                return options(Vue.url, this, this.$options.url);
-            }
-        },
-
-        $http: {
-            get: function get() {
-                return options(Vue.http, this, this.$options.http);
-            }
-        },
-
-        $resource: {
-            get: function get() {
-                return Vue.resource.bind(this);
-            }
-        },
-
-        $promise: {
-            get: function get() {
-                var this$1 = this;
-
-                return function (executor) { return new Vue.Promise(executor, this$1); };
-            }
-        }
-
-    });
-}
-
-if (typeof window !== 'undefined' && window.Vue) {
-    window.Vue.use(plugin);
-}
-
-/* harmony default export */ __webpack_exports__["a"] = (plugin);
-
-
-
-/***/ }),
-/* 47 */
-/***/ (function(module, exports) {
-
-/* (ignored) */
-
-/***/ }),
-/* 48 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c("navbar"),
-      _vm._v(" "),
-      _c("div", { staticClass: "br-mainpanel" }, [
-        _c("div", { staticClass: "pd-30" }, [_c("router-view")], 1)
-      ])
-    ],
-    1
-  )
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-117390fa", module.exports)
-  }
-}
-
-/***/ }),
-/* 49 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = null
-/* template */
-var __vue_template__ = __webpack_require__(50)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = null
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\components\\Navbar.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-cd7fb372", Component.options)
-  } else {
-    hotAPI.reload("data-v-cd7fb372", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 50 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "br-sideleft overflow-y-auto" }, [
-      _c("label", { staticClass: "sidebar-label pd-x-15 mg-t-20" }, [
-        _vm._v("Navigation")
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "br-sideleft-menu" },
-        [
-          _c(
-            "router-link",
-            { staticClass: "br-menu-link", attrs: { to: "/" } },
-            [
-              _c("div", { staticClass: "br-menu-item" }, [
-                _c("i", {
-                  staticClass: "menu-item-icon icon ion-ios-home-outline tx-22"
-                }),
-                _vm._v(" "),
-                _c("span", { staticClass: "menu-item-label" }, [
-                  _vm._v("Dashboard")
-                ])
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "router-link",
-            { staticClass: "br-menu-link", attrs: { to: "/contacts" } },
-            [
-              _c("div", { staticClass: "br-menu-item" }, [
-                _c("i", {
-                  staticClass: "menu-item-icon icon ion-ios-email-outline tx-24"
-                }),
-                _vm._v(" "),
-                _c("span", { staticClass: "menu-item-label" }, [
-                  _vm._v("Contact Messages")
-                ])
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c(
-            "router-link",
-            { staticClass: "br-menu-link", attrs: { to: "/queries" } },
-            [
-              _c("div", { staticClass: "br-menu-item" }, [
-                _c("i", {
-                  staticClass:
-                    "menu-item-icon icon ion-ios-photos-outline tx-20"
-                }),
-                _vm._v(" "),
-                _c("span", { staticClass: "menu-item-label" }, [
-                  _vm._v("All Queries")
-                ])
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _vm._m(1),
-          _vm._v(" "),
-          _vm._m(2),
-          _vm._v(" "),
-          _vm._m(3),
-          _vm._v(" "),
-          _vm._m(4),
-          _vm._v(" "),
-          _vm._m(5),
-          _vm._v(" "),
-          _vm._m(6),
-          _vm._v(" "),
-          _vm._m(7),
-          _vm._v(" "),
-          _vm._m(8),
-          _vm._v(" "),
-          _vm._m(9),
-          _vm._v(" "),
-          _vm._m(10),
-          _vm._v(" "),
-          _vm._m(11),
-          _vm._v(" "),
-          _vm._m(12),
-          _vm._v(" "),
-          _vm._m(13),
-          _vm._v(" "),
-          _vm._m(14),
-          _vm._v(" "),
-          _vm._m(15),
-          _vm._v(" "),
-          _vm._m(16),
-          _vm._v(" "),
-          _vm._m(17)
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "label",
-        { staticClass: "sidebar-label pd-x-15 mg-t-25 mg-b-20 tx-info op-9" },
-        [_vm._v("Information Summary")]
-      ),
-      _vm._v(" "),
-      _vm._m(18),
-      _vm._v(" "),
-      _c("br")
-    ]),
-    _vm._v(" "),
-    _vm._m(19),
-    _vm._v(" "),
-    _vm._m(20)
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "br-logo" }, [
-      _c("a", { attrs: { href: "" } }, [
-        _c("span", [_vm._v("[")]),
-        _vm._v("bracket"),
-        _c("span", [_vm._v("]")])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "br-menu-link", attrs: { href: "#" } }, [
-      _c("div", { staticClass: "br-menu-item" }, [
-        _c("i", {
-          staticClass: "menu-item-icon icon ion-ios-filing-outline tx-24"
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "menu-item-label" }, [_vm._v("UI Elements")]),
-        _vm._v(" "),
-        _c("i", { staticClass: "menu-item-arrow fa fa-angle-down" })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "br-menu-sub nav flex-column" }, [
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "accordion.html" } },
-          [_vm._v("Accordion")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "alerts.html" } }, [
-          _vm._v("Alerts")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "buttons.html" } }, [
-          _vm._v("Buttons")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "cards.html" } }, [
-          _vm._v("Cards")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "icons.html" } }, [
-          _vm._v("Icons")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "modal.html" } }, [
-          _vm._v("Modal")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "pagination.html" } },
-          [_vm._v("Pagination")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "popups.html" } }, [
-          _vm._v("Tooltip & Popover")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "progress.html" } }, [
-          _vm._v("Progress")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "spinners.html" } }, [
-          _vm._v("Spinners")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "typography.html" } },
-          [_vm._v("Typography")]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "br-menu-link", attrs: { href: "#" } }, [
-      _c("div", { staticClass: "br-menu-item" }, [
-        _c("i", { staticClass: "menu-item-icon ion-ios-redo-outline tx-24" }),
-        _vm._v(" "),
-        _c("span", { staticClass: "menu-item-label" }, [_vm._v("Navigation")]),
-        _vm._v(" "),
-        _c("i", { staticClass: "menu-item-arrow fa fa-angle-down" })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "br-menu-sub nav flex-column" }, [
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "navigation.html" } },
-          [_vm._v("Basic Nav")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          {
-            staticClass: "nav-link",
-            attrs: { href: "navigation-layouts.html" }
-          },
-          [_vm._v("Nav Layouts")]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "br-menu-link", attrs: { href: "#" } }, [
-      _c("div", { staticClass: "br-menu-item" }, [
-        _c("i", { staticClass: "menu-item-icon ion-ios-pie-outline tx-20" }),
-        _vm._v(" "),
-        _c("span", { staticClass: "menu-item-label" }, [_vm._v("Charts")]),
-        _vm._v(" "),
-        _c("i", { staticClass: "menu-item-arrow fa fa-angle-down" })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "br-menu-sub nav flex-column" }, [
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "chart-morris.html" } },
-          [_vm._v("Morris Charts")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "chart-flot.html" } },
-          [_vm._v("Flot Charts")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "chart-chartjs.html" } },
-          [_vm._v("Chart JS")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "chart-rickshaw.html" } },
-          [_vm._v("Rickshaw")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "chart-chartist.html" } },
-          [_vm._v("Chartist")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "chart-sparkline.html" } },
-          [_vm._v("Sparkline")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "chart-peity.html" } },
-          [_vm._v("Peity")]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "br-menu-link", attrs: { href: "#" } }, [
-      _c("div", { staticClass: "br-menu-item" }, [
-        _c("i", {
-          staticClass: "menu-item-icon icon ion-ios-gear-outline tx-24"
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "menu-item-label" }, [_vm._v("Forms")]),
-        _vm._v(" "),
-        _c("i", { staticClass: "menu-item-arrow fa fa-angle-down" })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "br-menu-sub nav flex-column" }, [
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "form-elements.html" } },
-          [_vm._v("Form Elements")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "form-layouts.html" } },
-          [_vm._v("Form Layouts")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "form-validation.html" } },
-          [_vm._v("Form Validation")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "form-wizards.html" } },
-          [_vm._v("Form Wizards")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "form-editor-code.html" } },
-          [_vm._v("Code Editor")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "form-editor-text.html" } },
-          [_vm._v("Text Editor")]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "br-menu-link", attrs: { href: "#" } }, [
-      _c("div", { staticClass: "br-menu-item" }, [
-        _c("i", {
-          staticClass: "menu-item-icon icon ion-ios-bookmarks-outline tx-20"
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "menu-item-label" }, [_vm._v("Tables")]),
-        _vm._v(" "),
-        _c("i", { staticClass: "menu-item-arrow fa fa-angle-down" })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "br-menu-sub nav flex-column" }, [
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "table-basic.html" } },
-          [_vm._v("Basic Table")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "table-datatable.html" } },
-          [_vm._v("Data Table")]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "br-menu-link", attrs: { href: "#" } }, [
-      _c("div", { staticClass: "br-menu-item" }, [
-        _c("i", {
-          staticClass: "menu-item-icon icon ion-ios-navigate-outline tx-24"
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "menu-item-label" }, [_vm._v("Maps")]),
-        _vm._v(" "),
-        _c("i", { staticClass: "menu-item-arrow fa fa-angle-down" })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "br-menu-sub nav flex-column" }, [
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "map-google.html" } },
-          [_vm._v("Google Maps")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "map-leaflet.html" } },
-          [_vm._v("Leaflet Maps")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "map-vector.html" } },
-          [_vm._v("Vector Maps")]
-        )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { staticClass: "br-menu-link", attrs: { href: "#" } }, [
-      _c("div", { staticClass: "br-menu-item" }, [
-        _c("i", {
-          staticClass: "menu-item-icon icon ion-ios-briefcase-outline tx-22"
-        }),
-        _vm._v(" "),
-        _c("span", { staticClass: "menu-item-label" }, [_vm._v("Utilities")]),
-        _vm._v(" "),
-        _c("i", { staticClass: "menu-item-arrow fa fa-angle-down" })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("ul", { staticClass: "br-menu-sub nav flex-column" }, [
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "background.html" } },
-          [_vm._v("Background")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "border.html" } }, [
-          _vm._v("Border")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "height.html" } }, [
-          _vm._v("Height")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "margin.html" } }, [
-          _vm._v("Margin")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "padding.html" } }, [
-          _vm._v("Padding")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "position.html" } }, [
-          _vm._v("Position")
-        ])
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c(
-          "a",
-          { staticClass: "nav-link", attrs: { href: "typography-util.html" } },
-          [_vm._v("Typography")]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "nav-item" }, [
-        _c("a", { staticClass: "nav-link", attrs: { href: "width.html" } }, [
-          _vm._v("Width")
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { staticClass: "br-menu-link", attrs: { href: "pages.html" } },
-      [
-        _c("div", { staticClass: "br-menu-item" }, [
-          _c("i", {
-            staticClass: "menu-item-icon icon ion-ios-paper-outline tx-22"
-          }),
-          _vm._v(" "),
-          _c("span", { staticClass: "menu-item-label" }, [
-            _vm._v("Apps & Pages")
-          ])
-        ])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { staticClass: "br-menu-link", attrs: { href: "layouts.html" } },
-      [
-        _c("div", { staticClass: "br-menu-item" }, [
-          _c("i", {
-            staticClass: "menu-item-icon icon ion-ios-book-outline tx-22"
-          }),
-          _vm._v(" "),
-          _c("span", { staticClass: "menu-item-label" }, [_vm._v("Layouts")])
-        ])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "a",
-      { staticClass: "br-menu-link", attrs: { href: "sitemap.html" } },
-      [
-        _c("div", { staticClass: "br-menu-item" }, [
-          _c("i", {
-            staticClass: "menu-item-icon icon ion-ios-list-outline tx-22"
-          }),
-          _vm._v(" "),
-          _c("span", { staticClass: "menu-item-label" }, [_vm._v("Sitemap")])
-        ])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "info-list" }, [
-      _c(
-        "div",
-        {
-          staticClass:
-            "d-flex align-items-center justify-content-between pd-x-15"
-        },
-        [
-          _c("div", [
-            _c(
-              "p",
-              {
-                staticClass:
-                  "tx-10 tx-roboto tx-uppercase tx-spacing-1 tx-white op-3 mg-b-2 space-nowrap"
-              },
-              [_vm._v("Memory Usage")]
-            ),
-            _vm._v(" "),
-            _c("h5", { staticClass: "tx-lato tx-white tx-normal mg-b-0" }, [
-              _vm._v("32.3%")
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "span",
-            {
-              staticClass: "peity-bar",
-              attrs: {
-                "data-peity":
-                  '{ "fill": ["#336490"], "height": 35, "width": 60 }'
-              }
-            },
-            [_vm._v("8,6,5,9,8,4,9,3,5,9")]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass:
-            "d-flex align-items-center justify-content-between pd-x-15 mg-t-20"
-        },
-        [
-          _c("div", [
-            _c(
-              "p",
-              {
-                staticClass:
-                  "tx-10 tx-roboto tx-uppercase tx-spacing-1 tx-white op-3 mg-b-2 space-nowrap"
-              },
-              [_vm._v("CPU Usage")]
-            ),
-            _vm._v(" "),
-            _c("h5", { staticClass: "tx-lato tx-white tx-normal mg-b-0" }, [
-              _vm._v("140.05")
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "span",
-            {
-              staticClass: "peity-bar",
-              attrs: {
-                "data-peity":
-                  '{ "fill": ["#1C7973"], "height": 35, "width": 60 }'
-              }
-            },
-            [_vm._v("4,3,5,7,12,10,4,5,11,7")]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass:
-            "d-flex align-items-center justify-content-between pd-x-15 mg-t-20"
-        },
-        [
-          _c("div", [
-            _c(
-              "p",
-              {
-                staticClass:
-                  "tx-10 tx-roboto tx-uppercase tx-spacing-1 tx-white op-3 mg-b-2 space-nowrap"
-              },
-              [_vm._v("Disk Usage")]
-            ),
-            _vm._v(" "),
-            _c("h5", { staticClass: "tx-lato tx-white tx-normal mg-b-0" }, [
-              _vm._v("82.02%")
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "span",
-            {
-              staticClass: "peity-bar",
-              attrs: {
-                "data-peity":
-                  '{ "fill": ["#8E4246"], "height": 35, "width": 60 }'
-              }
-            },
-            [_vm._v("1,2,1,3,2,10,4,12,7")]
-          )
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass:
-            "d-flex align-items-center justify-content-between pd-x-15 mg-t-20"
-        },
-        [
-          _c("div", [
-            _c(
-              "p",
-              {
-                staticClass:
-                  "tx-10 tx-roboto tx-uppercase tx-spacing-1 tx-white op-3 mg-b-2 space-nowrap"
-              },
-              [_vm._v("Daily Traffic")]
-            ),
-            _vm._v(" "),
-            _c("h5", { staticClass: "tx-lato tx-white tx-normal mg-b-0" }, [
-              _vm._v("62,201")
-            ])
-          ]),
-          _vm._v(" "),
-          _c(
-            "span",
-            {
-              staticClass: "peity-bar",
-              attrs: {
-                "data-peity":
-                  '{ "fill": ["#9C7846"], "height": 35, "width": 60 }'
-              }
-            },
-            [_vm._v("3,12,7,9,2,3,4,5,2")]
-          )
-        ]
-      )
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "br-header" }, [
-      _c("div", { staticClass: "br-header-left" }, [
-        _c("div", { staticClass: "navicon-left hidden-md-down" }, [
-          _c("a", { attrs: { id: "btnLeftMenu", href: "" } }, [
-            _c("i", { staticClass: "icon ion-navicon-round" })
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "navicon-left hidden-lg-up" }, [
-          _c("a", { attrs: { id: "btnLeftMenuMobile", href: "" } }, [
-            _c("i", { staticClass: "icon ion-navicon-round" })
-          ])
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          { staticClass: "input-group hidden-xs-down wd-170 transition" },
-          [
-            _c("input", {
-              staticClass: "form-control",
-              attrs: { id: "searchbox", type: "text", placeholder: "Search" }
-            }),
-            _vm._v(" "),
-            _c("span", { staticClass: "input-group-btn" }, [
-              _c(
-                "button",
-                { staticClass: "btn btn-secondary", attrs: { type: "button" } },
-                [_c("i", { staticClass: "fa fa-search" })]
-              )
-            ])
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "br-header-right" }, [
-        _c("nav", { staticClass: "nav" }, [
-          _c("div", { staticClass: "dropdown" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link pd-x-7 pos-relative",
-                attrs: { href: "", "data-toggle": "dropdown" }
-              },
-              [
-                _c("i", { staticClass: "icon ion-ios-email-outline tx-24" }),
-                _vm._v(" "),
-                _c("span", {
-                  staticClass:
-                    "square-8 bg-danger pos-absolute t-15 r-0 rounded-circle"
-                })
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass:
-                  "dropdown-menu dropdown-menu-header wd-300 pd-0-force"
-              },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "d-flex align-items-center justify-content-between pd-y-10 pd-x-20 bd-b bd-gray-200"
-                  },
-                  [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "tx-12 tx-info tx-uppercase tx-semibold tx-spacing-2 mg-b-0"
-                      },
-                      [_vm._v("Messages")]
-                    ),
-                    _vm._v(" "),
-                    _c("a", { staticClass: "tx-11", attrs: { href: "" } }, [
-                      _vm._v("+ Add New Message")
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "media-list" }, [
-                  _c(
-                    "a",
-                    { staticClass: "media-list-link", attrs: { href: "" } },
-                    [
-                      _c("div", { staticClass: "media pd-x-20 pd-y-15" }, [
-                        _c("img", {
-                          staticClass: "wd-40 rounded-circle",
-                          attrs: {
-                            src: "http://via.placeholder.com/280x280",
-                            alt: ""
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "media-body" }, [
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "d-flex align-items-center justify-content-between mg-b-5"
-                            },
-                            [
-                              _c(
-                                "p",
-                                {
-                                  staticClass:
-                                    "mg-b-0 tx-medium tx-gray-800 tx-14"
-                                },
-                                [_vm._v("Donna Seay")]
-                              ),
-                              _vm._v(" "),
-                              _c("span", { staticClass: "tx-11 tx-gray-500" }, [
-                                _vm._v("2 minutes ago")
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "tx-12 mg-b-0" }, [
-                            _vm._v(
-                              "A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring."
-                            )
-                          ])
-                        ])
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "media-list-link read",
-                      attrs: { href: "" }
-                    },
-                    [
-                      _c("div", { staticClass: "media pd-x-20 pd-y-15" }, [
-                        _c("img", {
-                          staticClass: "wd-40 rounded-circle",
-                          attrs: {
-                            src: "http://via.placeholder.com/280x280",
-                            alt: ""
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "media-body" }, [
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "d-flex align-items-center justify-content-between mg-b-5"
-                            },
-                            [
-                              _c(
-                                "p",
-                                {
-                                  staticClass:
-                                    "mg-b-0 tx-medium tx-gray-800 tx-14"
-                                },
-                                [_vm._v("Samantha Francis")]
-                              ),
-                              _vm._v(" "),
-                              _c("span", { staticClass: "tx-11 tx-gray-500" }, [
-                                _vm._v("3 hours ago")
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "tx-12 mg-b-0" }, [
-                            _vm._v(
-                              "My entire soul, like these sweet mornings of spring."
-                            )
-                          ])
-                        ])
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "media-list-link read",
-                      attrs: { href: "" }
-                    },
-                    [
-                      _c("div", { staticClass: "media pd-x-20 pd-y-15" }, [
-                        _c("img", {
-                          staticClass: "wd-40 rounded-circle",
-                          attrs: {
-                            src: "http://via.placeholder.com/280x280",
-                            alt: ""
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "media-body" }, [
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "d-flex align-items-center justify-content-between mg-b-5"
-                            },
-                            [
-                              _c(
-                                "p",
-                                {
-                                  staticClass:
-                                    "mg-b-0 tx-medium tx-gray-800 tx-14"
-                                },
-                                [_vm._v("Robert Walker")]
-                              ),
-                              _vm._v(" "),
-                              _c("span", { staticClass: "tx-11 tx-gray-500" }, [
-                                _vm._v("5 hours ago")
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "tx-12 mg-b-0" }, [
-                            _vm._v(
-                              "I should be incapable of drawing a single stroke at the present moment..."
-                            )
-                          ])
-                        ])
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "media-list-link read",
-                      attrs: { href: "" }
-                    },
-                    [
-                      _c("div", { staticClass: "media pd-x-20 pd-y-15" }, [
-                        _c("img", {
-                          staticClass: "wd-40 rounded-circle",
-                          attrs: {
-                            src: "http://via.placeholder.com/280x280",
-                            alt: ""
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "media-body" }, [
-                          _c(
-                            "div",
-                            {
-                              staticClass:
-                                "d-flex align-items-center justify-content-between mg-b-5"
-                            },
-                            [
-                              _c(
-                                "p",
-                                {
-                                  staticClass:
-                                    "mg-b-0 tx-medium tx-gray-800 tx-14"
-                                },
-                                [_vm._v("Larry Smith")]
-                              ),
-                              _vm._v(" "),
-                              _c("span", { staticClass: "tx-11 tx-gray-500" }, [
-                                _vm._v("Yesterday")
-                              ])
-                            ]
-                          ),
-                          _vm._v(" "),
-                          _c("p", { staticClass: "tx-12 mg-b-0" }, [
-                            _vm._v(
-                              "When, while the lovely valley teems with vapour around me, and the meridian sun strikes..."
-                            )
-                          ])
-                        ])
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "pd-y-10 tx-center bd-t" }, [
-                    _c("a", { staticClass: "tx-12", attrs: { href: "" } }, [
-                      _c("i", { staticClass: "fa fa-angle-down mg-r-5" }),
-                      _vm._v(" Show All Messages")
-                    ])
-                  ])
-                ])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "dropdown" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link pd-x-7 pos-relative",
-                attrs: { href: "", "data-toggle": "dropdown" }
-              },
-              [
-                _c("i", { staticClass: "icon ion-ios-bell-outline tx-24" }),
-                _vm._v(" "),
-                _c("span", {
-                  staticClass:
-                    "square-8 bg-danger pos-absolute t-15 r-5 rounded-circle"
-                })
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              {
-                staticClass:
-                  "dropdown-menu dropdown-menu-header wd-300 pd-0-force"
-              },
-              [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "d-flex align-items-center justify-content-between pd-y-10 pd-x-20 bd-b bd-gray-200"
-                  },
-                  [
-                    _c(
-                      "label",
-                      {
-                        staticClass:
-                          "tx-12 tx-info tx-uppercase tx-semibold tx-spacing-2 mg-b-0"
-                      },
-                      [_vm._v("Notifications")]
-                    ),
-                    _vm._v(" "),
-                    _c("a", { staticClass: "tx-11", attrs: { href: "" } }, [
-                      _vm._v("Mark All as Read")
-                    ])
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "media-list" }, [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "media-list-link read",
-                      attrs: { href: "" }
-                    },
-                    [
-                      _c("div", { staticClass: "media pd-x-20 pd-y-15" }, [
-                        _c("img", {
-                          staticClass: "wd-40 rounded-circle",
-                          attrs: {
-                            src: "http://via.placeholder.com/280x280",
-                            alt: ""
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "media-body" }, [
-                          _c("p", { staticClass: "tx-13 mg-b-0 tx-gray-700" }, [
-                            _c(
-                              "strong",
-                              { staticClass: "tx-medium tx-gray-800" },
-                              [_vm._v("Suzzeth Bungaos")]
-                            ),
-                            _vm._v(" tagged you and 18 others in a post.")
-                          ]),
-                          _vm._v(" "),
-                          _c("span", { staticClass: "tx-12" }, [
-                            _vm._v("October 03, 2017 8:45am")
-                          ])
-                        ])
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "media-list-link read",
-                      attrs: { href: "" }
-                    },
-                    [
-                      _c("div", { staticClass: "media pd-x-20 pd-y-15" }, [
-                        _c("img", {
-                          staticClass: "wd-40 rounded-circle",
-                          attrs: {
-                            src: "http://via.placeholder.com/280x280",
-                            alt: ""
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "media-body" }, [
-                          _c("p", { staticClass: "tx-13 mg-b-0 tx-gray-700" }, [
-                            _c(
-                              "strong",
-                              { staticClass: "tx-medium tx-gray-800" },
-                              [_vm._v("Mellisa Brown")]
-                            ),
-                            _vm._v(" appreciated your work "),
-                            _c(
-                              "strong",
-                              { staticClass: "tx-medium tx-gray-800" },
-                              [_vm._v("The Social Network")]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("span", { staticClass: "tx-12" }, [
-                            _vm._v("October 02, 2017 12:44am")
-                          ])
-                        ])
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "media-list-link read",
-                      attrs: { href: "" }
-                    },
-                    [
-                      _c("div", { staticClass: "media pd-x-20 pd-y-15" }, [
-                        _c("img", {
-                          staticClass: "wd-40 rounded-circle",
-                          attrs: {
-                            src: "http://via.placeholder.com/280x280",
-                            alt: ""
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "media-body" }, [
-                          _c("p", { staticClass: "tx-13 mg-b-0 tx-gray-700" }, [
-                            _vm._v("20+ new items added are for sale in your "),
-                            _c(
-                              "strong",
-                              { staticClass: "tx-medium tx-gray-800" },
-                              [_vm._v("Sale Group")]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("span", { staticClass: "tx-12" }, [
-                            _vm._v("October 01, 2017 10:20pm")
-                          ])
-                        ])
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "a",
-                    {
-                      staticClass: "media-list-link read",
-                      attrs: { href: "" }
-                    },
-                    [
-                      _c("div", { staticClass: "media pd-x-20 pd-y-15" }, [
-                        _c("img", {
-                          staticClass: "wd-40 rounded-circle",
-                          attrs: {
-                            src: "http://via.placeholder.com/280x280",
-                            alt: ""
-                          }
-                        }),
-                        _vm._v(" "),
-                        _c("div", { staticClass: "media-body" }, [
-                          _c("p", { staticClass: "tx-13 mg-b-0 tx-gray-700" }, [
-                            _c(
-                              "strong",
-                              { staticClass: "tx-medium tx-gray-800" },
-                              [_vm._v("Julius Erving")]
-                            ),
-                            _vm._v(
-                              " wants to connect with you on your conversation with "
-                            ),
-                            _c(
-                              "strong",
-                              { staticClass: "tx-medium tx-gray-800" },
-                              [_vm._v("Ronnie Mara")]
-                            )
-                          ]),
-                          _vm._v(" "),
-                          _c("span", { staticClass: "tx-12" }, [
-                            _vm._v("October 01, 2017 6:08pm")
-                          ])
-                        ])
-                      ])
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "pd-y-10 tx-center bd-t" }, [
-                    _c("a", { staticClass: "tx-12", attrs: { href: "" } }, [
-                      _c("i", { staticClass: "fa fa-angle-down mg-r-5" }),
-                      _vm._v(" Show All Notifications")
-                    ])
-                  ])
-                ])
-              ]
-            )
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "dropdown" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link nav-link-profile",
-                attrs: { href: "", "data-toggle": "dropdown" }
-              },
-              [
-                _c("span", { staticClass: "logged-name hidden-md-down" }, [
-                  _vm._v("Katherine")
-                ]),
-                _vm._v(" "),
-                _c("img", {
-                  staticClass: "wd-32 rounded-circle",
-                  attrs: { src: "http://via.placeholder.com/64x64", alt: "" }
-                }),
-                _vm._v(" "),
-                _c("span", { staticClass: "square-10 bg-success" })
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "dropdown-menu dropdown-menu-header wd-200" },
-              [
-                _c("ul", { staticClass: "list-unstyled user-profile-nav" }, [
-                  _c("li", [
-                    _c("a", { attrs: { href: "" } }, [
-                      _c("i", { staticClass: "icon ion-ios-person" }),
-                      _vm._v(" Edit Profile")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("li", [
-                    _c("a", { attrs: { href: "" } }, [
-                      _c("i", { staticClass: "icon ion-ios-gear" }),
-                      _vm._v(" Settings")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("li", [
-                    _c("a", { attrs: { href: "" } }, [
-                      _c("i", { staticClass: "icon ion-ios-download" }),
-                      _vm._v(" Downloads")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("li", [
-                    _c("a", { attrs: { href: "" } }, [
-                      _c("i", { staticClass: "icon ion-ios-star" }),
-                      _vm._v(" Favorites")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("li", [
-                    _c("a", { attrs: { href: "" } }, [
-                      _c("i", { staticClass: "icon ion-ios-folder" }),
-                      _vm._v(" Collections")
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("li", [
-                    _c("a", { attrs: { href: "" } }, [
-                      _c("i", { staticClass: "icon ion-power" }),
-                      _vm._v(" Sign Out")
-                    ])
-                  ])
-                ])
-              ]
-            )
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "navicon-right" }, [
-          _c(
-            "a",
-            {
-              staticClass: "pos-relative",
-              attrs: { id: "btnRightMenu", href: "" }
-            },
-            [
-              _c("i", { staticClass: "icon ion-ios-chatboxes-outline" }),
-              _vm._v(" "),
-              _c("span", {
-                staticClass:
-                  "square-8 bg-danger pos-absolute t-10 r--5 rounded-circle"
-              })
-            ]
-          )
-        ])
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "br-sideright" }, [
-      _c(
-        "ul",
-        {
-          staticClass: "nav nav-tabs sidebar-tabs",
-          attrs: { role: "tablist" }
-        },
-        [
-          _c("li", { staticClass: "nav-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link active",
-                attrs: { "data-toggle": "tab", role: "tab", href: "#contacts" }
-              },
-              [_c("i", { staticClass: "icon ion-ios-contact-outline tx-24" })]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link",
-                attrs: {
-                  "data-toggle": "tab",
-                  role: "tab",
-                  href: "#attachments"
-                }
-              },
-              [_c("i", { staticClass: "icon ion-ios-folder-outline tx-22" })]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link",
-                attrs: { "data-toggle": "tab", role: "tab", href: "#calendar" }
-              },
-              [_c("i", { staticClass: "icon ion-ios-calendar-outline tx-24" })]
-            )
-          ]),
-          _vm._v(" "),
-          _c("li", { staticClass: "nav-item" }, [
-            _c(
-              "a",
-              {
-                staticClass: "nav-link",
-                attrs: { "data-toggle": "tab", role: "tab", href: "#settings" }
-              },
-              [_c("i", { staticClass: "icon ion-ios-gear-outline tx-24" })]
-            )
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "tab-content" }, [
-        _c(
-          "div",
-          {
-            staticClass:
-              "tab-pane pos-absolute a-0 mg-t-60 overflow-y-auto active",
-            attrs: { id: "contacts", role: "tabpanel" }
-          },
-          [
-            _c("label", { staticClass: "sidebar-label pd-x-25 mg-t-25" }, [
-              _vm._v("Online Contacts")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "contact-list pd-x-10" }, [
-              _c(
-                "a",
-                { staticClass: "contact-list-link new", attrs: { href: "" } },
-                [
-                  _c("div", { staticClass: "d-flex" }, [
-                    _c("div", { staticClass: "pos-relative" }, [
-                      _c("img", {
-                        staticClass: "wd-40 rounded-circle",
-                        attrs: {
-                          src: "http://via.placeholder.com/280x280",
-                          alt: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "contact-status-indicator bg-success"
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "contact-person" }, [
-                      _c("p", { staticClass: "mg-b-0" }, [
-                        _vm._v("Marilyn Tarter")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
-                        _vm._v("Clemson, CA")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "tx-info tx-12" }, [
-                      _c("span", {
-                        staticClass: "square-8 bg-info rounded-circle"
-                      }),
-                      _vm._v(" 1 new")
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                { staticClass: "contact-list-link", attrs: { href: "" } },
-                [
-                  _c("div", { staticClass: "d-flex" }, [
-                    _c("div", { staticClass: "pos-relative" }, [
-                      _c("img", {
-                        staticClass: "wd-40 rounded-circle",
-                        attrs: {
-                          src: "http://via.placeholder.com/280x280",
-                          alt: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "contact-status-indicator bg-success"
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "contact-person" }, [
-                      _c("p", { staticClass: "mg-b-0 " }, [
-                        _vm._v("Belinda Connor")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
-                        _vm._v("Fort Kent, ME")
-                      ])
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                { staticClass: "contact-list-link new", attrs: { href: "" } },
-                [
-                  _c("div", { staticClass: "d-flex" }, [
-                    _c("div", { staticClass: "pos-relative" }, [
-                      _c("img", {
-                        staticClass: "wd-40 rounded-circle",
-                        attrs: {
-                          src: "http://via.placeholder.com/280x280",
-                          alt: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "contact-status-indicator bg-success"
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "contact-person" }, [
-                      _c("p", { staticClass: "mg-b-0" }, [
-                        _vm._v("Britanny Cevallos")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
-                        _vm._v("Shiboygan Falls, WI")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "tx-info tx-12" }, [
-                      _c("span", {
-                        staticClass: "square-8 bg-info rounded-circle"
-                      }),
-                      _vm._v(" 3 new")
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                { staticClass: "contact-list-link new", attrs: { href: "" } },
-                [
-                  _c("div", { staticClass: "d-flex" }, [
-                    _c("div", { staticClass: "pos-relative" }, [
-                      _c("img", {
-                        staticClass: "wd-40 rounded-circle",
-                        attrs: {
-                          src: "http://via.placeholder.com/280x280",
-                          alt: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "contact-status-indicator bg-success"
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "contact-person" }, [
-                      _c("p", { staticClass: "mg-b-0" }, [
-                        _vm._v("Brandon Lawrence")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
-                        _vm._v("Snohomish, WA")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "tx-info tx-12" }, [
-                      _c("span", {
-                        staticClass: "square-8 bg-info rounded-circle"
-                      }),
-                      _vm._v(" 1 new")
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                { staticClass: "contact-list-link", attrs: { href: "" } },
-                [
-                  _c("div", { staticClass: "d-flex" }, [
-                    _c("div", { staticClass: "pos-relative" }, [
-                      _c("img", {
-                        staticClass: "wd-40 rounded-circle",
-                        attrs: {
-                          src: "http://via.placeholder.com/280x280",
-                          alt: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "contact-status-indicator bg-success"
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "contact-person" }, [
-                      _c("p", { staticClass: "mg-b-0" }, [
-                        _vm._v("Andrew Wiggins")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
-                        _vm._v("Springfield, MA")
-                      ])
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                { staticClass: "contact-list-link", attrs: { href: "" } },
-                [
-                  _c("div", { staticClass: "d-flex" }, [
-                    _c("div", { staticClass: "pos-relative" }, [
-                      _c("img", {
-                        staticClass: "wd-40 rounded-circle",
-                        attrs: {
-                          src: "http://via.placeholder.com/280x280",
-                          alt: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "contact-status-indicator bg-success"
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "contact-person" }, [
-                      _c("p", { staticClass: "mg-b-0" }, [
-                        _vm._v("Theodore Gristen")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
-                        _vm._v("Nashville, TN")
-                      ])
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                { staticClass: "contact-list-link", attrs: { href: "" } },
-                [
-                  _c("div", { staticClass: "d-flex" }, [
-                    _c("div", { staticClass: "pos-relative" }, [
-                      _c("img", {
-                        staticClass: "wd-40 rounded-circle",
-                        attrs: {
-                          src: "http://via.placeholder.com/280x280",
-                          alt: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "contact-status-indicator bg-success"
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "contact-person" }, [
-                      _c("p", { staticClass: "mg-b-0" }, [
-                        _vm._v("Deborah Miner")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
-                        _vm._v("North Shore, CA")
-                      ])
-                    ])
-                  ])
-                ]
-              )
-            ]),
-            _vm._v(" "),
-            _c("label", { staticClass: "sidebar-label pd-x-25 mg-t-25" }, [
-              _vm._v("Offline Contacts")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "contact-list pd-x-10" }, [
-              _c(
-                "a",
-                { staticClass: "contact-list-link", attrs: { href: "" } },
-                [
-                  _c("div", { staticClass: "d-flex" }, [
-                    _c("div", { staticClass: "pos-relative" }, [
-                      _c("img", {
-                        staticClass: "wd-40 rounded-circle",
-                        attrs: {
-                          src: "http://via.placeholder.com/280x280",
-                          alt: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "contact-status-indicator bg-gray-500"
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "contact-person" }, [
-                      _c("p", { staticClass: "mg-b-0" }, [
-                        _vm._v("Marilyn Tarter")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
-                        _vm._v("Clemson, CA")
-                      ])
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                { staticClass: "contact-list-link", attrs: { href: "" } },
-                [
-                  _c("div", { staticClass: "d-flex" }, [
-                    _c("div", { staticClass: "pos-relative" }, [
-                      _c("img", {
-                        staticClass: "wd-40 rounded-circle",
-                        attrs: {
-                          src: "http://via.placeholder.com/280x280",
-                          alt: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "contact-status-indicator bg-gray-500"
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "mg-l-10" }, [
-                      _c("p", { staticClass: "mg-b-0" }, [
-                        _vm._v("Belinda Connor")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
-                        _vm._v("Fort Kent, ME")
-                      ])
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                { staticClass: "contact-list-link", attrs: { href: "" } },
-                [
-                  _c("div", { staticClass: "d-flex" }, [
-                    _c("div", { staticClass: "pos-relative" }, [
-                      _c("img", {
-                        staticClass: "wd-40 rounded-circle",
-                        attrs: {
-                          src: "http://via.placeholder.com/280x280",
-                          alt: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "contact-status-indicator bg-gray-500"
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "contact-person" }, [
-                      _c("p", { staticClass: "mg-b-0" }, [
-                        _vm._v("Britanny Cevallos")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
-                        _vm._v("Shiboygan Falls, WI")
-                      ])
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                { staticClass: "contact-list-link", attrs: { href: "" } },
-                [
-                  _c("div", { staticClass: "d-flex" }, [
-                    _c("div", { staticClass: "pos-relative" }, [
-                      _c("img", {
-                        staticClass: "wd-40 rounded-circle",
-                        attrs: {
-                          src: "http://via.placeholder.com/280x280",
-                          alt: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "contact-status-indicator bg-gray-500"
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "contact-person" }, [
-                      _c("p", { staticClass: "mg-b-0" }, [
-                        _vm._v("Brandon Lawrence")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
-                        _vm._v("Snohomish, WA")
-                      ])
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                { staticClass: "contact-list-link", attrs: { href: "" } },
-                [
-                  _c("div", { staticClass: "d-flex" }, [
-                    _c("div", { staticClass: "pos-relative" }, [
-                      _c("img", {
-                        staticClass: "wd-40 rounded-circle",
-                        attrs: {
-                          src: "http://via.placeholder.com/280x280",
-                          alt: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "contact-status-indicator bg-gray-500"
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "contact-person" }, [
-                      _c("p", { staticClass: "mg-b-0" }, [
-                        _vm._v("Andrew Wiggins")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
-                        _vm._v("Springfield, MA")
-                      ])
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                { staticClass: "contact-list-link", attrs: { href: "" } },
-                [
-                  _c("div", { staticClass: "d-flex" }, [
-                    _c("div", { staticClass: "pos-relative" }, [
-                      _c("img", {
-                        staticClass: "wd-40 rounded-circle",
-                        attrs: {
-                          src: "http://via.placeholder.com/280x280",
-                          alt: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "contact-status-indicator bg-gray-500"
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "contact-person" }, [
-                      _c("p", { staticClass: "mg-b-0" }, [
-                        _vm._v("Theodore Gristen")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
-                        _vm._v("Nashville, TN")
-                      ])
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                { staticClass: "contact-list-link", attrs: { href: "" } },
-                [
-                  _c("div", { staticClass: "d-flex" }, [
-                    _c("div", { staticClass: "pos-relative" }, [
-                      _c("img", {
-                        staticClass: "wd-40 rounded-circle",
-                        attrs: {
-                          src: "http://via.placeholder.com/280x280",
-                          alt: ""
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c("div", {
-                        staticClass: "contact-status-indicator bg-gray-500"
-                      })
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "contact-person" }, [
-                      _c("p", { staticClass: "mg-b-0" }, [
-                        _vm._v("Deborah Miner")
-                      ]),
-                      _vm._v(" "),
-                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
-                        _vm._v("North Shore, CA")
-                      ])
-                    ])
-                  ])
-                ]
-              )
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "tab-pane pos-absolute a-0 mg-t-60 overflow-y-auto",
-            attrs: { id: "attachments", role: "tabpanel" }
-          },
-          [
-            _c("label", { staticClass: "sidebar-label pd-x-25 mg-t-25" }, [
-              _vm._v("Recent Attachments")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "media-file-list" }, [
-              _c("div", { staticClass: "media" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "pd-10 bg-primary wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
-                  },
-                  [
-                    _c("i", {
-                      staticClass: "fa fa-file-image-o tx-28 tx-white"
-                    })
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "media-body" }, [
-                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
-                    _vm._v("IMG_43445")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("JPG Image")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("1.2mb")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("a", { staticClass: "more", attrs: { href: "" } }, [
-                  _c("i", {
-                    staticClass: "icon ion-android-more-vertical tx-18"
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "media mg-t-20" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "pd-10 bg-purple wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
-                  },
-                  [
-                    _c("i", {
-                      staticClass: "fa fa-file-video-o tx-28 tx-white"
-                    })
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "media-body" }, [
-                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
-                    _vm._v("VID_6543")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("MP4 Video")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("24.8mb")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("a", { staticClass: "more", attrs: { href: "" } }, [
-                  _c("i", {
-                    staticClass: "icon ion-android-more-vertical tx-18"
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "media mg-t-20" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "pd-10 bg-success wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
-                  },
-                  [_c("i", { staticClass: "fa fa-file-word-o tx-28 tx-white" })]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "media-body" }, [
-                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
-                    _vm._v("Tax_Form")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("Word Document")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("5.5mb")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("a", { staticClass: "more", attrs: { href: "" } }, [
-                  _c("i", {
-                    staticClass: "icon ion-android-more-vertical tx-18"
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "media mg-t-20" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "pd-10 bg-warning wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
-                  },
-                  [_c("i", { staticClass: "fa fa-file-pdf-o tx-28 tx-white" })]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "media-body" }, [
-                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
-                    _vm._v("Getting_Started")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("PDF Document")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("12.7mb")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("a", { staticClass: "more", attrs: { href: "" } }, [
-                  _c("i", {
-                    staticClass: "icon ion-android-more-vertical tx-18"
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "media mg-t-20" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "pd-10 bg-warning wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
-                  },
-                  [_c("i", { staticClass: "fa fa-file-pdf-o tx-28 tx-white" })]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "media-body" }, [
-                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
-                    _vm._v("Introduction")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("PDF Document")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("7.7mb")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("a", { staticClass: "more", attrs: { href: "" } }, [
-                  _c("i", {
-                    staticClass: "icon ion-android-more-vertical tx-18"
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "media mg-t-20" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "pd-10 bg-primary wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
-                  },
-                  [
-                    _c("i", {
-                      staticClass: "fa fa-file-image-o tx-28 tx-white"
-                    })
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "media-body" }, [
-                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
-                    _vm._v("IMG_43420")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("JPG Image")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("2.2mb")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("a", { staticClass: "more", attrs: { href: "" } }, [
-                  _c("i", {
-                    staticClass: "icon ion-android-more-vertical tx-18"
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "media mg-t-20" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "pd-10 bg-primary wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
-                  },
-                  [
-                    _c("i", {
-                      staticClass: "fa fa-file-image-o tx-28 tx-white"
-                    })
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "media-body" }, [
-                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
-                    _vm._v("IMG_43447")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("JPG Image")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("3.2mb")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("a", { staticClass: "more", attrs: { href: "" } }, [
-                  _c("i", {
-                    staticClass: "icon ion-android-more-vertical tx-18"
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "media mg-t-20" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "pd-10 bg-purple wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
-                  },
-                  [
-                    _c("i", {
-                      staticClass: "fa fa-file-video-o tx-28 tx-white"
-                    })
-                  ]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "media-body" }, [
-                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
-                    _vm._v("VID_6545")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("AVI Video")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("14.8mb")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("a", { staticClass: "more", attrs: { href: "" } }, [
-                  _c("i", {
-                    staticClass: "icon ion-android-more-vertical tx-18"
-                  })
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "media mg-t-20" }, [
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "pd-10 bg-success wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
-                  },
-                  [_c("i", { staticClass: "fa fa-file-word-o tx-28 tx-white" })]
-                ),
-                _vm._v(" "),
-                _c("div", { staticClass: "media-body" }, [
-                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
-                    _vm._v("Secret_Document")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("Word Document")
-                  ]),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
-                    _vm._v("4.5mb")
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("a", { staticClass: "more", attrs: { href: "" } }, [
-                  _c("i", {
-                    staticClass: "icon ion-android-more-vertical tx-18"
-                  })
-                ])
-              ])
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "tab-pane pos-absolute a-0 mg-t-60 overflow-y-auto",
-            attrs: { id: "calendar", role: "tabpanel" }
-          },
-          [
-            _c("label", { staticClass: "sidebar-label pd-x-25 mg-t-25" }, [
-              _vm._v("Time & Date")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "pd-x-25" }, [
-              _c("h2", {
-                staticClass: "tx-white tx-lato mg-b-5",
-                attrs: { id: "brTime" }
-              }),
-              _vm._v(" "),
-              _c("h6", {
-                staticClass: "tx-white tx-light op-3",
-                attrs: { id: "brDate" }
-              })
-            ]),
-            _vm._v(" "),
-            _c("label", { staticClass: "sidebar-label pd-x-25 mg-t-25" }, [
-              _vm._v("Events Calendar")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "datepicker sidebar-datepicker" }),
-            _vm._v(" "),
-            _c("label", { staticClass: "sidebar-label pd-x-25 mg-t-25" }, [
-              _vm._v("Event Today")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "pd-x-25" }, [
-              _c(
-                "div",
-                { staticClass: "list-group sidebar-event-list mg-b-20" },
-                [
-                  _c("div", { staticClass: "list-group-item" }, [
-                    _c("div", [
-                      _c(
-                        "h6",
-                        { staticClass: "tx-white tx-13 mg-b-5 tx-normal" },
-                        [_vm._v("Roven's 32th Birthday")]
-                      ),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "mg-b-0 tx-white tx-12 op-2" }, [
-                        _vm._v("2:30PM")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("a", { staticClass: "more", attrs: { href: "" } }, [
-                      _c("i", {
-                        staticClass: "icon ion-android-more-vertical tx-18"
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "list-group-item" }, [
-                    _c("div", [
-                      _c(
-                        "h6",
-                        { staticClass: "tx-white tx-13 mg-b-5 tx-normal" },
-                        [_vm._v("Regular Workout Schedule")]
-                      ),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "mg-b-0 tx-white tx-12 op-2" }, [
-                        _vm._v("7:30PM")
-                      ])
-                    ]),
-                    _vm._v(" "),
-                    _c("a", { staticClass: "more", attrs: { href: "" } }, [
-                      _c("i", {
-                        staticClass: "icon ion-android-more-vertical tx-18"
-                      })
-                    ])
-                  ])
-                ]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass:
-                    "btn btn-block btn-outline-secondary tx-uppercase tx-11 tx-spacing-2",
-                  attrs: { href: "" }
-                },
-                [_vm._v("+ Add Event")]
-              ),
-              _vm._v(" "),
-              _c("br")
-            ])
-          ]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "tab-pane pos-absolute a-0 mg-t-60 overflow-y-auto",
-            attrs: { id: "settings", role: "tabpanel" }
-          },
-          [
-            _c("label", { staticClass: "sidebar-label pd-x-25 mg-t-25" }, [
-              _vm._v("Quick Settings")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "pd-y-20 pd-x-25 tx-white" }, [
-              _c("h6", { staticClass: "tx-13 tx-normal" }, [
-                _vm._v("Sound Notification")
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "op-5 tx-13" }, [
-                _vm._v(
-                  "Play an alert sound everytime there is a new notification."
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "pos-relative" }, [
-                _c("input", {
-                  staticClass: "switch-button",
-                  attrs: { type: "checkbox", name: "checkbox", checked: "" }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "pd-y-20 pd-x-25 tx-white" }, [
-              _c("h6", { staticClass: "tx-13 tx-normal" }, [
-                _vm._v("2 Steps Verification")
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "op-5 tx-13" }, [
-                _vm._v(
-                  "Sign in using a two step verification by sending a verification code to your phone."
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "pos-relative" }, [
-                _c("input", {
-                  staticClass: "switch-button",
-                  attrs: { type: "checkbox", name: "checkbox2" }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "pd-y-20 pd-x-25 tx-white" }, [
-              _c("h6", { staticClass: "tx-13 tx-normal" }, [
-                _vm._v("Location Services")
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "op-5 tx-13" }, [
-                _vm._v("Allowing us to access your location")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "pos-relative" }, [
-                _c("input", {
-                  staticClass: "switch-button",
-                  attrs: { type: "checkbox", name: "checkbox3" }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "pd-y-20 pd-x-25 tx-white" }, [
-              _c("h6", { staticClass: "tx-13 tx-normal" }, [
-                _vm._v("Newsletter Subscription")
-              ]),
-              _vm._v(" "),
-              _c("p", { staticClass: "op-5 tx-13" }, [
-                _vm._v(
-                  "Enables you to send us news and updates send straight to your email."
-                )
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "pos-relative" }, [
-                _c("input", {
-                  staticClass: "switch-button",
-                  attrs: { type: "checkbox", name: "checkbox4", checked: "" }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "pd-y-20 pd-x-25 tx-white" }, [
-              _c("h6", { staticClass: "tx-13 tx-normal" }, [
-                _vm._v("Your email")
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "pos-relative" }, [
-                _c("input", {
-                  staticClass:
-                    "form-control form-control-inverse transition pd-y-10",
-                  attrs: {
-                    type: "email",
-                    name: "email",
-                    value: "janedoe@domain.com"
-                  }
-                })
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "pd-y-20 pd-x-25" }, [
-              _c("h6", { staticClass: "tx-13 tx-normal tx-white mg-b-20" }, [
-                _vm._v("More Settings")
-              ]),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass:
-                    "btn btn-block btn-outline-secondary tx-uppercase tx-11 tx-spacing-2",
-                  attrs: { href: "" }
-                },
-                [_vm._v("Account Settings")]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  staticClass:
-                    "btn btn-block btn-outline-secondary tx-uppercase tx-11 tx-spacing-2",
-                  attrs: { href: "" }
-                },
-                [_vm._v("Privacy Settings")]
-              )
-            ])
-          ]
-        )
-      ])
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-cd7fb372", module.exports)
-  }
-}
-
-/***/ }),
-/* 51 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            query: {
-                name: '',
-                course: ''
-            },
-            search: '',
-            flag: false,
-            queries: []
-        };
-    },
-
-
-    computed: {
-        filterQueries: function filterQueries() {
-            var _this = this;
-
-            return this.queries.filter(function (query) {
-                return query.qr_name.match(new RegExp(_this.search, "i")) || query.qr_course.match(new RegExp(_this.search, "i"));
-            });
-        }
-    },
-
-    created: function created() {
-        this.fetchData();
-    },
-
-
-    methods: {
-        fetchData: function fetchData() {
-            var _this2 = this;
-
-            this.$http.get('http://127.0.0.1:8000/api/queries').then(function (response) {
-                return response.json();
-            }).then(function (data) {
-                console.log(data);
-                _this2.queries = data.data;
-            });
-        }
-
-    }
-});
-
-/***/ }),
-/* 52 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h2", { staticClass: "text-center" }, [_vm._v("Query Register")]),
-    _vm._v(" "),
-    _c("p", { staticClass: "text-center" }, [
-      _vm._v("Manage all your queries in a blink of an eye.")
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-10" }, [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.search,
-                expression: "search"
-              }
-            ],
-            staticClass: "form-control mg-b-20",
-            attrs: {
-              type: "text",
-              placeholder: "Search for some data in here."
-            },
-            domProps: { value: _vm.search },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.search = $event.target.value
-              }
-            }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-md-2" }, [
-          _c(
-            "button",
-            { staticClass: "btn btn-primary", on: { click: _vm.fetchData } },
-            [_vm._v("Get Data")]
-          )
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c(
-          "table",
-          { staticClass: "table table-striped table-dark" },
-          _vm._l(_vm.filterQueries, function(query, n) {
-            return _c("tr", { key: query.id }, [
-              _c("td", [_vm._v(_vm._s(n + 1))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(query.qr_name))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(query.qr_course))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(query.qr_number))]),
-              _vm._v(" "),
-              _c("td", [_vm._v(_vm._s(query.created_at))])
-            ])
-          })
-        )
-      ])
-    ])
-  ])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-c5350982", module.exports)
-  }
-}
-
-/***/ }),
-/* 53 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(54);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(16)("042517f7", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-41df254a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Contacts.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-41df254a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Contacts.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 54 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(15)(false);
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/***/ }),
-/* 55 */
-/***/ (function(module, exports) {
-
-/**
- * Translates the list format produced by css-loader into something
- * easier to manipulate.
- */
-module.exports = function listToStyles (parentId, list) {
-  var styles = []
-  var newStyles = {}
-  for (var i = 0; i < list.length; i++) {
-    var item = list[i]
-    var id = item[0]
-    var css = item[1]
-    var media = item[2]
-    var sourceMap = item[3]
-    var part = {
-      id: parentId + ':' + i,
-      css: css,
-      media: media,
-      sourceMap: sourceMap
-    }
-    if (!newStyles[id]) {
-      styles.push(newStyles[id] = { id: id, parts: [part] })
-    } else {
-      newStyles[id].parts.push(part)
-    }
-  }
-  return styles
-}
-
-
-/***/ }),
-/* 56 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-    data: function data() {
-        return {
-            contact: {
-                contact_name: '',
-                contact_message: ''
-            },
-            search: '',
-            pagination: {},
-            flag: false,
-            contacts: []
-        };
-    },
-
-
-    computed: {
-        filterContacts: function filterContacts() {
-            var _this = this;
-
-            return this.contacts.filter(function (contact) {
-                return contact.contact_name.match(new RegExp(_this.search, "i")) || contact.contact_message.match(new RegExp(_this.search, "i"));
-            });
-        }
-    },
-
-    created: function created() {
-        this.fetchData();
-    },
-
-
-    methods: {
-        fetchData: function fetchData(page_url) {
-            var _this2 = this;
-
-            var vm = this;
-            page_url = page_url || '/api/contacts';
-            fetch(page_url).then(function (res) {
-                return res.json();
-            }).then(function (res) {
-                _this2.contacts = res.data;
-                vm.makePagination(res.meta, res.links);
-            }).catch(function (err) {
-                return console.log(err);
-            });
-        },
-        makePagination: function makePagination(meta, links) {
-            var paginate = {
-                current_page: meta.current_page,
-                last_page: meta.last_page,
-                first_page_url: links.first,
-                last_page_url: links.last,
-                next_page_url: links.next,
-                prev_page_url: links.prev
-            };
-            this.pagination = paginate;
-        },
-        deleteContact: function deleteContact(id) {
-            var _this3 = this;
-
-            if (confirm('Are You Sure?')) {
-                fetch('api/contacts/' + id, {
-                    method: 'delete'
-                }).then(function (res) {
-                    return res.json();
-                }).then(function (data) {
-                    alert('Contact Removed');
-                    _this3.fetchArticles();
-                }).catch(function (err) {
-                    return console.log(err);
-                });
-            }
-        }
-    }
-});
-
-/***/ }),
-/* 57 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h2", { staticClass: "text-center" }, [_vm._v("Contact Form Messages")]),
-    _vm._v(" "),
-    _c("p", { staticClass: "text-center" }, [
-      _vm._v("Manage all your contact form queries in a blink of an eye.")
-    ]),
-    _vm._v(" "),
-    _c("div", { staticClass: "br-section-wrapper" }, [
-      _c("div", { staticClass: "continer" }, [
-        _c("div", { staticClass: "row" }, [
-          _c("div", { staticClass: "col-md-10" }, [
-            _c("input", {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.search,
-                  expression: "search"
-                }
-              ],
-              staticClass: "form-control mg-b-20",
-              attrs: {
-                type: "text",
-                placeholder: "Search for some data in here."
-              },
-              domProps: { value: _vm.search },
-              on: {
-                input: function($event) {
-                  if ($event.target.composing) {
-                    return
-                  }
-                  _vm.search = $event.target.value
-                }
-              }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "col-md-2" }, [
-            _c(
-              "button",
-              { staticClass: "btn btn-primary", on: { click: _vm.fetchData } },
-              [_vm._v("Get Contact Forms")]
-            )
-          ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass:
-            "ht-60 mg-b-20 bd d-flex align-items-center justify-content-center"
-        },
-        [
-          _c("nav", { attrs: { "aria-label": "Page navigation" } }, [
-            _c("ul", { staticClass: "pagination pagination-basic mg-b-0" }, [
-              _c("li", { staticClass: "page-item" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "page-link",
-                    attrs: { href: "#", "aria-label": "First" },
-                    on: {
-                      click: function($event) {
-                        _vm.fetchData(_vm.pagination.first_page_url)
-                      }
-                    }
-                  },
-                  [_c("i", { staticClass: "fa fa-angle-double-left" })]
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "li",
-                {
-                  staticClass: "page-item",
-                  class: [{ disabled: !_vm.pagination.prev_page_url }]
-                },
-                [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "page-link",
-                      attrs: { href: "#", "aria-label": "Prev" },
-                      on: {
-                        click: function($event) {
-                          _vm.fetchData(_vm.pagination.prev_page_url)
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "fa fa-angle-left" })]
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c("li", { staticClass: "page-item active" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "page-link",
-                    staticStyle: { "min-width": "250px", margin: "0px 10px" },
-                    attrs: { href: "#" }
-                  },
-                  [
-                    _vm._v(
-                      "Page " +
-                        _vm._s(_vm.pagination.current_page) +
-                        " of " +
-                        _vm._s(_vm.pagination.last_page)
-                    )
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _c(
-                "li",
-                {
-                  staticClass: "page-item",
-                  class: [{ disabled: !_vm.pagination.next_page_url }]
-                },
-                [
-                  _c(
-                    "a",
-                    {
-                      staticClass: "page-link",
-                      attrs: { href: "#", "aria-label": "Next" },
-                      on: {
-                        click: function($event) {
-                          _vm.fetchData(_vm.pagination.next_page_url)
-                        }
-                      }
-                    },
-                    [_c("i", { staticClass: "fa fa-angle-right" })]
-                  )
-                ]
-              ),
-              _vm._v(" "),
-              _c("li", { staticClass: "page-item" }, [
-                _c(
-                  "a",
-                  {
-                    staticClass: "page-link",
-                    attrs: { href: "#", "aria-label": "Last" },
-                    on: {
-                      click: function($event) {
-                        _vm.fetchData(_vm.pagination.last_page_url)
-                      }
-                    }
-                  },
-                  [_c("i", { staticClass: "fa fa-angle-double-right" })]
-                )
-              ])
-            ])
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "containe" }, [
-        _c("div", { staticClass: "ro" }, [
-          _c(
-            "table",
-            { staticClass: "table table-striped " },
-            [
-              _vm._m(0),
-              _vm._v(" "),
-              _vm._l(_vm.filterContacts, function(contact, n) {
-                return _c("tr", { key: contact.id }, [
-                  _c("td", [_vm._v("Q-" + _vm._s(contact.id))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(contact.contact_name))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(contact.contact_mobile))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(contact.contact_email))]),
-                  _vm._v(" "),
-                  _c("td", [_vm._v(_vm._s(contact.contact_status))]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _vm._v(
-                      _vm._s(
-                        _vm._f("moment")(contact.created_at, "from", "now")
-                      )
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("td", { staticStyle: { "font-size": "18px" } }, [
-                    _vm._m(1, true),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        staticStyle: { "margin-left": "10px" },
-                        attrs: { href: "#" },
-                        on: {
-                          click: function($event) {
-                            _vm.deleteArticle(_vm.article.id)
-                          }
-                        }
-                      },
-                      [_c("i", { staticClass: "icon ion-trash-b" })]
-                    )
-                  ])
-                ])
-              })
-            ],
-            2
-          )
-        ])
-      ])
-    ])
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", [_vm._v("Sr. No")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Name")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Mobile")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Email")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Status")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Time")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Actions")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("a", { attrs: { href: "#" } }, [
-      _c("i", { staticClass: "icon ion-wrench" })
-    ])
-  }
-]
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-41df254a", module.exports)
-  }
-}
-
-/***/ }),
-/* 58 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var disposed = false
-function injectStyle (ssrContext) {
-  if (disposed) return
-  __webpack_require__(59)
-}
-var normalizeComponent = __webpack_require__(2)
-/* script */
-var __vue_script__ = __webpack_require__(61)
-/* template */
-var __vue_template__ = __webpack_require__(62)
-/* template functional */
-var __vue_template_functional__ = false
-/* styles */
-var __vue_styles__ = injectStyle
-/* scopeId */
-var __vue_scopeId__ = null
-/* moduleIdentifier (server only) */
-var __vue_module_identifier__ = null
-var Component = normalizeComponent(
-  __vue_script__,
-  __vue_template__,
-  __vue_template_functional__,
-  __vue_styles__,
-  __vue_scopeId__,
-  __vue_module_identifier__
-)
-Component.options.__file = "resources\\assets\\js\\components\\Home.vue"
-
-/* hot reload */
-if (false) {(function () {
-  var hotAPI = require("vue-hot-reload-api")
-  hotAPI.install(require("vue"), false)
-  if (!hotAPI.compatible) return
-  module.hot.accept()
-  if (!module.hot.data) {
-    hotAPI.createRecord("data-v-85ef4954", Component.options)
-  } else {
-    hotAPI.reload("data-v-85ef4954", Component.options)
-  }
-  module.hot.dispose(function (data) {
-    disposed = true
-  })
-})()}
-
-module.exports = Component.exports
-
-
-/***/ }),
-/* 59 */
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__(60);
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var update = __webpack_require__(16)("59dc0a9c", content, false, {});
-// Hot Module Replacement
-if(false) {
- // When the styles change, update the <style> tags
- if(!content.locals) {
-   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-85ef4954\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Home.vue", function() {
-     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-85ef4954\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Home.vue");
-     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-     update(newContent);
-   });
- }
- // When the module is disposed, remove the <style> tags
- module.hot.dispose(function() { update(); });
-}
-
-/***/ }),
-/* 60 */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(15)(false);
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/***/ }),
-/* 61 */
-/***/ (function(module, exports) {
-
-//
-//
-//
-//
-//
-//
-//
-
-/***/ }),
-/* 62 */
-/***/ (function(module, exports, __webpack_require__) {
-
-var render = function() {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n    Hello to this World\n")])
-}
-var staticRenderFns = []
-render._withStripped = true
-module.exports = { render: render, staticRenderFns: staticRenderFns }
-if (false) {
-  module.hot.accept()
-  if (module.hot.data) {
-    require("vue-hot-reload-api")      .rerender("data-v-85ef4954", module.exports)
-  }
-}
-
-/***/ }),
-/* 63 */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-/* 64 */,
-/* 65 */,
-/* 66 */,
-/* 67 */
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function(global) {(function (global, factory) {
@@ -60028,6 +52486,7796 @@ Object.defineProperty(exports, '__esModule', { value: true });
 })));
 
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
+
+/***/ }),
+/* 46 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/**
+  * vue-router v3.0.1
+  * (c) 2017 Evan You
+  * @license MIT
+  */
+/*  */
+
+function assert (condition, message) {
+  if (!condition) {
+    throw new Error(("[vue-router] " + message))
+  }
+}
+
+function warn (condition, message) {
+  if ("development" !== 'production' && !condition) {
+    typeof console !== 'undefined' && console.warn(("[vue-router] " + message));
+  }
+}
+
+function isError (err) {
+  return Object.prototype.toString.call(err).indexOf('Error') > -1
+}
+
+var View = {
+  name: 'router-view',
+  functional: true,
+  props: {
+    name: {
+      type: String,
+      default: 'default'
+    }
+  },
+  render: function render (_, ref) {
+    var props = ref.props;
+    var children = ref.children;
+    var parent = ref.parent;
+    var data = ref.data;
+
+    data.routerView = true;
+
+    // directly use parent context's createElement() function
+    // so that components rendered by router-view can resolve named slots
+    var h = parent.$createElement;
+    var name = props.name;
+    var route = parent.$route;
+    var cache = parent._routerViewCache || (parent._routerViewCache = {});
+
+    // determine current view depth, also check to see if the tree
+    // has been toggled inactive but kept-alive.
+    var depth = 0;
+    var inactive = false;
+    while (parent && parent._routerRoot !== parent) {
+      if (parent.$vnode && parent.$vnode.data.routerView) {
+        depth++;
+      }
+      if (parent._inactive) {
+        inactive = true;
+      }
+      parent = parent.$parent;
+    }
+    data.routerViewDepth = depth;
+
+    // render previous view if the tree is inactive and kept-alive
+    if (inactive) {
+      return h(cache[name], data, children)
+    }
+
+    var matched = route.matched[depth];
+    // render empty node if no matched route
+    if (!matched) {
+      cache[name] = null;
+      return h()
+    }
+
+    var component = cache[name] = matched.components[name];
+
+    // attach instance registration hook
+    // this will be called in the instance's injected lifecycle hooks
+    data.registerRouteInstance = function (vm, val) {
+      // val could be undefined for unregistration
+      var current = matched.instances[name];
+      if (
+        (val && current !== vm) ||
+        (!val && current === vm)
+      ) {
+        matched.instances[name] = val;
+      }
+    }
+
+    // also register instance in prepatch hook
+    // in case the same component instance is reused across different routes
+    ;(data.hook || (data.hook = {})).prepatch = function (_, vnode) {
+      matched.instances[name] = vnode.componentInstance;
+    };
+
+    // resolve props
+    var propsToPass = data.props = resolveProps(route, matched.props && matched.props[name]);
+    if (propsToPass) {
+      // clone to prevent mutation
+      propsToPass = data.props = extend({}, propsToPass);
+      // pass non-declared props as attrs
+      var attrs = data.attrs = data.attrs || {};
+      for (var key in propsToPass) {
+        if (!component.props || !(key in component.props)) {
+          attrs[key] = propsToPass[key];
+          delete propsToPass[key];
+        }
+      }
+    }
+
+    return h(component, data, children)
+  }
+};
+
+function resolveProps (route, config) {
+  switch (typeof config) {
+    case 'undefined':
+      return
+    case 'object':
+      return config
+    case 'function':
+      return config(route)
+    case 'boolean':
+      return config ? route.params : undefined
+    default:
+      if (true) {
+        warn(
+          false,
+          "props in \"" + (route.path) + "\" is a " + (typeof config) + ", " +
+          "expecting an object, function or boolean."
+        );
+      }
+  }
+}
+
+function extend (to, from) {
+  for (var key in from) {
+    to[key] = from[key];
+  }
+  return to
+}
+
+/*  */
+
+var encodeReserveRE = /[!'()*]/g;
+var encodeReserveReplacer = function (c) { return '%' + c.charCodeAt(0).toString(16); };
+var commaRE = /%2C/g;
+
+// fixed encodeURIComponent which is more conformant to RFC3986:
+// - escapes [!'()*]
+// - preserve commas
+var encode = function (str) { return encodeURIComponent(str)
+  .replace(encodeReserveRE, encodeReserveReplacer)
+  .replace(commaRE, ','); };
+
+var decode = decodeURIComponent;
+
+function resolveQuery (
+  query,
+  extraQuery,
+  _parseQuery
+) {
+  if ( extraQuery === void 0 ) extraQuery = {};
+
+  var parse = _parseQuery || parseQuery;
+  var parsedQuery;
+  try {
+    parsedQuery = parse(query || '');
+  } catch (e) {
+    "development" !== 'production' && warn(false, e.message);
+    parsedQuery = {};
+  }
+  for (var key in extraQuery) {
+    parsedQuery[key] = extraQuery[key];
+  }
+  return parsedQuery
+}
+
+function parseQuery (query) {
+  var res = {};
+
+  query = query.trim().replace(/^(\?|#|&)/, '');
+
+  if (!query) {
+    return res
+  }
+
+  query.split('&').forEach(function (param) {
+    var parts = param.replace(/\+/g, ' ').split('=');
+    var key = decode(parts.shift());
+    var val = parts.length > 0
+      ? decode(parts.join('='))
+      : null;
+
+    if (res[key] === undefined) {
+      res[key] = val;
+    } else if (Array.isArray(res[key])) {
+      res[key].push(val);
+    } else {
+      res[key] = [res[key], val];
+    }
+  });
+
+  return res
+}
+
+function stringifyQuery (obj) {
+  var res = obj ? Object.keys(obj).map(function (key) {
+    var val = obj[key];
+
+    if (val === undefined) {
+      return ''
+    }
+
+    if (val === null) {
+      return encode(key)
+    }
+
+    if (Array.isArray(val)) {
+      var result = [];
+      val.forEach(function (val2) {
+        if (val2 === undefined) {
+          return
+        }
+        if (val2 === null) {
+          result.push(encode(key));
+        } else {
+          result.push(encode(key) + '=' + encode(val2));
+        }
+      });
+      return result.join('&')
+    }
+
+    return encode(key) + '=' + encode(val)
+  }).filter(function (x) { return x.length > 0; }).join('&') : null;
+  return res ? ("?" + res) : ''
+}
+
+/*  */
+
+
+var trailingSlashRE = /\/?$/;
+
+function createRoute (
+  record,
+  location,
+  redirectedFrom,
+  router
+) {
+  var stringifyQuery$$1 = router && router.options.stringifyQuery;
+
+  var query = location.query || {};
+  try {
+    query = clone(query);
+  } catch (e) {}
+
+  var route = {
+    name: location.name || (record && record.name),
+    meta: (record && record.meta) || {},
+    path: location.path || '/',
+    hash: location.hash || '',
+    query: query,
+    params: location.params || {},
+    fullPath: getFullPath(location, stringifyQuery$$1),
+    matched: record ? formatMatch(record) : []
+  };
+  if (redirectedFrom) {
+    route.redirectedFrom = getFullPath(redirectedFrom, stringifyQuery$$1);
+  }
+  return Object.freeze(route)
+}
+
+function clone (value) {
+  if (Array.isArray(value)) {
+    return value.map(clone)
+  } else if (value && typeof value === 'object') {
+    var res = {};
+    for (var key in value) {
+      res[key] = clone(value[key]);
+    }
+    return res
+  } else {
+    return value
+  }
+}
+
+// the starting route that represents the initial state
+var START = createRoute(null, {
+  path: '/'
+});
+
+function formatMatch (record) {
+  var res = [];
+  while (record) {
+    res.unshift(record);
+    record = record.parent;
+  }
+  return res
+}
+
+function getFullPath (
+  ref,
+  _stringifyQuery
+) {
+  var path = ref.path;
+  var query = ref.query; if ( query === void 0 ) query = {};
+  var hash = ref.hash; if ( hash === void 0 ) hash = '';
+
+  var stringify = _stringifyQuery || stringifyQuery;
+  return (path || '/') + stringify(query) + hash
+}
+
+function isSameRoute (a, b) {
+  if (b === START) {
+    return a === b
+  } else if (!b) {
+    return false
+  } else if (a.path && b.path) {
+    return (
+      a.path.replace(trailingSlashRE, '') === b.path.replace(trailingSlashRE, '') &&
+      a.hash === b.hash &&
+      isObjectEqual(a.query, b.query)
+    )
+  } else if (a.name && b.name) {
+    return (
+      a.name === b.name &&
+      a.hash === b.hash &&
+      isObjectEqual(a.query, b.query) &&
+      isObjectEqual(a.params, b.params)
+    )
+  } else {
+    return false
+  }
+}
+
+function isObjectEqual (a, b) {
+  if ( a === void 0 ) a = {};
+  if ( b === void 0 ) b = {};
+
+  // handle null value #1566
+  if (!a || !b) { return a === b }
+  var aKeys = Object.keys(a);
+  var bKeys = Object.keys(b);
+  if (aKeys.length !== bKeys.length) {
+    return false
+  }
+  return aKeys.every(function (key) {
+    var aVal = a[key];
+    var bVal = b[key];
+    // check nested equality
+    if (typeof aVal === 'object' && typeof bVal === 'object') {
+      return isObjectEqual(aVal, bVal)
+    }
+    return String(aVal) === String(bVal)
+  })
+}
+
+function isIncludedRoute (current, target) {
+  return (
+    current.path.replace(trailingSlashRE, '/').indexOf(
+      target.path.replace(trailingSlashRE, '/')
+    ) === 0 &&
+    (!target.hash || current.hash === target.hash) &&
+    queryIncludes(current.query, target.query)
+  )
+}
+
+function queryIncludes (current, target) {
+  for (var key in target) {
+    if (!(key in current)) {
+      return false
+    }
+  }
+  return true
+}
+
+/*  */
+
+// work around weird flow bug
+var toTypes = [String, Object];
+var eventTypes = [String, Array];
+
+var Link = {
+  name: 'router-link',
+  props: {
+    to: {
+      type: toTypes,
+      required: true
+    },
+    tag: {
+      type: String,
+      default: 'a'
+    },
+    exact: Boolean,
+    append: Boolean,
+    replace: Boolean,
+    activeClass: String,
+    exactActiveClass: String,
+    event: {
+      type: eventTypes,
+      default: 'click'
+    }
+  },
+  render: function render (h) {
+    var this$1 = this;
+
+    var router = this.$router;
+    var current = this.$route;
+    var ref = router.resolve(this.to, current, this.append);
+    var location = ref.location;
+    var route = ref.route;
+    var href = ref.href;
+
+    var classes = {};
+    var globalActiveClass = router.options.linkActiveClass;
+    var globalExactActiveClass = router.options.linkExactActiveClass;
+    // Support global empty active class
+    var activeClassFallback = globalActiveClass == null
+            ? 'router-link-active'
+            : globalActiveClass;
+    var exactActiveClassFallback = globalExactActiveClass == null
+            ? 'router-link-exact-active'
+            : globalExactActiveClass;
+    var activeClass = this.activeClass == null
+            ? activeClassFallback
+            : this.activeClass;
+    var exactActiveClass = this.exactActiveClass == null
+            ? exactActiveClassFallback
+            : this.exactActiveClass;
+    var compareTarget = location.path
+      ? createRoute(null, location, null, router)
+      : route;
+
+    classes[exactActiveClass] = isSameRoute(current, compareTarget);
+    classes[activeClass] = this.exact
+      ? classes[exactActiveClass]
+      : isIncludedRoute(current, compareTarget);
+
+    var handler = function (e) {
+      if (guardEvent(e)) {
+        if (this$1.replace) {
+          router.replace(location);
+        } else {
+          router.push(location);
+        }
+      }
+    };
+
+    var on = { click: guardEvent };
+    if (Array.isArray(this.event)) {
+      this.event.forEach(function (e) { on[e] = handler; });
+    } else {
+      on[this.event] = handler;
+    }
+
+    var data = {
+      class: classes
+    };
+
+    if (this.tag === 'a') {
+      data.on = on;
+      data.attrs = { href: href };
+    } else {
+      // find the first <a> child and apply listener and href
+      var a = findAnchor(this.$slots.default);
+      if (a) {
+        // in case the <a> is a static node
+        a.isStatic = false;
+        var extend = _Vue.util.extend;
+        var aData = a.data = extend({}, a.data);
+        aData.on = on;
+        var aAttrs = a.data.attrs = extend({}, a.data.attrs);
+        aAttrs.href = href;
+      } else {
+        // doesn't have <a> child, apply listener to self
+        data.on = on;
+      }
+    }
+
+    return h(this.tag, data, this.$slots.default)
+  }
+};
+
+function guardEvent (e) {
+  // don't redirect with control keys
+  if (e.metaKey || e.altKey || e.ctrlKey || e.shiftKey) { return }
+  // don't redirect when preventDefault called
+  if (e.defaultPrevented) { return }
+  // don't redirect on right click
+  if (e.button !== undefined && e.button !== 0) { return }
+  // don't redirect if `target="_blank"`
+  if (e.currentTarget && e.currentTarget.getAttribute) {
+    var target = e.currentTarget.getAttribute('target');
+    if (/\b_blank\b/i.test(target)) { return }
+  }
+  // this may be a Weex event which doesn't have this method
+  if (e.preventDefault) {
+    e.preventDefault();
+  }
+  return true
+}
+
+function findAnchor (children) {
+  if (children) {
+    var child;
+    for (var i = 0; i < children.length; i++) {
+      child = children[i];
+      if (child.tag === 'a') {
+        return child
+      }
+      if (child.children && (child = findAnchor(child.children))) {
+        return child
+      }
+    }
+  }
+}
+
+var _Vue;
+
+function install (Vue) {
+  if (install.installed && _Vue === Vue) { return }
+  install.installed = true;
+
+  _Vue = Vue;
+
+  var isDef = function (v) { return v !== undefined; };
+
+  var registerInstance = function (vm, callVal) {
+    var i = vm.$options._parentVnode;
+    if (isDef(i) && isDef(i = i.data) && isDef(i = i.registerRouteInstance)) {
+      i(vm, callVal);
+    }
+  };
+
+  Vue.mixin({
+    beforeCreate: function beforeCreate () {
+      if (isDef(this.$options.router)) {
+        this._routerRoot = this;
+        this._router = this.$options.router;
+        this._router.init(this);
+        Vue.util.defineReactive(this, '_route', this._router.history.current);
+      } else {
+        this._routerRoot = (this.$parent && this.$parent._routerRoot) || this;
+      }
+      registerInstance(this, this);
+    },
+    destroyed: function destroyed () {
+      registerInstance(this);
+    }
+  });
+
+  Object.defineProperty(Vue.prototype, '$router', {
+    get: function get () { return this._routerRoot._router }
+  });
+
+  Object.defineProperty(Vue.prototype, '$route', {
+    get: function get () { return this._routerRoot._route }
+  });
+
+  Vue.component('router-view', View);
+  Vue.component('router-link', Link);
+
+  var strats = Vue.config.optionMergeStrategies;
+  // use the same hook merging strategy for route hooks
+  strats.beforeRouteEnter = strats.beforeRouteLeave = strats.beforeRouteUpdate = strats.created;
+}
+
+/*  */
+
+var inBrowser = typeof window !== 'undefined';
+
+/*  */
+
+function resolvePath (
+  relative,
+  base,
+  append
+) {
+  var firstChar = relative.charAt(0);
+  if (firstChar === '/') {
+    return relative
+  }
+
+  if (firstChar === '?' || firstChar === '#') {
+    return base + relative
+  }
+
+  var stack = base.split('/');
+
+  // remove trailing segment if:
+  // - not appending
+  // - appending to trailing slash (last segment is empty)
+  if (!append || !stack[stack.length - 1]) {
+    stack.pop();
+  }
+
+  // resolve relative path
+  var segments = relative.replace(/^\//, '').split('/');
+  for (var i = 0; i < segments.length; i++) {
+    var segment = segments[i];
+    if (segment === '..') {
+      stack.pop();
+    } else if (segment !== '.') {
+      stack.push(segment);
+    }
+  }
+
+  // ensure leading slash
+  if (stack[0] !== '') {
+    stack.unshift('');
+  }
+
+  return stack.join('/')
+}
+
+function parsePath (path) {
+  var hash = '';
+  var query = '';
+
+  var hashIndex = path.indexOf('#');
+  if (hashIndex >= 0) {
+    hash = path.slice(hashIndex);
+    path = path.slice(0, hashIndex);
+  }
+
+  var queryIndex = path.indexOf('?');
+  if (queryIndex >= 0) {
+    query = path.slice(queryIndex + 1);
+    path = path.slice(0, queryIndex);
+  }
+
+  return {
+    path: path,
+    query: query,
+    hash: hash
+  }
+}
+
+function cleanPath (path) {
+  return path.replace(/\/\//g, '/')
+}
+
+var isarray = Array.isArray || function (arr) {
+  return Object.prototype.toString.call(arr) == '[object Array]';
+};
+
+/**
+ * Expose `pathToRegexp`.
+ */
+var pathToRegexp_1 = pathToRegexp;
+var parse_1 = parse;
+var compile_1 = compile;
+var tokensToFunction_1 = tokensToFunction;
+var tokensToRegExp_1 = tokensToRegExp;
+
+/**
+ * The main path matching regexp utility.
+ *
+ * @type {RegExp}
+ */
+var PATH_REGEXP = new RegExp([
+  // Match escaped characters that would otherwise appear in future matches.
+  // This allows the user to escape special characters that won't transform.
+  '(\\\\.)',
+  // Match Express-style parameters and un-named parameters with a prefix
+  // and optional suffixes. Matches appear as:
+  //
+  // "/:test(\\d+)?" => ["/", "test", "\d+", undefined, "?", undefined]
+  // "/route(\\d+)"  => [undefined, undefined, undefined, "\d+", undefined, undefined]
+  // "/*"            => ["/", undefined, undefined, undefined, undefined, "*"]
+  '([\\/.])?(?:(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?|(\\*))'
+].join('|'), 'g');
+
+/**
+ * Parse a string for the raw tokens.
+ *
+ * @param  {string}  str
+ * @param  {Object=} options
+ * @return {!Array}
+ */
+function parse (str, options) {
+  var tokens = [];
+  var key = 0;
+  var index = 0;
+  var path = '';
+  var defaultDelimiter = options && options.delimiter || '/';
+  var res;
+
+  while ((res = PATH_REGEXP.exec(str)) != null) {
+    var m = res[0];
+    var escaped = res[1];
+    var offset = res.index;
+    path += str.slice(index, offset);
+    index = offset + m.length;
+
+    // Ignore already escaped sequences.
+    if (escaped) {
+      path += escaped[1];
+      continue
+    }
+
+    var next = str[index];
+    var prefix = res[2];
+    var name = res[3];
+    var capture = res[4];
+    var group = res[5];
+    var modifier = res[6];
+    var asterisk = res[7];
+
+    // Push the current path onto the tokens.
+    if (path) {
+      tokens.push(path);
+      path = '';
+    }
+
+    var partial = prefix != null && next != null && next !== prefix;
+    var repeat = modifier === '+' || modifier === '*';
+    var optional = modifier === '?' || modifier === '*';
+    var delimiter = res[2] || defaultDelimiter;
+    var pattern = capture || group;
+
+    tokens.push({
+      name: name || key++,
+      prefix: prefix || '',
+      delimiter: delimiter,
+      optional: optional,
+      repeat: repeat,
+      partial: partial,
+      asterisk: !!asterisk,
+      pattern: pattern ? escapeGroup(pattern) : (asterisk ? '.*' : '[^' + escapeString(delimiter) + ']+?')
+    });
+  }
+
+  // Match any characters still remaining.
+  if (index < str.length) {
+    path += str.substr(index);
+  }
+
+  // If the path exists, push it onto the end.
+  if (path) {
+    tokens.push(path);
+  }
+
+  return tokens
+}
+
+/**
+ * Compile a string to a template function for the path.
+ *
+ * @param  {string}             str
+ * @param  {Object=}            options
+ * @return {!function(Object=, Object=)}
+ */
+function compile (str, options) {
+  return tokensToFunction(parse(str, options))
+}
+
+/**
+ * Prettier encoding of URI path segments.
+ *
+ * @param  {string}
+ * @return {string}
+ */
+function encodeURIComponentPretty (str) {
+  return encodeURI(str).replace(/[\/?#]/g, function (c) {
+    return '%' + c.charCodeAt(0).toString(16).toUpperCase()
+  })
+}
+
+/**
+ * Encode the asterisk parameter. Similar to `pretty`, but allows slashes.
+ *
+ * @param  {string}
+ * @return {string}
+ */
+function encodeAsterisk (str) {
+  return encodeURI(str).replace(/[?#]/g, function (c) {
+    return '%' + c.charCodeAt(0).toString(16).toUpperCase()
+  })
+}
+
+/**
+ * Expose a method for transforming tokens into the path function.
+ */
+function tokensToFunction (tokens) {
+  // Compile all the tokens into regexps.
+  var matches = new Array(tokens.length);
+
+  // Compile all the patterns before compilation.
+  for (var i = 0; i < tokens.length; i++) {
+    if (typeof tokens[i] === 'object') {
+      matches[i] = new RegExp('^(?:' + tokens[i].pattern + ')$');
+    }
+  }
+
+  return function (obj, opts) {
+    var path = '';
+    var data = obj || {};
+    var options = opts || {};
+    var encode = options.pretty ? encodeURIComponentPretty : encodeURIComponent;
+
+    for (var i = 0; i < tokens.length; i++) {
+      var token = tokens[i];
+
+      if (typeof token === 'string') {
+        path += token;
+
+        continue
+      }
+
+      var value = data[token.name];
+      var segment;
+
+      if (value == null) {
+        if (token.optional) {
+          // Prepend partial segment prefixes.
+          if (token.partial) {
+            path += token.prefix;
+          }
+
+          continue
+        } else {
+          throw new TypeError('Expected "' + token.name + '" to be defined')
+        }
+      }
+
+      if (isarray(value)) {
+        if (!token.repeat) {
+          throw new TypeError('Expected "' + token.name + '" to not repeat, but received `' + JSON.stringify(value) + '`')
+        }
+
+        if (value.length === 0) {
+          if (token.optional) {
+            continue
+          } else {
+            throw new TypeError('Expected "' + token.name + '" to not be empty')
+          }
+        }
+
+        for (var j = 0; j < value.length; j++) {
+          segment = encode(value[j]);
+
+          if (!matches[i].test(segment)) {
+            throw new TypeError('Expected all "' + token.name + '" to match "' + token.pattern + '", but received `' + JSON.stringify(segment) + '`')
+          }
+
+          path += (j === 0 ? token.prefix : token.delimiter) + segment;
+        }
+
+        continue
+      }
+
+      segment = token.asterisk ? encodeAsterisk(value) : encode(value);
+
+      if (!matches[i].test(segment)) {
+        throw new TypeError('Expected "' + token.name + '" to match "' + token.pattern + '", but received "' + segment + '"')
+      }
+
+      path += token.prefix + segment;
+    }
+
+    return path
+  }
+}
+
+/**
+ * Escape a regular expression string.
+ *
+ * @param  {string} str
+ * @return {string}
+ */
+function escapeString (str) {
+  return str.replace(/([.+*?=^!:${}()[\]|\/\\])/g, '\\$1')
+}
+
+/**
+ * Escape the capturing group by escaping special characters and meaning.
+ *
+ * @param  {string} group
+ * @return {string}
+ */
+function escapeGroup (group) {
+  return group.replace(/([=!:$\/()])/g, '\\$1')
+}
+
+/**
+ * Attach the keys as a property of the regexp.
+ *
+ * @param  {!RegExp} re
+ * @param  {Array}   keys
+ * @return {!RegExp}
+ */
+function attachKeys (re, keys) {
+  re.keys = keys;
+  return re
+}
+
+/**
+ * Get the flags for a regexp from the options.
+ *
+ * @param  {Object} options
+ * @return {string}
+ */
+function flags (options) {
+  return options.sensitive ? '' : 'i'
+}
+
+/**
+ * Pull out keys from a regexp.
+ *
+ * @param  {!RegExp} path
+ * @param  {!Array}  keys
+ * @return {!RegExp}
+ */
+function regexpToRegexp (path, keys) {
+  // Use a negative lookahead to match only capturing groups.
+  var groups = path.source.match(/\((?!\?)/g);
+
+  if (groups) {
+    for (var i = 0; i < groups.length; i++) {
+      keys.push({
+        name: i,
+        prefix: null,
+        delimiter: null,
+        optional: false,
+        repeat: false,
+        partial: false,
+        asterisk: false,
+        pattern: null
+      });
+    }
+  }
+
+  return attachKeys(path, keys)
+}
+
+/**
+ * Transform an array into a regexp.
+ *
+ * @param  {!Array}  path
+ * @param  {Array}   keys
+ * @param  {!Object} options
+ * @return {!RegExp}
+ */
+function arrayToRegexp (path, keys, options) {
+  var parts = [];
+
+  for (var i = 0; i < path.length; i++) {
+    parts.push(pathToRegexp(path[i], keys, options).source);
+  }
+
+  var regexp = new RegExp('(?:' + parts.join('|') + ')', flags(options));
+
+  return attachKeys(regexp, keys)
+}
+
+/**
+ * Create a path regexp from string input.
+ *
+ * @param  {string}  path
+ * @param  {!Array}  keys
+ * @param  {!Object} options
+ * @return {!RegExp}
+ */
+function stringToRegexp (path, keys, options) {
+  return tokensToRegExp(parse(path, options), keys, options)
+}
+
+/**
+ * Expose a function for taking tokens and returning a RegExp.
+ *
+ * @param  {!Array}          tokens
+ * @param  {(Array|Object)=} keys
+ * @param  {Object=}         options
+ * @return {!RegExp}
+ */
+function tokensToRegExp (tokens, keys, options) {
+  if (!isarray(keys)) {
+    options = /** @type {!Object} */ (keys || options);
+    keys = [];
+  }
+
+  options = options || {};
+
+  var strict = options.strict;
+  var end = options.end !== false;
+  var route = '';
+
+  // Iterate over the tokens and create our regexp string.
+  for (var i = 0; i < tokens.length; i++) {
+    var token = tokens[i];
+
+    if (typeof token === 'string') {
+      route += escapeString(token);
+    } else {
+      var prefix = escapeString(token.prefix);
+      var capture = '(?:' + token.pattern + ')';
+
+      keys.push(token);
+
+      if (token.repeat) {
+        capture += '(?:' + prefix + capture + ')*';
+      }
+
+      if (token.optional) {
+        if (!token.partial) {
+          capture = '(?:' + prefix + '(' + capture + '))?';
+        } else {
+          capture = prefix + '(' + capture + ')?';
+        }
+      } else {
+        capture = prefix + '(' + capture + ')';
+      }
+
+      route += capture;
+    }
+  }
+
+  var delimiter = escapeString(options.delimiter || '/');
+  var endsWithDelimiter = route.slice(-delimiter.length) === delimiter;
+
+  // In non-strict mode we allow a slash at the end of match. If the path to
+  // match already ends with a slash, we remove it for consistency. The slash
+  // is valid at the end of a path match, not in the middle. This is important
+  // in non-ending mode, where "/test/" shouldn't match "/test//route".
+  if (!strict) {
+    route = (endsWithDelimiter ? route.slice(0, -delimiter.length) : route) + '(?:' + delimiter + '(?=$))?';
+  }
+
+  if (end) {
+    route += '$';
+  } else {
+    // In non-ending mode, we need the capturing groups to match as much as
+    // possible by using a positive lookahead to the end or next path segment.
+    route += strict && endsWithDelimiter ? '' : '(?=' + delimiter + '|$)';
+  }
+
+  return attachKeys(new RegExp('^' + route, flags(options)), keys)
+}
+
+/**
+ * Normalize the given path string, returning a regular expression.
+ *
+ * An empty array can be passed in for the keys, which will hold the
+ * placeholder key descriptions. For example, using `/user/:id`, `keys` will
+ * contain `[{ name: 'id', delimiter: '/', optional: false, repeat: false }]`.
+ *
+ * @param  {(string|RegExp|Array)} path
+ * @param  {(Array|Object)=}       keys
+ * @param  {Object=}               options
+ * @return {!RegExp}
+ */
+function pathToRegexp (path, keys, options) {
+  if (!isarray(keys)) {
+    options = /** @type {!Object} */ (keys || options);
+    keys = [];
+  }
+
+  options = options || {};
+
+  if (path instanceof RegExp) {
+    return regexpToRegexp(path, /** @type {!Array} */ (keys))
+  }
+
+  if (isarray(path)) {
+    return arrayToRegexp(/** @type {!Array} */ (path), /** @type {!Array} */ (keys), options)
+  }
+
+  return stringToRegexp(/** @type {string} */ (path), /** @type {!Array} */ (keys), options)
+}
+
+pathToRegexp_1.parse = parse_1;
+pathToRegexp_1.compile = compile_1;
+pathToRegexp_1.tokensToFunction = tokensToFunction_1;
+pathToRegexp_1.tokensToRegExp = tokensToRegExp_1;
+
+/*  */
+
+// $flow-disable-line
+var regexpCompileCache = Object.create(null);
+
+function fillParams (
+  path,
+  params,
+  routeMsg
+) {
+  try {
+    var filler =
+      regexpCompileCache[path] ||
+      (regexpCompileCache[path] = pathToRegexp_1.compile(path));
+    return filler(params || {}, { pretty: true })
+  } catch (e) {
+    if (true) {
+      warn(false, ("missing param for " + routeMsg + ": " + (e.message)));
+    }
+    return ''
+  }
+}
+
+/*  */
+
+function createRouteMap (
+  routes,
+  oldPathList,
+  oldPathMap,
+  oldNameMap
+) {
+  // the path list is used to control path matching priority
+  var pathList = oldPathList || [];
+  // $flow-disable-line
+  var pathMap = oldPathMap || Object.create(null);
+  // $flow-disable-line
+  var nameMap = oldNameMap || Object.create(null);
+
+  routes.forEach(function (route) {
+    addRouteRecord(pathList, pathMap, nameMap, route);
+  });
+
+  // ensure wildcard routes are always at the end
+  for (var i = 0, l = pathList.length; i < l; i++) {
+    if (pathList[i] === '*') {
+      pathList.push(pathList.splice(i, 1)[0]);
+      l--;
+      i--;
+    }
+  }
+
+  return {
+    pathList: pathList,
+    pathMap: pathMap,
+    nameMap: nameMap
+  }
+}
+
+function addRouteRecord (
+  pathList,
+  pathMap,
+  nameMap,
+  route,
+  parent,
+  matchAs
+) {
+  var path = route.path;
+  var name = route.name;
+  if (true) {
+    assert(path != null, "\"path\" is required in a route configuration.");
+    assert(
+      typeof route.component !== 'string',
+      "route config \"component\" for path: " + (String(path || name)) + " cannot be a " +
+      "string id. Use an actual component instead."
+    );
+  }
+
+  var pathToRegexpOptions = route.pathToRegexpOptions || {};
+  var normalizedPath = normalizePath(
+    path,
+    parent,
+    pathToRegexpOptions.strict
+  );
+
+  if (typeof route.caseSensitive === 'boolean') {
+    pathToRegexpOptions.sensitive = route.caseSensitive;
+  }
+
+  var record = {
+    path: normalizedPath,
+    regex: compileRouteRegex(normalizedPath, pathToRegexpOptions),
+    components: route.components || { default: route.component },
+    instances: {},
+    name: name,
+    parent: parent,
+    matchAs: matchAs,
+    redirect: route.redirect,
+    beforeEnter: route.beforeEnter,
+    meta: route.meta || {},
+    props: route.props == null
+      ? {}
+      : route.components
+        ? route.props
+        : { default: route.props }
+  };
+
+  if (route.children) {
+    // Warn if route is named, does not redirect and has a default child route.
+    // If users navigate to this route by name, the default child will
+    // not be rendered (GH Issue #629)
+    if (true) {
+      if (route.name && !route.redirect && route.children.some(function (child) { return /^\/?$/.test(child.path); })) {
+        warn(
+          false,
+          "Named Route '" + (route.name) + "' has a default child route. " +
+          "When navigating to this named route (:to=\"{name: '" + (route.name) + "'\"), " +
+          "the default child route will not be rendered. Remove the name from " +
+          "this route and use the name of the default child route for named " +
+          "links instead."
+        );
+      }
+    }
+    route.children.forEach(function (child) {
+      var childMatchAs = matchAs
+        ? cleanPath((matchAs + "/" + (child.path)))
+        : undefined;
+      addRouteRecord(pathList, pathMap, nameMap, child, record, childMatchAs);
+    });
+  }
+
+  if (route.alias !== undefined) {
+    var aliases = Array.isArray(route.alias)
+      ? route.alias
+      : [route.alias];
+
+    aliases.forEach(function (alias) {
+      var aliasRoute = {
+        path: alias,
+        children: route.children
+      };
+      addRouteRecord(
+        pathList,
+        pathMap,
+        nameMap,
+        aliasRoute,
+        parent,
+        record.path || '/' // matchAs
+      );
+    });
+  }
+
+  if (!pathMap[record.path]) {
+    pathList.push(record.path);
+    pathMap[record.path] = record;
+  }
+
+  if (name) {
+    if (!nameMap[name]) {
+      nameMap[name] = record;
+    } else if ("development" !== 'production' && !matchAs) {
+      warn(
+        false,
+        "Duplicate named routes definition: " +
+        "{ name: \"" + name + "\", path: \"" + (record.path) + "\" }"
+      );
+    }
+  }
+}
+
+function compileRouteRegex (path, pathToRegexpOptions) {
+  var regex = pathToRegexp_1(path, [], pathToRegexpOptions);
+  if (true) {
+    var keys = Object.create(null);
+    regex.keys.forEach(function (key) {
+      warn(!keys[key.name], ("Duplicate param keys in route with path: \"" + path + "\""));
+      keys[key.name] = true;
+    });
+  }
+  return regex
+}
+
+function normalizePath (path, parent, strict) {
+  if (!strict) { path = path.replace(/\/$/, ''); }
+  if (path[0] === '/') { return path }
+  if (parent == null) { return path }
+  return cleanPath(((parent.path) + "/" + path))
+}
+
+/*  */
+
+
+function normalizeLocation (
+  raw,
+  current,
+  append,
+  router
+) {
+  var next = typeof raw === 'string' ? { path: raw } : raw;
+  // named target
+  if (next.name || next._normalized) {
+    return next
+  }
+
+  // relative params
+  if (!next.path && next.params && current) {
+    next = assign({}, next);
+    next._normalized = true;
+    var params = assign(assign({}, current.params), next.params);
+    if (current.name) {
+      next.name = current.name;
+      next.params = params;
+    } else if (current.matched.length) {
+      var rawPath = current.matched[current.matched.length - 1].path;
+      next.path = fillParams(rawPath, params, ("path " + (current.path)));
+    } else if (true) {
+      warn(false, "relative params navigation requires a current route.");
+    }
+    return next
+  }
+
+  var parsedPath = parsePath(next.path || '');
+  var basePath = (current && current.path) || '/';
+  var path = parsedPath.path
+    ? resolvePath(parsedPath.path, basePath, append || next.append)
+    : basePath;
+
+  var query = resolveQuery(
+    parsedPath.query,
+    next.query,
+    router && router.options.parseQuery
+  );
+
+  var hash = next.hash || parsedPath.hash;
+  if (hash && hash.charAt(0) !== '#') {
+    hash = "#" + hash;
+  }
+
+  return {
+    _normalized: true,
+    path: path,
+    query: query,
+    hash: hash
+  }
+}
+
+function assign (a, b) {
+  for (var key in b) {
+    a[key] = b[key];
+  }
+  return a
+}
+
+/*  */
+
+
+function createMatcher (
+  routes,
+  router
+) {
+  var ref = createRouteMap(routes);
+  var pathList = ref.pathList;
+  var pathMap = ref.pathMap;
+  var nameMap = ref.nameMap;
+
+  function addRoutes (routes) {
+    createRouteMap(routes, pathList, pathMap, nameMap);
+  }
+
+  function match (
+    raw,
+    currentRoute,
+    redirectedFrom
+  ) {
+    var location = normalizeLocation(raw, currentRoute, false, router);
+    var name = location.name;
+
+    if (name) {
+      var record = nameMap[name];
+      if (true) {
+        warn(record, ("Route with name '" + name + "' does not exist"));
+      }
+      if (!record) { return _createRoute(null, location) }
+      var paramNames = record.regex.keys
+        .filter(function (key) { return !key.optional; })
+        .map(function (key) { return key.name; });
+
+      if (typeof location.params !== 'object') {
+        location.params = {};
+      }
+
+      if (currentRoute && typeof currentRoute.params === 'object') {
+        for (var key in currentRoute.params) {
+          if (!(key in location.params) && paramNames.indexOf(key) > -1) {
+            location.params[key] = currentRoute.params[key];
+          }
+        }
+      }
+
+      if (record) {
+        location.path = fillParams(record.path, location.params, ("named route \"" + name + "\""));
+        return _createRoute(record, location, redirectedFrom)
+      }
+    } else if (location.path) {
+      location.params = {};
+      for (var i = 0; i < pathList.length; i++) {
+        var path = pathList[i];
+        var record$1 = pathMap[path];
+        if (matchRoute(record$1.regex, location.path, location.params)) {
+          return _createRoute(record$1, location, redirectedFrom)
+        }
+      }
+    }
+    // no match
+    return _createRoute(null, location)
+  }
+
+  function redirect (
+    record,
+    location
+  ) {
+    var originalRedirect = record.redirect;
+    var redirect = typeof originalRedirect === 'function'
+        ? originalRedirect(createRoute(record, location, null, router))
+        : originalRedirect;
+
+    if (typeof redirect === 'string') {
+      redirect = { path: redirect };
+    }
+
+    if (!redirect || typeof redirect !== 'object') {
+      if (true) {
+        warn(
+          false, ("invalid redirect option: " + (JSON.stringify(redirect)))
+        );
+      }
+      return _createRoute(null, location)
+    }
+
+    var re = redirect;
+    var name = re.name;
+    var path = re.path;
+    var query = location.query;
+    var hash = location.hash;
+    var params = location.params;
+    query = re.hasOwnProperty('query') ? re.query : query;
+    hash = re.hasOwnProperty('hash') ? re.hash : hash;
+    params = re.hasOwnProperty('params') ? re.params : params;
+
+    if (name) {
+      // resolved named direct
+      var targetRecord = nameMap[name];
+      if (true) {
+        assert(targetRecord, ("redirect failed: named route \"" + name + "\" not found."));
+      }
+      return match({
+        _normalized: true,
+        name: name,
+        query: query,
+        hash: hash,
+        params: params
+      }, undefined, location)
+    } else if (path) {
+      // 1. resolve relative redirect
+      var rawPath = resolveRecordPath(path, record);
+      // 2. resolve params
+      var resolvedPath = fillParams(rawPath, params, ("redirect route with path \"" + rawPath + "\""));
+      // 3. rematch with existing query and hash
+      return match({
+        _normalized: true,
+        path: resolvedPath,
+        query: query,
+        hash: hash
+      }, undefined, location)
+    } else {
+      if (true) {
+        warn(false, ("invalid redirect option: " + (JSON.stringify(redirect))));
+      }
+      return _createRoute(null, location)
+    }
+  }
+
+  function alias (
+    record,
+    location,
+    matchAs
+  ) {
+    var aliasedPath = fillParams(matchAs, location.params, ("aliased route with path \"" + matchAs + "\""));
+    var aliasedMatch = match({
+      _normalized: true,
+      path: aliasedPath
+    });
+    if (aliasedMatch) {
+      var matched = aliasedMatch.matched;
+      var aliasedRecord = matched[matched.length - 1];
+      location.params = aliasedMatch.params;
+      return _createRoute(aliasedRecord, location)
+    }
+    return _createRoute(null, location)
+  }
+
+  function _createRoute (
+    record,
+    location,
+    redirectedFrom
+  ) {
+    if (record && record.redirect) {
+      return redirect(record, redirectedFrom || location)
+    }
+    if (record && record.matchAs) {
+      return alias(record, location, record.matchAs)
+    }
+    return createRoute(record, location, redirectedFrom, router)
+  }
+
+  return {
+    match: match,
+    addRoutes: addRoutes
+  }
+}
+
+function matchRoute (
+  regex,
+  path,
+  params
+) {
+  var m = path.match(regex);
+
+  if (!m) {
+    return false
+  } else if (!params) {
+    return true
+  }
+
+  for (var i = 1, len = m.length; i < len; ++i) {
+    var key = regex.keys[i - 1];
+    var val = typeof m[i] === 'string' ? decodeURIComponent(m[i]) : m[i];
+    if (key) {
+      params[key.name] = val;
+    }
+  }
+
+  return true
+}
+
+function resolveRecordPath (path, record) {
+  return resolvePath(path, record.parent ? record.parent.path : '/', true)
+}
+
+/*  */
+
+
+var positionStore = Object.create(null);
+
+function setupScroll () {
+  // Fix for #1585 for Firefox
+  window.history.replaceState({ key: getStateKey() }, '');
+  window.addEventListener('popstate', function (e) {
+    saveScrollPosition();
+    if (e.state && e.state.key) {
+      setStateKey(e.state.key);
+    }
+  });
+}
+
+function handleScroll (
+  router,
+  to,
+  from,
+  isPop
+) {
+  if (!router.app) {
+    return
+  }
+
+  var behavior = router.options.scrollBehavior;
+  if (!behavior) {
+    return
+  }
+
+  if (true) {
+    assert(typeof behavior === 'function', "scrollBehavior must be a function");
+  }
+
+  // wait until re-render finishes before scrolling
+  router.app.$nextTick(function () {
+    var position = getScrollPosition();
+    var shouldScroll = behavior(to, from, isPop ? position : null);
+
+    if (!shouldScroll) {
+      return
+    }
+
+    if (typeof shouldScroll.then === 'function') {
+      shouldScroll.then(function (shouldScroll) {
+        scrollToPosition((shouldScroll), position);
+      }).catch(function (err) {
+        if (true) {
+          assert(false, err.toString());
+        }
+      });
+    } else {
+      scrollToPosition(shouldScroll, position);
+    }
+  });
+}
+
+function saveScrollPosition () {
+  var key = getStateKey();
+  if (key) {
+    positionStore[key] = {
+      x: window.pageXOffset,
+      y: window.pageYOffset
+    };
+  }
+}
+
+function getScrollPosition () {
+  var key = getStateKey();
+  if (key) {
+    return positionStore[key]
+  }
+}
+
+function getElementPosition (el, offset) {
+  var docEl = document.documentElement;
+  var docRect = docEl.getBoundingClientRect();
+  var elRect = el.getBoundingClientRect();
+  return {
+    x: elRect.left - docRect.left - offset.x,
+    y: elRect.top - docRect.top - offset.y
+  }
+}
+
+function isValidPosition (obj) {
+  return isNumber(obj.x) || isNumber(obj.y)
+}
+
+function normalizePosition (obj) {
+  return {
+    x: isNumber(obj.x) ? obj.x : window.pageXOffset,
+    y: isNumber(obj.y) ? obj.y : window.pageYOffset
+  }
+}
+
+function normalizeOffset (obj) {
+  return {
+    x: isNumber(obj.x) ? obj.x : 0,
+    y: isNumber(obj.y) ? obj.y : 0
+  }
+}
+
+function isNumber (v) {
+  return typeof v === 'number'
+}
+
+function scrollToPosition (shouldScroll, position) {
+  var isObject = typeof shouldScroll === 'object';
+  if (isObject && typeof shouldScroll.selector === 'string') {
+    var el = document.querySelector(shouldScroll.selector);
+    if (el) {
+      var offset = shouldScroll.offset && typeof shouldScroll.offset === 'object' ? shouldScroll.offset : {};
+      offset = normalizeOffset(offset);
+      position = getElementPosition(el, offset);
+    } else if (isValidPosition(shouldScroll)) {
+      position = normalizePosition(shouldScroll);
+    }
+  } else if (isObject && isValidPosition(shouldScroll)) {
+    position = normalizePosition(shouldScroll);
+  }
+
+  if (position) {
+    window.scrollTo(position.x, position.y);
+  }
+}
+
+/*  */
+
+var supportsPushState = inBrowser && (function () {
+  var ua = window.navigator.userAgent;
+
+  if (
+    (ua.indexOf('Android 2.') !== -1 || ua.indexOf('Android 4.0') !== -1) &&
+    ua.indexOf('Mobile Safari') !== -1 &&
+    ua.indexOf('Chrome') === -1 &&
+    ua.indexOf('Windows Phone') === -1
+  ) {
+    return false
+  }
+
+  return window.history && 'pushState' in window.history
+})();
+
+// use User Timing api (if present) for more accurate key precision
+var Time = inBrowser && window.performance && window.performance.now
+  ? window.performance
+  : Date;
+
+var _key = genKey();
+
+function genKey () {
+  return Time.now().toFixed(3)
+}
+
+function getStateKey () {
+  return _key
+}
+
+function setStateKey (key) {
+  _key = key;
+}
+
+function pushState (url, replace) {
+  saveScrollPosition();
+  // try...catch the pushState call to get around Safari
+  // DOM Exception 18 where it limits to 100 pushState calls
+  var history = window.history;
+  try {
+    if (replace) {
+      history.replaceState({ key: _key }, '', url);
+    } else {
+      _key = genKey();
+      history.pushState({ key: _key }, '', url);
+    }
+  } catch (e) {
+    window.location[replace ? 'replace' : 'assign'](url);
+  }
+}
+
+function replaceState (url) {
+  pushState(url, true);
+}
+
+/*  */
+
+function runQueue (queue, fn, cb) {
+  var step = function (index) {
+    if (index >= queue.length) {
+      cb();
+    } else {
+      if (queue[index]) {
+        fn(queue[index], function () {
+          step(index + 1);
+        });
+      } else {
+        step(index + 1);
+      }
+    }
+  };
+  step(0);
+}
+
+/*  */
+
+function resolveAsyncComponents (matched) {
+  return function (to, from, next) {
+    var hasAsync = false;
+    var pending = 0;
+    var error = null;
+
+    flatMapComponents(matched, function (def, _, match, key) {
+      // if it's a function and doesn't have cid attached,
+      // assume it's an async component resolve function.
+      // we are not using Vue's default async resolving mechanism because
+      // we want to halt the navigation until the incoming component has been
+      // resolved.
+      if (typeof def === 'function' && def.cid === undefined) {
+        hasAsync = true;
+        pending++;
+
+        var resolve = once(function (resolvedDef) {
+          if (isESModule(resolvedDef)) {
+            resolvedDef = resolvedDef.default;
+          }
+          // save resolved on async factory in case it's used elsewhere
+          def.resolved = typeof resolvedDef === 'function'
+            ? resolvedDef
+            : _Vue.extend(resolvedDef);
+          match.components[key] = resolvedDef;
+          pending--;
+          if (pending <= 0) {
+            next();
+          }
+        });
+
+        var reject = once(function (reason) {
+          var msg = "Failed to resolve async component " + key + ": " + reason;
+          "development" !== 'production' && warn(false, msg);
+          if (!error) {
+            error = isError(reason)
+              ? reason
+              : new Error(msg);
+            next(error);
+          }
+        });
+
+        var res;
+        try {
+          res = def(resolve, reject);
+        } catch (e) {
+          reject(e);
+        }
+        if (res) {
+          if (typeof res.then === 'function') {
+            res.then(resolve, reject);
+          } else {
+            // new syntax in Vue 2.3
+            var comp = res.component;
+            if (comp && typeof comp.then === 'function') {
+              comp.then(resolve, reject);
+            }
+          }
+        }
+      }
+    });
+
+    if (!hasAsync) { next(); }
+  }
+}
+
+function flatMapComponents (
+  matched,
+  fn
+) {
+  return flatten(matched.map(function (m) {
+    return Object.keys(m.components).map(function (key) { return fn(
+      m.components[key],
+      m.instances[key],
+      m, key
+    ); })
+  }))
+}
+
+function flatten (arr) {
+  return Array.prototype.concat.apply([], arr)
+}
+
+var hasSymbol =
+  typeof Symbol === 'function' &&
+  typeof Symbol.toStringTag === 'symbol';
+
+function isESModule (obj) {
+  return obj.__esModule || (hasSymbol && obj[Symbol.toStringTag] === 'Module')
+}
+
+// in Webpack 2, require.ensure now also returns a Promise
+// so the resolve/reject functions may get called an extra time
+// if the user uses an arrow function shorthand that happens to
+// return that Promise.
+function once (fn) {
+  var called = false;
+  return function () {
+    var args = [], len = arguments.length;
+    while ( len-- ) args[ len ] = arguments[ len ];
+
+    if (called) { return }
+    called = true;
+    return fn.apply(this, args)
+  }
+}
+
+/*  */
+
+var History = function History (router, base) {
+  this.router = router;
+  this.base = normalizeBase(base);
+  // start with a route object that stands for "nowhere"
+  this.current = START;
+  this.pending = null;
+  this.ready = false;
+  this.readyCbs = [];
+  this.readyErrorCbs = [];
+  this.errorCbs = [];
+};
+
+History.prototype.listen = function listen (cb) {
+  this.cb = cb;
+};
+
+History.prototype.onReady = function onReady (cb, errorCb) {
+  if (this.ready) {
+    cb();
+  } else {
+    this.readyCbs.push(cb);
+    if (errorCb) {
+      this.readyErrorCbs.push(errorCb);
+    }
+  }
+};
+
+History.prototype.onError = function onError (errorCb) {
+  this.errorCbs.push(errorCb);
+};
+
+History.prototype.transitionTo = function transitionTo (location, onComplete, onAbort) {
+    var this$1 = this;
+
+  var route = this.router.match(location, this.current);
+  this.confirmTransition(route, function () {
+    this$1.updateRoute(route);
+    onComplete && onComplete(route);
+    this$1.ensureURL();
+
+    // fire ready cbs once
+    if (!this$1.ready) {
+      this$1.ready = true;
+      this$1.readyCbs.forEach(function (cb) { cb(route); });
+    }
+  }, function (err) {
+    if (onAbort) {
+      onAbort(err);
+    }
+    if (err && !this$1.ready) {
+      this$1.ready = true;
+      this$1.readyErrorCbs.forEach(function (cb) { cb(err); });
+    }
+  });
+};
+
+History.prototype.confirmTransition = function confirmTransition (route, onComplete, onAbort) {
+    var this$1 = this;
+
+  var current = this.current;
+  var abort = function (err) {
+    if (isError(err)) {
+      if (this$1.errorCbs.length) {
+        this$1.errorCbs.forEach(function (cb) { cb(err); });
+      } else {
+        warn(false, 'uncaught error during route navigation:');
+        console.error(err);
+      }
+    }
+    onAbort && onAbort(err);
+  };
+  if (
+    isSameRoute(route, current) &&
+    // in the case the route map has been dynamically appended to
+    route.matched.length === current.matched.length
+  ) {
+    this.ensureURL();
+    return abort()
+  }
+
+  var ref = resolveQueue(this.current.matched, route.matched);
+    var updated = ref.updated;
+    var deactivated = ref.deactivated;
+    var activated = ref.activated;
+
+  var queue = [].concat(
+    // in-component leave guards
+    extractLeaveGuards(deactivated),
+    // global before hooks
+    this.router.beforeHooks,
+    // in-component update hooks
+    extractUpdateHooks(updated),
+    // in-config enter guards
+    activated.map(function (m) { return m.beforeEnter; }),
+    // async components
+    resolveAsyncComponents(activated)
+  );
+
+  this.pending = route;
+  var iterator = function (hook, next) {
+    if (this$1.pending !== route) {
+      return abort()
+    }
+    try {
+      hook(route, current, function (to) {
+        if (to === false || isError(to)) {
+          // next(false) -> abort navigation, ensure current URL
+          this$1.ensureURL(true);
+          abort(to);
+        } else if (
+          typeof to === 'string' ||
+          (typeof to === 'object' && (
+            typeof to.path === 'string' ||
+            typeof to.name === 'string'
+          ))
+        ) {
+          // next('/') or next({ path: '/' }) -> redirect
+          abort();
+          if (typeof to === 'object' && to.replace) {
+            this$1.replace(to);
+          } else {
+            this$1.push(to);
+          }
+        } else {
+          // confirm transition and pass on the value
+          next(to);
+        }
+      });
+    } catch (e) {
+      abort(e);
+    }
+  };
+
+  runQueue(queue, iterator, function () {
+    var postEnterCbs = [];
+    var isValid = function () { return this$1.current === route; };
+    // wait until async components are resolved before
+    // extracting in-component enter guards
+    var enterGuards = extractEnterGuards(activated, postEnterCbs, isValid);
+    var queue = enterGuards.concat(this$1.router.resolveHooks);
+    runQueue(queue, iterator, function () {
+      if (this$1.pending !== route) {
+        return abort()
+      }
+      this$1.pending = null;
+      onComplete(route);
+      if (this$1.router.app) {
+        this$1.router.app.$nextTick(function () {
+          postEnterCbs.forEach(function (cb) { cb(); });
+        });
+      }
+    });
+  });
+};
+
+History.prototype.updateRoute = function updateRoute (route) {
+  var prev = this.current;
+  this.current = route;
+  this.cb && this.cb(route);
+  this.router.afterHooks.forEach(function (hook) {
+    hook && hook(route, prev);
+  });
+};
+
+function normalizeBase (base) {
+  if (!base) {
+    if (inBrowser) {
+      // respect <base> tag
+      var baseEl = document.querySelector('base');
+      base = (baseEl && baseEl.getAttribute('href')) || '/';
+      // strip full URL origin
+      base = base.replace(/^https?:\/\/[^\/]+/, '');
+    } else {
+      base = '/';
+    }
+  }
+  // make sure there's the starting slash
+  if (base.charAt(0) !== '/') {
+    base = '/' + base;
+  }
+  // remove trailing slash
+  return base.replace(/\/$/, '')
+}
+
+function resolveQueue (
+  current,
+  next
+) {
+  var i;
+  var max = Math.max(current.length, next.length);
+  for (i = 0; i < max; i++) {
+    if (current[i] !== next[i]) {
+      break
+    }
+  }
+  return {
+    updated: next.slice(0, i),
+    activated: next.slice(i),
+    deactivated: current.slice(i)
+  }
+}
+
+function extractGuards (
+  records,
+  name,
+  bind,
+  reverse
+) {
+  var guards = flatMapComponents(records, function (def, instance, match, key) {
+    var guard = extractGuard(def, name);
+    if (guard) {
+      return Array.isArray(guard)
+        ? guard.map(function (guard) { return bind(guard, instance, match, key); })
+        : bind(guard, instance, match, key)
+    }
+  });
+  return flatten(reverse ? guards.reverse() : guards)
+}
+
+function extractGuard (
+  def,
+  key
+) {
+  if (typeof def !== 'function') {
+    // extend now so that global mixins are applied.
+    def = _Vue.extend(def);
+  }
+  return def.options[key]
+}
+
+function extractLeaveGuards (deactivated) {
+  return extractGuards(deactivated, 'beforeRouteLeave', bindGuard, true)
+}
+
+function extractUpdateHooks (updated) {
+  return extractGuards(updated, 'beforeRouteUpdate', bindGuard)
+}
+
+function bindGuard (guard, instance) {
+  if (instance) {
+    return function boundRouteGuard () {
+      return guard.apply(instance, arguments)
+    }
+  }
+}
+
+function extractEnterGuards (
+  activated,
+  cbs,
+  isValid
+) {
+  return extractGuards(activated, 'beforeRouteEnter', function (guard, _, match, key) {
+    return bindEnterGuard(guard, match, key, cbs, isValid)
+  })
+}
+
+function bindEnterGuard (
+  guard,
+  match,
+  key,
+  cbs,
+  isValid
+) {
+  return function routeEnterGuard (to, from, next) {
+    return guard(to, from, function (cb) {
+      next(cb);
+      if (typeof cb === 'function') {
+        cbs.push(function () {
+          // #750
+          // if a router-view is wrapped with an out-in transition,
+          // the instance may not have been registered at this time.
+          // we will need to poll for registration until current route
+          // is no longer valid.
+          poll(cb, match.instances, key, isValid);
+        });
+      }
+    })
+  }
+}
+
+function poll (
+  cb, // somehow flow cannot infer this is a function
+  instances,
+  key,
+  isValid
+) {
+  if (instances[key]) {
+    cb(instances[key]);
+  } else if (isValid()) {
+    setTimeout(function () {
+      poll(cb, instances, key, isValid);
+    }, 16);
+  }
+}
+
+/*  */
+
+
+var HTML5History = (function (History$$1) {
+  function HTML5History (router, base) {
+    var this$1 = this;
+
+    History$$1.call(this, router, base);
+
+    var expectScroll = router.options.scrollBehavior;
+
+    if (expectScroll) {
+      setupScroll();
+    }
+
+    var initLocation = getLocation(this.base);
+    window.addEventListener('popstate', function (e) {
+      var current = this$1.current;
+
+      // Avoiding first `popstate` event dispatched in some browsers but first
+      // history route not updated since async guard at the same time.
+      var location = getLocation(this$1.base);
+      if (this$1.current === START && location === initLocation) {
+        return
+      }
+
+      this$1.transitionTo(location, function (route) {
+        if (expectScroll) {
+          handleScroll(router, route, current, true);
+        }
+      });
+    });
+  }
+
+  if ( History$$1 ) HTML5History.__proto__ = History$$1;
+  HTML5History.prototype = Object.create( History$$1 && History$$1.prototype );
+  HTML5History.prototype.constructor = HTML5History;
+
+  HTML5History.prototype.go = function go (n) {
+    window.history.go(n);
+  };
+
+  HTML5History.prototype.push = function push (location, onComplete, onAbort) {
+    var this$1 = this;
+
+    var ref = this;
+    var fromRoute = ref.current;
+    this.transitionTo(location, function (route) {
+      pushState(cleanPath(this$1.base + route.fullPath));
+      handleScroll(this$1.router, route, fromRoute, false);
+      onComplete && onComplete(route);
+    }, onAbort);
+  };
+
+  HTML5History.prototype.replace = function replace (location, onComplete, onAbort) {
+    var this$1 = this;
+
+    var ref = this;
+    var fromRoute = ref.current;
+    this.transitionTo(location, function (route) {
+      replaceState(cleanPath(this$1.base + route.fullPath));
+      handleScroll(this$1.router, route, fromRoute, false);
+      onComplete && onComplete(route);
+    }, onAbort);
+  };
+
+  HTML5History.prototype.ensureURL = function ensureURL (push) {
+    if (getLocation(this.base) !== this.current.fullPath) {
+      var current = cleanPath(this.base + this.current.fullPath);
+      push ? pushState(current) : replaceState(current);
+    }
+  };
+
+  HTML5History.prototype.getCurrentLocation = function getCurrentLocation () {
+    return getLocation(this.base)
+  };
+
+  return HTML5History;
+}(History));
+
+function getLocation (base) {
+  var path = window.location.pathname;
+  if (base && path.indexOf(base) === 0) {
+    path = path.slice(base.length);
+  }
+  return (path || '/') + window.location.search + window.location.hash
+}
+
+/*  */
+
+
+var HashHistory = (function (History$$1) {
+  function HashHistory (router, base, fallback) {
+    History$$1.call(this, router, base);
+    // check history fallback deeplinking
+    if (fallback && checkFallback(this.base)) {
+      return
+    }
+    ensureSlash();
+  }
+
+  if ( History$$1 ) HashHistory.__proto__ = History$$1;
+  HashHistory.prototype = Object.create( History$$1 && History$$1.prototype );
+  HashHistory.prototype.constructor = HashHistory;
+
+  // this is delayed until the app mounts
+  // to avoid the hashchange listener being fired too early
+  HashHistory.prototype.setupListeners = function setupListeners () {
+    var this$1 = this;
+
+    var router = this.router;
+    var expectScroll = router.options.scrollBehavior;
+    var supportsScroll = supportsPushState && expectScroll;
+
+    if (supportsScroll) {
+      setupScroll();
+    }
+
+    window.addEventListener(supportsPushState ? 'popstate' : 'hashchange', function () {
+      var current = this$1.current;
+      if (!ensureSlash()) {
+        return
+      }
+      this$1.transitionTo(getHash(), function (route) {
+        if (supportsScroll) {
+          handleScroll(this$1.router, route, current, true);
+        }
+        if (!supportsPushState) {
+          replaceHash(route.fullPath);
+        }
+      });
+    });
+  };
+
+  HashHistory.prototype.push = function push (location, onComplete, onAbort) {
+    var this$1 = this;
+
+    var ref = this;
+    var fromRoute = ref.current;
+    this.transitionTo(location, function (route) {
+      pushHash(route.fullPath);
+      handleScroll(this$1.router, route, fromRoute, false);
+      onComplete && onComplete(route);
+    }, onAbort);
+  };
+
+  HashHistory.prototype.replace = function replace (location, onComplete, onAbort) {
+    var this$1 = this;
+
+    var ref = this;
+    var fromRoute = ref.current;
+    this.transitionTo(location, function (route) {
+      replaceHash(route.fullPath);
+      handleScroll(this$1.router, route, fromRoute, false);
+      onComplete && onComplete(route);
+    }, onAbort);
+  };
+
+  HashHistory.prototype.go = function go (n) {
+    window.history.go(n);
+  };
+
+  HashHistory.prototype.ensureURL = function ensureURL (push) {
+    var current = this.current.fullPath;
+    if (getHash() !== current) {
+      push ? pushHash(current) : replaceHash(current);
+    }
+  };
+
+  HashHistory.prototype.getCurrentLocation = function getCurrentLocation () {
+    return getHash()
+  };
+
+  return HashHistory;
+}(History));
+
+function checkFallback (base) {
+  var location = getLocation(base);
+  if (!/^\/#/.test(location)) {
+    window.location.replace(
+      cleanPath(base + '/#' + location)
+    );
+    return true
+  }
+}
+
+function ensureSlash () {
+  var path = getHash();
+  if (path.charAt(0) === '/') {
+    return true
+  }
+  replaceHash('/' + path);
+  return false
+}
+
+function getHash () {
+  // We can't use window.location.hash here because it's not
+  // consistent across browsers - Firefox will pre-decode it!
+  var href = window.location.href;
+  var index = href.indexOf('#');
+  return index === -1 ? '' : href.slice(index + 1)
+}
+
+function getUrl (path) {
+  var href = window.location.href;
+  var i = href.indexOf('#');
+  var base = i >= 0 ? href.slice(0, i) : href;
+  return (base + "#" + path)
+}
+
+function pushHash (path) {
+  if (supportsPushState) {
+    pushState(getUrl(path));
+  } else {
+    window.location.hash = path;
+  }
+}
+
+function replaceHash (path) {
+  if (supportsPushState) {
+    replaceState(getUrl(path));
+  } else {
+    window.location.replace(getUrl(path));
+  }
+}
+
+/*  */
+
+
+var AbstractHistory = (function (History$$1) {
+  function AbstractHistory (router, base) {
+    History$$1.call(this, router, base);
+    this.stack = [];
+    this.index = -1;
+  }
+
+  if ( History$$1 ) AbstractHistory.__proto__ = History$$1;
+  AbstractHistory.prototype = Object.create( History$$1 && History$$1.prototype );
+  AbstractHistory.prototype.constructor = AbstractHistory;
+
+  AbstractHistory.prototype.push = function push (location, onComplete, onAbort) {
+    var this$1 = this;
+
+    this.transitionTo(location, function (route) {
+      this$1.stack = this$1.stack.slice(0, this$1.index + 1).concat(route);
+      this$1.index++;
+      onComplete && onComplete(route);
+    }, onAbort);
+  };
+
+  AbstractHistory.prototype.replace = function replace (location, onComplete, onAbort) {
+    var this$1 = this;
+
+    this.transitionTo(location, function (route) {
+      this$1.stack = this$1.stack.slice(0, this$1.index).concat(route);
+      onComplete && onComplete(route);
+    }, onAbort);
+  };
+
+  AbstractHistory.prototype.go = function go (n) {
+    var this$1 = this;
+
+    var targetIndex = this.index + n;
+    if (targetIndex < 0 || targetIndex >= this.stack.length) {
+      return
+    }
+    var route = this.stack[targetIndex];
+    this.confirmTransition(route, function () {
+      this$1.index = targetIndex;
+      this$1.updateRoute(route);
+    });
+  };
+
+  AbstractHistory.prototype.getCurrentLocation = function getCurrentLocation () {
+    var current = this.stack[this.stack.length - 1];
+    return current ? current.fullPath : '/'
+  };
+
+  AbstractHistory.prototype.ensureURL = function ensureURL () {
+    // noop
+  };
+
+  return AbstractHistory;
+}(History));
+
+/*  */
+
+var VueRouter = function VueRouter (options) {
+  if ( options === void 0 ) options = {};
+
+  this.app = null;
+  this.apps = [];
+  this.options = options;
+  this.beforeHooks = [];
+  this.resolveHooks = [];
+  this.afterHooks = [];
+  this.matcher = createMatcher(options.routes || [], this);
+
+  var mode = options.mode || 'hash';
+  this.fallback = mode === 'history' && !supportsPushState && options.fallback !== false;
+  if (this.fallback) {
+    mode = 'hash';
+  }
+  if (!inBrowser) {
+    mode = 'abstract';
+  }
+  this.mode = mode;
+
+  switch (mode) {
+    case 'history':
+      this.history = new HTML5History(this, options.base);
+      break
+    case 'hash':
+      this.history = new HashHistory(this, options.base, this.fallback);
+      break
+    case 'abstract':
+      this.history = new AbstractHistory(this, options.base);
+      break
+    default:
+      if (true) {
+        assert(false, ("invalid mode: " + mode));
+      }
+  }
+};
+
+var prototypeAccessors = { currentRoute: { configurable: true } };
+
+VueRouter.prototype.match = function match (
+  raw,
+  current,
+  redirectedFrom
+) {
+  return this.matcher.match(raw, current, redirectedFrom)
+};
+
+prototypeAccessors.currentRoute.get = function () {
+  return this.history && this.history.current
+};
+
+VueRouter.prototype.init = function init (app /* Vue component instance */) {
+    var this$1 = this;
+
+  "development" !== 'production' && assert(
+    install.installed,
+    "not installed. Make sure to call `Vue.use(VueRouter)` " +
+    "before creating root instance."
+  );
+
+  this.apps.push(app);
+
+  // main app already initialized.
+  if (this.app) {
+    return
+  }
+
+  this.app = app;
+
+  var history = this.history;
+
+  if (history instanceof HTML5History) {
+    history.transitionTo(history.getCurrentLocation());
+  } else if (history instanceof HashHistory) {
+    var setupHashListener = function () {
+      history.setupListeners();
+    };
+    history.transitionTo(
+      history.getCurrentLocation(),
+      setupHashListener,
+      setupHashListener
+    );
+  }
+
+  history.listen(function (route) {
+    this$1.apps.forEach(function (app) {
+      app._route = route;
+    });
+  });
+};
+
+VueRouter.prototype.beforeEach = function beforeEach (fn) {
+  return registerHook(this.beforeHooks, fn)
+};
+
+VueRouter.prototype.beforeResolve = function beforeResolve (fn) {
+  return registerHook(this.resolveHooks, fn)
+};
+
+VueRouter.prototype.afterEach = function afterEach (fn) {
+  return registerHook(this.afterHooks, fn)
+};
+
+VueRouter.prototype.onReady = function onReady (cb, errorCb) {
+  this.history.onReady(cb, errorCb);
+};
+
+VueRouter.prototype.onError = function onError (errorCb) {
+  this.history.onError(errorCb);
+};
+
+VueRouter.prototype.push = function push (location, onComplete, onAbort) {
+  this.history.push(location, onComplete, onAbort);
+};
+
+VueRouter.prototype.replace = function replace (location, onComplete, onAbort) {
+  this.history.replace(location, onComplete, onAbort);
+};
+
+VueRouter.prototype.go = function go (n) {
+  this.history.go(n);
+};
+
+VueRouter.prototype.back = function back () {
+  this.go(-1);
+};
+
+VueRouter.prototype.forward = function forward () {
+  this.go(1);
+};
+
+VueRouter.prototype.getMatchedComponents = function getMatchedComponents (to) {
+  var route = to
+    ? to.matched
+      ? to
+      : this.resolve(to).route
+    : this.currentRoute;
+  if (!route) {
+    return []
+  }
+  return [].concat.apply([], route.matched.map(function (m) {
+    return Object.keys(m.components).map(function (key) {
+      return m.components[key]
+    })
+  }))
+};
+
+VueRouter.prototype.resolve = function resolve (
+  to,
+  current,
+  append
+) {
+  var location = normalizeLocation(
+    to,
+    current || this.history.current,
+    append,
+    this
+  );
+  var route = this.match(location, current);
+  var fullPath = route.redirectedFrom || route.fullPath;
+  var base = this.history.base;
+  var href = createHref(base, fullPath, this.mode);
+  return {
+    location: location,
+    route: route,
+    href: href,
+    // for backwards compat
+    normalizedTo: location,
+    resolved: route
+  }
+};
+
+VueRouter.prototype.addRoutes = function addRoutes (routes) {
+  this.matcher.addRoutes(routes);
+  if (this.history.current !== START) {
+    this.history.transitionTo(this.history.getCurrentLocation());
+  }
+};
+
+Object.defineProperties( VueRouter.prototype, prototypeAccessors );
+
+function registerHook (list, fn) {
+  list.push(fn);
+  return function () {
+    var i = list.indexOf(fn);
+    if (i > -1) { list.splice(i, 1); }
+  }
+}
+
+function createHref (base, fullPath, mode) {
+  var path = mode === 'hash' ? '#' + fullPath : fullPath;
+  return base ? cleanPath(base + '/' + path) : path
+}
+
+VueRouter.install = install;
+VueRouter.version = '3.0.1';
+
+if (inBrowser && window.Vue) {
+  window.Vue.use(VueRouter);
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (VueRouter);
+
+
+/***/ }),
+/* 47 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export Url */
+/* unused harmony export Http */
+/* unused harmony export Resource */
+/*!
+ * vue-resource v1.5.1
+ * https://github.com/pagekit/vue-resource
+ * Released under the MIT License.
+ */
+
+/**
+ * Promises/A+ polyfill v1.1.4 (https://github.com/bramstein/promis)
+ */
+
+var RESOLVED = 0;
+var REJECTED = 1;
+var PENDING = 2;
+
+function Promise$1(executor) {
+
+    this.state = PENDING;
+    this.value = undefined;
+    this.deferred = [];
+
+    var promise = this;
+
+    try {
+        executor(function (x) {
+            promise.resolve(x);
+        }, function (r) {
+            promise.reject(r);
+        });
+    } catch (e) {
+        promise.reject(e);
+    }
+}
+
+Promise$1.reject = function (r) {
+    return new Promise$1(function (resolve, reject) {
+        reject(r);
+    });
+};
+
+Promise$1.resolve = function (x) {
+    return new Promise$1(function (resolve, reject) {
+        resolve(x);
+    });
+};
+
+Promise$1.all = function all(iterable) {
+    return new Promise$1(function (resolve, reject) {
+        var count = 0, result = [];
+
+        if (iterable.length === 0) {
+            resolve(result);
+        }
+
+        function resolver(i) {
+            return function (x) {
+                result[i] = x;
+                count += 1;
+
+                if (count === iterable.length) {
+                    resolve(result);
+                }
+            };
+        }
+
+        for (var i = 0; i < iterable.length; i += 1) {
+            Promise$1.resolve(iterable[i]).then(resolver(i), reject);
+        }
+    });
+};
+
+Promise$1.race = function race(iterable) {
+    return new Promise$1(function (resolve, reject) {
+        for (var i = 0; i < iterable.length; i += 1) {
+            Promise$1.resolve(iterable[i]).then(resolve, reject);
+        }
+    });
+};
+
+var p = Promise$1.prototype;
+
+p.resolve = function resolve(x) {
+    var promise = this;
+
+    if (promise.state === PENDING) {
+        if (x === promise) {
+            throw new TypeError('Promise settled with itself.');
+        }
+
+        var called = false;
+
+        try {
+            var then = x && x['then'];
+
+            if (x !== null && typeof x === 'object' && typeof then === 'function') {
+                then.call(x, function (x) {
+                    if (!called) {
+                        promise.resolve(x);
+                    }
+                    called = true;
+
+                }, function (r) {
+                    if (!called) {
+                        promise.reject(r);
+                    }
+                    called = true;
+                });
+                return;
+            }
+        } catch (e) {
+            if (!called) {
+                promise.reject(e);
+            }
+            return;
+        }
+
+        promise.state = RESOLVED;
+        promise.value = x;
+        promise.notify();
+    }
+};
+
+p.reject = function reject(reason) {
+    var promise = this;
+
+    if (promise.state === PENDING) {
+        if (reason === promise) {
+            throw new TypeError('Promise settled with itself.');
+        }
+
+        promise.state = REJECTED;
+        promise.value = reason;
+        promise.notify();
+    }
+};
+
+p.notify = function notify() {
+    var promise = this;
+
+    nextTick(function () {
+        if (promise.state !== PENDING) {
+            while (promise.deferred.length) {
+                var deferred = promise.deferred.shift(),
+                    onResolved = deferred[0],
+                    onRejected = deferred[1],
+                    resolve = deferred[2],
+                    reject = deferred[3];
+
+                try {
+                    if (promise.state === RESOLVED) {
+                        if (typeof onResolved === 'function') {
+                            resolve(onResolved.call(undefined, promise.value));
+                        } else {
+                            resolve(promise.value);
+                        }
+                    } else if (promise.state === REJECTED) {
+                        if (typeof onRejected === 'function') {
+                            resolve(onRejected.call(undefined, promise.value));
+                        } else {
+                            reject(promise.value);
+                        }
+                    }
+                } catch (e) {
+                    reject(e);
+                }
+            }
+        }
+    });
+};
+
+p.then = function then(onResolved, onRejected) {
+    var promise = this;
+
+    return new Promise$1(function (resolve, reject) {
+        promise.deferred.push([onResolved, onRejected, resolve, reject]);
+        promise.notify();
+    });
+};
+
+p.catch = function (onRejected) {
+    return this.then(undefined, onRejected);
+};
+
+/**
+ * Promise adapter.
+ */
+
+if (typeof Promise === 'undefined') {
+    window.Promise = Promise$1;
+}
+
+function PromiseObj(executor, context) {
+
+    if (executor instanceof Promise) {
+        this.promise = executor;
+    } else {
+        this.promise = new Promise(executor.bind(context));
+    }
+
+    this.context = context;
+}
+
+PromiseObj.all = function (iterable, context) {
+    return new PromiseObj(Promise.all(iterable), context);
+};
+
+PromiseObj.resolve = function (value, context) {
+    return new PromiseObj(Promise.resolve(value), context);
+};
+
+PromiseObj.reject = function (reason, context) {
+    return new PromiseObj(Promise.reject(reason), context);
+};
+
+PromiseObj.race = function (iterable, context) {
+    return new PromiseObj(Promise.race(iterable), context);
+};
+
+var p$1 = PromiseObj.prototype;
+
+p$1.bind = function (context) {
+    this.context = context;
+    return this;
+};
+
+p$1.then = function (fulfilled, rejected) {
+
+    if (fulfilled && fulfilled.bind && this.context) {
+        fulfilled = fulfilled.bind(this.context);
+    }
+
+    if (rejected && rejected.bind && this.context) {
+        rejected = rejected.bind(this.context);
+    }
+
+    return new PromiseObj(this.promise.then(fulfilled, rejected), this.context);
+};
+
+p$1.catch = function (rejected) {
+
+    if (rejected && rejected.bind && this.context) {
+        rejected = rejected.bind(this.context);
+    }
+
+    return new PromiseObj(this.promise.catch(rejected), this.context);
+};
+
+p$1.finally = function (callback) {
+
+    return this.then(function (value) {
+        callback.call(this);
+        return value;
+    }, function (reason) {
+        callback.call(this);
+        return Promise.reject(reason);
+    }
+    );
+};
+
+/**
+ * Utility functions.
+ */
+
+var ref = {};
+var hasOwnProperty = ref.hasOwnProperty;
+var ref$1 = [];
+var slice = ref$1.slice;
+var debug = false, ntick;
+
+var inBrowser = typeof window !== 'undefined';
+
+function Util (ref) {
+    var config = ref.config;
+    var nextTick = ref.nextTick;
+
+    ntick = nextTick;
+    debug = config.debug || !config.silent;
+}
+
+function warn(msg) {
+    if (typeof console !== 'undefined' && debug) {
+        console.warn('[VueResource warn]: ' + msg);
+    }
+}
+
+function error(msg) {
+    if (typeof console !== 'undefined') {
+        console.error(msg);
+    }
+}
+
+function nextTick(cb, ctx) {
+    return ntick(cb, ctx);
+}
+
+function trim(str) {
+    return str ? str.replace(/^\s*|\s*$/g, '') : '';
+}
+
+function trimEnd(str, chars) {
+
+    if (str && chars === undefined) {
+        return str.replace(/\s+$/, '');
+    }
+
+    if (!str || !chars) {
+        return str;
+    }
+
+    return str.replace(new RegExp(("[" + chars + "]+$")), '');
+}
+
+function toLower(str) {
+    return str ? str.toLowerCase() : '';
+}
+
+function toUpper(str) {
+    return str ? str.toUpperCase() : '';
+}
+
+var isArray = Array.isArray;
+
+function isString(val) {
+    return typeof val === 'string';
+}
+
+function isFunction(val) {
+    return typeof val === 'function';
+}
+
+function isObject(obj) {
+    return obj !== null && typeof obj === 'object';
+}
+
+function isPlainObject(obj) {
+    return isObject(obj) && Object.getPrototypeOf(obj) == Object.prototype;
+}
+
+function isBlob(obj) {
+    return typeof Blob !== 'undefined' && obj instanceof Blob;
+}
+
+function isFormData(obj) {
+    return typeof FormData !== 'undefined' && obj instanceof FormData;
+}
+
+function when(value, fulfilled, rejected) {
+
+    var promise = PromiseObj.resolve(value);
+
+    if (arguments.length < 2) {
+        return promise;
+    }
+
+    return promise.then(fulfilled, rejected);
+}
+
+function options(fn, obj, opts) {
+
+    opts = opts || {};
+
+    if (isFunction(opts)) {
+        opts = opts.call(obj);
+    }
+
+    return merge(fn.bind({$vm: obj, $options: opts}), fn, {$options: opts});
+}
+
+function each(obj, iterator) {
+
+    var i, key;
+
+    if (isArray(obj)) {
+        for (i = 0; i < obj.length; i++) {
+            iterator.call(obj[i], obj[i], i);
+        }
+    } else if (isObject(obj)) {
+        for (key in obj) {
+            if (hasOwnProperty.call(obj, key)) {
+                iterator.call(obj[key], obj[key], key);
+            }
+        }
+    }
+
+    return obj;
+}
+
+var assign = Object.assign || _assign;
+
+function merge(target) {
+
+    var args = slice.call(arguments, 1);
+
+    args.forEach(function (source) {
+        _merge(target, source, true);
+    });
+
+    return target;
+}
+
+function defaults(target) {
+
+    var args = slice.call(arguments, 1);
+
+    args.forEach(function (source) {
+
+        for (var key in source) {
+            if (target[key] === undefined) {
+                target[key] = source[key];
+            }
+        }
+
+    });
+
+    return target;
+}
+
+function _assign(target) {
+
+    var args = slice.call(arguments, 1);
+
+    args.forEach(function (source) {
+        _merge(target, source);
+    });
+
+    return target;
+}
+
+function _merge(target, source, deep) {
+    for (var key in source) {
+        if (deep && (isPlainObject(source[key]) || isArray(source[key]))) {
+            if (isPlainObject(source[key]) && !isPlainObject(target[key])) {
+                target[key] = {};
+            }
+            if (isArray(source[key]) && !isArray(target[key])) {
+                target[key] = [];
+            }
+            _merge(target[key], source[key], deep);
+        } else if (source[key] !== undefined) {
+            target[key] = source[key];
+        }
+    }
+}
+
+/**
+ * Root Prefix Transform.
+ */
+
+function root (options$$1, next) {
+
+    var url = next(options$$1);
+
+    if (isString(options$$1.root) && !/^(https?:)?\//.test(url)) {
+        url = trimEnd(options$$1.root, '/') + '/' + url;
+    }
+
+    return url;
+}
+
+/**
+ * Query Parameter Transform.
+ */
+
+function query (options$$1, next) {
+
+    var urlParams = Object.keys(Url.options.params), query = {}, url = next(options$$1);
+
+    each(options$$1.params, function (value, key) {
+        if (urlParams.indexOf(key) === -1) {
+            query[key] = value;
+        }
+    });
+
+    query = Url.params(query);
+
+    if (query) {
+        url += (url.indexOf('?') == -1 ? '?' : '&') + query;
+    }
+
+    return url;
+}
+
+/**
+ * URL Template v2.0.6 (https://github.com/bramstein/url-template)
+ */
+
+function expand(url, params, variables) {
+
+    var tmpl = parse(url), expanded = tmpl.expand(params);
+
+    if (variables) {
+        variables.push.apply(variables, tmpl.vars);
+    }
+
+    return expanded;
+}
+
+function parse(template) {
+
+    var operators = ['+', '#', '.', '/', ';', '?', '&'], variables = [];
+
+    return {
+        vars: variables,
+        expand: function expand(context) {
+            return template.replace(/\{([^{}]+)\}|([^{}]+)/g, function (_, expression, literal) {
+                if (expression) {
+
+                    var operator = null, values = [];
+
+                    if (operators.indexOf(expression.charAt(0)) !== -1) {
+                        operator = expression.charAt(0);
+                        expression = expression.substr(1);
+                    }
+
+                    expression.split(/,/g).forEach(function (variable) {
+                        var tmp = /([^:*]*)(?::(\d+)|(\*))?/.exec(variable);
+                        values.push.apply(values, getValues(context, operator, tmp[1], tmp[2] || tmp[3]));
+                        variables.push(tmp[1]);
+                    });
+
+                    if (operator && operator !== '+') {
+
+                        var separator = ',';
+
+                        if (operator === '?') {
+                            separator = '&';
+                        } else if (operator !== '#') {
+                            separator = operator;
+                        }
+
+                        return (values.length !== 0 ? operator : '') + values.join(separator);
+                    } else {
+                        return values.join(',');
+                    }
+
+                } else {
+                    return encodeReserved(literal);
+                }
+            });
+        }
+    };
+}
+
+function getValues(context, operator, key, modifier) {
+
+    var value = context[key], result = [];
+
+    if (isDefined(value) && value !== '') {
+        if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
+            value = value.toString();
+
+            if (modifier && modifier !== '*') {
+                value = value.substring(0, parseInt(modifier, 10));
+            }
+
+            result.push(encodeValue(operator, value, isKeyOperator(operator) ? key : null));
+        } else {
+            if (modifier === '*') {
+                if (Array.isArray(value)) {
+                    value.filter(isDefined).forEach(function (value) {
+                        result.push(encodeValue(operator, value, isKeyOperator(operator) ? key : null));
+                    });
+                } else {
+                    Object.keys(value).forEach(function (k) {
+                        if (isDefined(value[k])) {
+                            result.push(encodeValue(operator, value[k], k));
+                        }
+                    });
+                }
+            } else {
+                var tmp = [];
+
+                if (Array.isArray(value)) {
+                    value.filter(isDefined).forEach(function (value) {
+                        tmp.push(encodeValue(operator, value));
+                    });
+                } else {
+                    Object.keys(value).forEach(function (k) {
+                        if (isDefined(value[k])) {
+                            tmp.push(encodeURIComponent(k));
+                            tmp.push(encodeValue(operator, value[k].toString()));
+                        }
+                    });
+                }
+
+                if (isKeyOperator(operator)) {
+                    result.push(encodeURIComponent(key) + '=' + tmp.join(','));
+                } else if (tmp.length !== 0) {
+                    result.push(tmp.join(','));
+                }
+            }
+        }
+    } else {
+        if (operator === ';') {
+            result.push(encodeURIComponent(key));
+        } else if (value === '' && (operator === '&' || operator === '?')) {
+            result.push(encodeURIComponent(key) + '=');
+        } else if (value === '') {
+            result.push('');
+        }
+    }
+
+    return result;
+}
+
+function isDefined(value) {
+    return value !== undefined && value !== null;
+}
+
+function isKeyOperator(operator) {
+    return operator === ';' || operator === '&' || operator === '?';
+}
+
+function encodeValue(operator, value, key) {
+
+    value = (operator === '+' || operator === '#') ? encodeReserved(value) : encodeURIComponent(value);
+
+    if (key) {
+        return encodeURIComponent(key) + '=' + value;
+    } else {
+        return value;
+    }
+}
+
+function encodeReserved(str) {
+    return str.split(/(%[0-9A-Fa-f]{2})/g).map(function (part) {
+        if (!/%[0-9A-Fa-f]/.test(part)) {
+            part = encodeURI(part);
+        }
+        return part;
+    }).join('');
+}
+
+/**
+ * URL Template (RFC 6570) Transform.
+ */
+
+function template (options) {
+
+    var variables = [], url = expand(options.url, options.params, variables);
+
+    variables.forEach(function (key) {
+        delete options.params[key];
+    });
+
+    return url;
+}
+
+/**
+ * Service for URL templating.
+ */
+
+function Url(url, params) {
+
+    var self = this || {}, options$$1 = url, transform;
+
+    if (isString(url)) {
+        options$$1 = {url: url, params: params};
+    }
+
+    options$$1 = merge({}, Url.options, self.$options, options$$1);
+
+    Url.transforms.forEach(function (handler) {
+
+        if (isString(handler)) {
+            handler = Url.transform[handler];
+        }
+
+        if (isFunction(handler)) {
+            transform = factory(handler, transform, self.$vm);
+        }
+
+    });
+
+    return transform(options$$1);
+}
+
+/**
+ * Url options.
+ */
+
+Url.options = {
+    url: '',
+    root: null,
+    params: {}
+};
+
+/**
+ * Url transforms.
+ */
+
+Url.transform = {template: template, query: query, root: root};
+Url.transforms = ['template', 'query', 'root'];
+
+/**
+ * Encodes a Url parameter string.
+ *
+ * @param {Object} obj
+ */
+
+Url.params = function (obj) {
+
+    var params = [], escape = encodeURIComponent;
+
+    params.add = function (key, value) {
+
+        if (isFunction(value)) {
+            value = value();
+        }
+
+        if (value === null) {
+            value = '';
+        }
+
+        this.push(escape(key) + '=' + escape(value));
+    };
+
+    serialize(params, obj);
+
+    return params.join('&').replace(/%20/g, '+');
+};
+
+/**
+ * Parse a URL and return its components.
+ *
+ * @param {String} url
+ */
+
+Url.parse = function (url) {
+
+    var el = document.createElement('a');
+
+    if (document.documentMode) {
+        el.href = url;
+        url = el.href;
+    }
+
+    el.href = url;
+
+    return {
+        href: el.href,
+        protocol: el.protocol ? el.protocol.replace(/:$/, '') : '',
+        port: el.port,
+        host: el.host,
+        hostname: el.hostname,
+        pathname: el.pathname.charAt(0) === '/' ? el.pathname : '/' + el.pathname,
+        search: el.search ? el.search.replace(/^\?/, '') : '',
+        hash: el.hash ? el.hash.replace(/^#/, '') : ''
+    };
+};
+
+function factory(handler, next, vm) {
+    return function (options$$1) {
+        return handler.call(vm, options$$1, next);
+    };
+}
+
+function serialize(params, obj, scope) {
+
+    var array = isArray(obj), plain = isPlainObject(obj), hash;
+
+    each(obj, function (value, key) {
+
+        hash = isObject(value) || isArray(value);
+
+        if (scope) {
+            key = scope + '[' + (plain || hash ? key : '') + ']';
+        }
+
+        if (!scope && array) {
+            params.add(value.name, value.value);
+        } else if (hash) {
+            serialize(params, value, key);
+        } else {
+            params.add(key, value);
+        }
+    });
+}
+
+/**
+ * XDomain client (Internet Explorer).
+ */
+
+function xdrClient (request) {
+    return new PromiseObj(function (resolve) {
+
+        var xdr = new XDomainRequest(), handler = function (ref) {
+                var type = ref.type;
+
+
+                var status = 0;
+
+                if (type === 'load') {
+                    status = 200;
+                } else if (type === 'error') {
+                    status = 500;
+                }
+
+                resolve(request.respondWith(xdr.responseText, {status: status}));
+            };
+
+        request.abort = function () { return xdr.abort(); };
+
+        xdr.open(request.method, request.getUrl());
+
+        if (request.timeout) {
+            xdr.timeout = request.timeout;
+        }
+
+        xdr.onload = handler;
+        xdr.onabort = handler;
+        xdr.onerror = handler;
+        xdr.ontimeout = handler;
+        xdr.onprogress = function () {};
+        xdr.send(request.getBody());
+    });
+}
+
+/**
+ * CORS Interceptor.
+ */
+
+var SUPPORTS_CORS = inBrowser && 'withCredentials' in new XMLHttpRequest();
+
+function cors (request) {
+
+    if (inBrowser) {
+
+        var orgUrl = Url.parse(location.href);
+        var reqUrl = Url.parse(request.getUrl());
+
+        if (reqUrl.protocol !== orgUrl.protocol || reqUrl.host !== orgUrl.host) {
+
+            request.crossOrigin = true;
+            request.emulateHTTP = false;
+
+            if (!SUPPORTS_CORS) {
+                request.client = xdrClient;
+            }
+        }
+    }
+
+}
+
+/**
+ * Form data Interceptor.
+ */
+
+function form (request) {
+
+    if (isFormData(request.body)) {
+        request.headers.delete('Content-Type');
+    } else if (isObject(request.body) && request.emulateJSON) {
+        request.body = Url.params(request.body);
+        request.headers.set('Content-Type', 'application/x-www-form-urlencoded');
+    }
+
+}
+
+/**
+ * JSON Interceptor.
+ */
+
+function json (request) {
+
+    var type = request.headers.get('Content-Type') || '';
+
+    if (isObject(request.body) && type.indexOf('application/json') === 0) {
+        request.body = JSON.stringify(request.body);
+    }
+
+    return function (response) {
+
+        return response.bodyText ? when(response.text(), function (text) {
+
+            var type = response.headers.get('Content-Type') || '';
+
+            if (type.indexOf('application/json') === 0 || isJson(text)) {
+
+                try {
+                    response.body = JSON.parse(text);
+                } catch (e) {
+                    response.body = null;
+                }
+
+            } else {
+                response.body = text;
+            }
+
+            return response;
+
+        }) : response;
+
+    };
+}
+
+function isJson(str) {
+
+    var start = str.match(/^\s*(\[|\{)/);
+    var end = {'[': /]\s*$/, '{': /}\s*$/};
+
+    return start && end[start[1]].test(str);
+}
+
+/**
+ * JSONP client (Browser).
+ */
+
+function jsonpClient (request) {
+    return new PromiseObj(function (resolve) {
+
+        var name = request.jsonp || 'callback', callback = request.jsonpCallback || '_jsonp' + Math.random().toString(36).substr(2), body = null, handler, script;
+
+        handler = function (ref) {
+            var type = ref.type;
+
+
+            var status = 0;
+
+            if (type === 'load' && body !== null) {
+                status = 200;
+            } else if (type === 'error') {
+                status = 500;
+            }
+
+            if (status && window[callback]) {
+                delete window[callback];
+                document.body.removeChild(script);
+            }
+
+            resolve(request.respondWith(body, {status: status}));
+        };
+
+        window[callback] = function (result) {
+            body = JSON.stringify(result);
+        };
+
+        request.abort = function () {
+            handler({type: 'abort'});
+        };
+
+        request.params[name] = callback;
+
+        if (request.timeout) {
+            setTimeout(request.abort, request.timeout);
+        }
+
+        script = document.createElement('script');
+        script.src = request.getUrl();
+        script.type = 'text/javascript';
+        script.async = true;
+        script.onload = handler;
+        script.onerror = handler;
+
+        document.body.appendChild(script);
+    });
+}
+
+/**
+ * JSONP Interceptor.
+ */
+
+function jsonp (request) {
+
+    if (request.method == 'JSONP') {
+        request.client = jsonpClient;
+    }
+
+}
+
+/**
+ * Before Interceptor.
+ */
+
+function before (request) {
+
+    if (isFunction(request.before)) {
+        request.before.call(this, request);
+    }
+
+}
+
+/**
+ * HTTP method override Interceptor.
+ */
+
+function method (request) {
+
+    if (request.emulateHTTP && /^(PUT|PATCH|DELETE)$/i.test(request.method)) {
+        request.headers.set('X-HTTP-Method-Override', request.method);
+        request.method = 'POST';
+    }
+
+}
+
+/**
+ * Header Interceptor.
+ */
+
+function header (request) {
+
+    var headers = assign({}, Http.headers.common,
+        !request.crossOrigin ? Http.headers.custom : {},
+        Http.headers[toLower(request.method)]
+    );
+
+    each(headers, function (value, name) {
+        if (!request.headers.has(name)) {
+            request.headers.set(name, value);
+        }
+    });
+
+}
+
+/**
+ * XMLHttp client (Browser).
+ */
+
+function xhrClient (request) {
+    return new PromiseObj(function (resolve) {
+
+        var xhr = new XMLHttpRequest(), handler = function (event) {
+
+                var response = request.respondWith(
+                'response' in xhr ? xhr.response : xhr.responseText, {
+                    status: xhr.status === 1223 ? 204 : xhr.status, // IE9 status bug
+                    statusText: xhr.status === 1223 ? 'No Content' : trim(xhr.statusText)
+                });
+
+                each(trim(xhr.getAllResponseHeaders()).split('\n'), function (row) {
+                    response.headers.append(row.slice(0, row.indexOf(':')), row.slice(row.indexOf(':') + 1));
+                });
+
+                resolve(response);
+            };
+
+        request.abort = function () { return xhr.abort(); };
+
+        xhr.open(request.method, request.getUrl(), true);
+
+        if (request.timeout) {
+            xhr.timeout = request.timeout;
+        }
+
+        if (request.responseType && 'responseType' in xhr) {
+            xhr.responseType = request.responseType;
+        }
+
+        if (request.withCredentials || request.credentials) {
+            xhr.withCredentials = true;
+        }
+
+        if (!request.crossOrigin) {
+            request.headers.set('X-Requested-With', 'XMLHttpRequest');
+        }
+
+        // deprecated use downloadProgress
+        if (isFunction(request.progress) && request.method === 'GET') {
+            xhr.addEventListener('progress', request.progress);
+        }
+
+        if (isFunction(request.downloadProgress)) {
+            xhr.addEventListener('progress', request.downloadProgress);
+        }
+
+        // deprecated use uploadProgress
+        if (isFunction(request.progress) && /^(POST|PUT)$/i.test(request.method)) {
+            xhr.upload.addEventListener('progress', request.progress);
+        }
+
+        if (isFunction(request.uploadProgress) && xhr.upload) {
+            xhr.upload.addEventListener('progress', request.uploadProgress);
+        }
+
+        request.headers.forEach(function (value, name) {
+            xhr.setRequestHeader(name, value);
+        });
+
+        xhr.onload = handler;
+        xhr.onabort = handler;
+        xhr.onerror = handler;
+        xhr.ontimeout = handler;
+        xhr.send(request.getBody());
+    });
+}
+
+/**
+ * Http client (Node).
+ */
+
+function nodeClient (request) {
+
+    var client = __webpack_require__(48);
+
+    return new PromiseObj(function (resolve) {
+
+        var url = request.getUrl();
+        var body = request.getBody();
+        var method = request.method;
+        var headers = {}, handler;
+
+        request.headers.forEach(function (value, name) {
+            headers[name] = value;
+        });
+
+        client(url, {body: body, method: method, headers: headers}).then(handler = function (resp) {
+
+            var response = request.respondWith(resp.body, {
+                status: resp.statusCode,
+                statusText: trim(resp.statusMessage)
+            });
+
+            each(resp.headers, function (value, name) {
+                response.headers.set(name, value);
+            });
+
+            resolve(response);
+
+        }, function (error$$1) { return handler(error$$1.response); });
+    });
+}
+
+/**
+ * Base client.
+ */
+
+function Client (context) {
+
+    var reqHandlers = [sendRequest], resHandlers = [];
+
+    if (!isObject(context)) {
+        context = null;
+    }
+
+    function Client(request) {
+        while (reqHandlers.length) {
+
+            var handler = reqHandlers.pop();
+
+            if (isFunction(handler)) {
+
+                var response = (void 0), next = (void 0);
+
+                response = handler.call(context, request, function (val) { return next = val; }) || next;
+
+                if (isObject(response)) {
+                    return new PromiseObj(function (resolve, reject) {
+
+                        resHandlers.forEach(function (handler) {
+                            response = when(response, function (response) {
+                                return handler.call(context, response) || response;
+                            }, reject);
+                        });
+
+                        when(response, resolve, reject);
+
+                    }, context);
+                }
+
+                if (isFunction(response)) {
+                    resHandlers.unshift(response);
+                }
+
+            } else {
+                warn(("Invalid interceptor of type " + (typeof handler) + ", must be a function"));
+            }
+        }
+    }
+
+    Client.use = function (handler) {
+        reqHandlers.push(handler);
+    };
+
+    return Client;
+}
+
+function sendRequest(request) {
+
+    var client = request.client || (inBrowser ? xhrClient : nodeClient);
+
+    return client(request);
+}
+
+/**
+ * HTTP Headers.
+ */
+
+var Headers = function Headers(headers) {
+    var this$1 = this;
+
+
+    this.map = {};
+
+    each(headers, function (value, name) { return this$1.append(name, value); });
+};
+
+Headers.prototype.has = function has (name) {
+    return getName(this.map, name) !== null;
+};
+
+Headers.prototype.get = function get (name) {
+
+    var list = this.map[getName(this.map, name)];
+
+    return list ? list.join() : null;
+};
+
+Headers.prototype.getAll = function getAll (name) {
+    return this.map[getName(this.map, name)] || [];
+};
+
+Headers.prototype.set = function set (name, value) {
+    this.map[normalizeName(getName(this.map, name) || name)] = [trim(value)];
+};
+
+Headers.prototype.append = function append (name, value) {
+
+    var list = this.map[getName(this.map, name)];
+
+    if (list) {
+        list.push(trim(value));
+    } else {
+        this.set(name, value);
+    }
+};
+
+Headers.prototype.delete = function delete$1 (name) {
+    delete this.map[getName(this.map, name)];
+};
+
+Headers.prototype.deleteAll = function deleteAll () {
+    this.map = {};
+};
+
+Headers.prototype.forEach = function forEach (callback, thisArg) {
+        var this$1 = this;
+
+    each(this.map, function (list, name) {
+        each(list, function (value) { return callback.call(thisArg, value, name, this$1); });
+    });
+};
+
+function getName(map, name) {
+    return Object.keys(map).reduce(function (prev, curr) {
+        return toLower(name) === toLower(curr) ? curr : prev;
+    }, null);
+}
+
+function normalizeName(name) {
+
+    if (/[^a-z0-9\-#$%&'*+.^_`|~]/i.test(name)) {
+        throw new TypeError('Invalid character in header field name');
+    }
+
+    return trim(name);
+}
+
+/**
+ * HTTP Response.
+ */
+
+var Response = function Response(body, ref) {
+    var url = ref.url;
+    var headers = ref.headers;
+    var status = ref.status;
+    var statusText = ref.statusText;
+
+
+    this.url = url;
+    this.ok = status >= 200 && status < 300;
+    this.status = status || 0;
+    this.statusText = statusText || '';
+    this.headers = new Headers(headers);
+    this.body = body;
+
+    if (isString(body)) {
+
+        this.bodyText = body;
+
+    } else if (isBlob(body)) {
+
+        this.bodyBlob = body;
+
+        if (isBlobText(body)) {
+            this.bodyText = blobText(body);
+        }
+    }
+};
+
+Response.prototype.blob = function blob () {
+    return when(this.bodyBlob);
+};
+
+Response.prototype.text = function text () {
+    return when(this.bodyText);
+};
+
+Response.prototype.json = function json () {
+    return when(this.text(), function (text) { return JSON.parse(text); });
+};
+
+Object.defineProperty(Response.prototype, 'data', {
+
+    get: function get() {
+        return this.body;
+    },
+
+    set: function set(body) {
+        this.body = body;
+    }
+
+});
+
+function blobText(body) {
+    return new PromiseObj(function (resolve) {
+
+        var reader = new FileReader();
+
+        reader.readAsText(body);
+        reader.onload = function () {
+            resolve(reader.result);
+        };
+
+    });
+}
+
+function isBlobText(body) {
+    return body.type.indexOf('text') === 0 || body.type.indexOf('json') !== -1;
+}
+
+/**
+ * HTTP Request.
+ */
+
+var Request = function Request(options$$1) {
+
+    this.body = null;
+    this.params = {};
+
+    assign(this, options$$1, {
+        method: toUpper(options$$1.method || 'GET')
+    });
+
+    if (!(this.headers instanceof Headers)) {
+        this.headers = new Headers(this.headers);
+    }
+};
+
+Request.prototype.getUrl = function getUrl () {
+    return Url(this);
+};
+
+Request.prototype.getBody = function getBody () {
+    return this.body;
+};
+
+Request.prototype.respondWith = function respondWith (body, options$$1) {
+    return new Response(body, assign(options$$1 || {}, {url: this.getUrl()}));
+};
+
+/**
+ * Service for sending network requests.
+ */
+
+var COMMON_HEADERS = {'Accept': 'application/json, text/plain, */*'};
+var JSON_CONTENT_TYPE = {'Content-Type': 'application/json;charset=utf-8'};
+
+function Http(options$$1) {
+
+    var self = this || {}, client = Client(self.$vm);
+
+    defaults(options$$1 || {}, self.$options, Http.options);
+
+    Http.interceptors.forEach(function (handler) {
+
+        if (isString(handler)) {
+            handler = Http.interceptor[handler];
+        }
+
+        if (isFunction(handler)) {
+            client.use(handler);
+        }
+
+    });
+
+    return client(new Request(options$$1)).then(function (response) {
+
+        return response.ok ? response : PromiseObj.reject(response);
+
+    }, function (response) {
+
+        if (response instanceof Error) {
+            error(response);
+        }
+
+        return PromiseObj.reject(response);
+    });
+}
+
+Http.options = {};
+
+Http.headers = {
+    put: JSON_CONTENT_TYPE,
+    post: JSON_CONTENT_TYPE,
+    patch: JSON_CONTENT_TYPE,
+    delete: JSON_CONTENT_TYPE,
+    common: COMMON_HEADERS,
+    custom: {}
+};
+
+Http.interceptor = {before: before, method: method, jsonp: jsonp, json: json, form: form, header: header, cors: cors};
+Http.interceptors = ['before', 'method', 'jsonp', 'json', 'form', 'header', 'cors'];
+
+['get', 'delete', 'head', 'jsonp'].forEach(function (method$$1) {
+
+    Http[method$$1] = function (url, options$$1) {
+        return this(assign(options$$1 || {}, {url: url, method: method$$1}));
+    };
+
+});
+
+['post', 'put', 'patch'].forEach(function (method$$1) {
+
+    Http[method$$1] = function (url, body, options$$1) {
+        return this(assign(options$$1 || {}, {url: url, method: method$$1, body: body}));
+    };
+
+});
+
+/**
+ * Service for interacting with RESTful services.
+ */
+
+function Resource(url, params, actions, options$$1) {
+
+    var self = this || {}, resource = {};
+
+    actions = assign({},
+        Resource.actions,
+        actions
+    );
+
+    each(actions, function (action, name) {
+
+        action = merge({url: url, params: assign({}, params)}, options$$1, action);
+
+        resource[name] = function () {
+            return (self.$http || Http)(opts(action, arguments));
+        };
+    });
+
+    return resource;
+}
+
+function opts(action, args) {
+
+    var options$$1 = assign({}, action), params = {}, body;
+
+    switch (args.length) {
+
+        case 2:
+
+            params = args[0];
+            body = args[1];
+
+            break;
+
+        case 1:
+
+            if (/^(POST|PUT|PATCH)$/i.test(options$$1.method)) {
+                body = args[0];
+            } else {
+                params = args[0];
+            }
+
+            break;
+
+        case 0:
+
+            break;
+
+        default:
+
+            throw 'Expected up to 2 arguments [params, body], got ' + args.length + ' arguments';
+    }
+
+    options$$1.body = body;
+    options$$1.params = assign({}, options$$1.params, params);
+
+    return options$$1;
+}
+
+Resource.actions = {
+
+    get: {method: 'GET'},
+    save: {method: 'POST'},
+    query: {method: 'GET'},
+    update: {method: 'PUT'},
+    remove: {method: 'DELETE'},
+    delete: {method: 'DELETE'}
+
+};
+
+/**
+ * Install plugin.
+ */
+
+function plugin(Vue) {
+
+    if (plugin.installed) {
+        return;
+    }
+
+    Util(Vue);
+
+    Vue.url = Url;
+    Vue.http = Http;
+    Vue.resource = Resource;
+    Vue.Promise = PromiseObj;
+
+    Object.defineProperties(Vue.prototype, {
+
+        $url: {
+            get: function get() {
+                return options(Vue.url, this, this.$options.url);
+            }
+        },
+
+        $http: {
+            get: function get() {
+                return options(Vue.http, this, this.$options.http);
+            }
+        },
+
+        $resource: {
+            get: function get() {
+                return Vue.resource.bind(this);
+            }
+        },
+
+        $promise: {
+            get: function get() {
+                var this$1 = this;
+
+                return function (executor) { return new Vue.Promise(executor, this$1); };
+            }
+        }
+
+    });
+}
+
+if (typeof window !== 'undefined' && window.Vue) {
+    window.Vue.use(plugin);
+}
+
+/* harmony default export */ __webpack_exports__["a"] = (plugin);
+
+
+
+/***/ }),
+/* 48 */
+/***/ (function(module, exports) {
+
+/* (ignored) */
+
+/***/ }),
+/* 49 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("navbar"),
+      _vm._v(" "),
+      _c("div", { staticClass: "br-mainpanel" }, [
+        _c("div", { staticClass: "pd-30" }, [_c("router-view")], 1)
+      ])
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-117390fa", module.exports)
+  }
+}
+
+/***/ }),
+/* 50 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = null
+/* template */
+var __vue_template__ = __webpack_require__(51)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\Navbar.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-cd7fb372", Component.options)
+  } else {
+    hotAPI.reload("data-v-cd7fb372", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 51 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm._m(0),
+    _vm._v(" "),
+    _c("div", { staticClass: "br-sideleft overflow-y-auto" }, [
+      _c("label", { staticClass: "sidebar-label pd-x-15 mg-t-20" }, [
+        _vm._v("Navigation")
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "br-sideleft-menu" },
+        [
+          _c(
+            "router-link",
+            { staticClass: "br-menu-link", attrs: { to: "/" } },
+            [
+              _c("div", { staticClass: "br-menu-item" }, [
+                _c("i", {
+                  staticClass: "menu-item-icon icon ion-ios-home-outline tx-22"
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "menu-item-label" }, [
+                  _vm._v("Dashboard")
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "router-link",
+            { staticClass: "br-menu-link", attrs: { to: "/contacts" } },
+            [
+              _c("div", { staticClass: "br-menu-item" }, [
+                _c("i", {
+                  staticClass: "menu-item-icon icon ion-ios-email-outline tx-24"
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "menu-item-label" }, [
+                  _vm._v("Contact Messages")
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c(
+            "router-link",
+            { staticClass: "br-menu-link", attrs: { to: "/queries" } },
+            [
+              _c("div", { staticClass: "br-menu-item" }, [
+                _c("i", {
+                  staticClass:
+                    "menu-item-icon icon ion-ios-photos-outline tx-20"
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "menu-item-label" }, [
+                  _vm._v("All Queries")
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _vm._m(1),
+          _vm._v(" "),
+          _vm._m(2),
+          _vm._v(" "),
+          _vm._m(3),
+          _vm._v(" "),
+          _vm._m(4),
+          _vm._v(" "),
+          _vm._m(5),
+          _vm._v(" "),
+          _vm._m(6),
+          _vm._v(" "),
+          _vm._m(7),
+          _vm._v(" "),
+          _vm._m(8),
+          _vm._v(" "),
+          _vm._m(9),
+          _vm._v(" "),
+          _vm._m(10),
+          _vm._v(" "),
+          _vm._m(11),
+          _vm._v(" "),
+          _vm._m(12),
+          _vm._v(" "),
+          _vm._m(13),
+          _vm._v(" "),
+          _vm._m(14),
+          _vm._v(" "),
+          _vm._m(15),
+          _vm._v(" "),
+          _vm._m(16),
+          _vm._v(" "),
+          _vm._m(17)
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "label",
+        { staticClass: "sidebar-label pd-x-15 mg-t-25 mg-b-20 tx-info op-9" },
+        [_vm._v("Information Summary")]
+      ),
+      _vm._v(" "),
+      _vm._m(18),
+      _vm._v(" "),
+      _c("br")
+    ]),
+    _vm._v(" "),
+    _vm._m(19),
+    _vm._v(" "),
+    _vm._m(20)
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "br-logo" }, [
+      _c("a", { attrs: { href: "" } }, [
+        _c("span", [_vm._v("[")]),
+        _vm._v("bracket"),
+        _c("span", [_vm._v("]")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "br-menu-link", attrs: { href: "#" } }, [
+      _c("div", { staticClass: "br-menu-item" }, [
+        _c("i", {
+          staticClass: "menu-item-icon icon ion-ios-filing-outline tx-24"
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "menu-item-label" }, [_vm._v("UI Elements")]),
+        _vm._v(" "),
+        _c("i", { staticClass: "menu-item-arrow fa fa-angle-down" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "br-menu-sub nav flex-column" }, [
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "accordion.html" } },
+          [_vm._v("Accordion")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "alerts.html" } }, [
+          _vm._v("Alerts")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "buttons.html" } }, [
+          _vm._v("Buttons")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "cards.html" } }, [
+          _vm._v("Cards")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "icons.html" } }, [
+          _vm._v("Icons")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "modal.html" } }, [
+          _vm._v("Modal")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "pagination.html" } },
+          [_vm._v("Pagination")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "popups.html" } }, [
+          _vm._v("Tooltip & Popover")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "progress.html" } }, [
+          _vm._v("Progress")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "spinners.html" } }, [
+          _vm._v("Spinners")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "typography.html" } },
+          [_vm._v("Typography")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "br-menu-link", attrs: { href: "#" } }, [
+      _c("div", { staticClass: "br-menu-item" }, [
+        _c("i", { staticClass: "menu-item-icon ion-ios-redo-outline tx-24" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "menu-item-label" }, [_vm._v("Navigation")]),
+        _vm._v(" "),
+        _c("i", { staticClass: "menu-item-arrow fa fa-angle-down" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "br-menu-sub nav flex-column" }, [
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "navigation.html" } },
+          [_vm._v("Basic Nav")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          {
+            staticClass: "nav-link",
+            attrs: { href: "navigation-layouts.html" }
+          },
+          [_vm._v("Nav Layouts")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "br-menu-link", attrs: { href: "#" } }, [
+      _c("div", { staticClass: "br-menu-item" }, [
+        _c("i", { staticClass: "menu-item-icon ion-ios-pie-outline tx-20" }),
+        _vm._v(" "),
+        _c("span", { staticClass: "menu-item-label" }, [_vm._v("Charts")]),
+        _vm._v(" "),
+        _c("i", { staticClass: "menu-item-arrow fa fa-angle-down" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "br-menu-sub nav flex-column" }, [
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "chart-morris.html" } },
+          [_vm._v("Morris Charts")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "chart-flot.html" } },
+          [_vm._v("Flot Charts")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "chart-chartjs.html" } },
+          [_vm._v("Chart JS")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "chart-rickshaw.html" } },
+          [_vm._v("Rickshaw")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "chart-chartist.html" } },
+          [_vm._v("Chartist")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "chart-sparkline.html" } },
+          [_vm._v("Sparkline")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "chart-peity.html" } },
+          [_vm._v("Peity")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "br-menu-link", attrs: { href: "#" } }, [
+      _c("div", { staticClass: "br-menu-item" }, [
+        _c("i", {
+          staticClass: "menu-item-icon icon ion-ios-gear-outline tx-24"
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "menu-item-label" }, [_vm._v("Forms")]),
+        _vm._v(" "),
+        _c("i", { staticClass: "menu-item-arrow fa fa-angle-down" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "br-menu-sub nav flex-column" }, [
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "form-elements.html" } },
+          [_vm._v("Form Elements")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "form-layouts.html" } },
+          [_vm._v("Form Layouts")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "form-validation.html" } },
+          [_vm._v("Form Validation")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "form-wizards.html" } },
+          [_vm._v("Form Wizards")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "form-editor-code.html" } },
+          [_vm._v("Code Editor")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "form-editor-text.html" } },
+          [_vm._v("Text Editor")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "br-menu-link", attrs: { href: "#" } }, [
+      _c("div", { staticClass: "br-menu-item" }, [
+        _c("i", {
+          staticClass: "menu-item-icon icon ion-ios-bookmarks-outline tx-20"
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "menu-item-label" }, [_vm._v("Tables")]),
+        _vm._v(" "),
+        _c("i", { staticClass: "menu-item-arrow fa fa-angle-down" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "br-menu-sub nav flex-column" }, [
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "table-basic.html" } },
+          [_vm._v("Basic Table")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "table-datatable.html" } },
+          [_vm._v("Data Table")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "br-menu-link", attrs: { href: "#" } }, [
+      _c("div", { staticClass: "br-menu-item" }, [
+        _c("i", {
+          staticClass: "menu-item-icon icon ion-ios-navigate-outline tx-24"
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "menu-item-label" }, [_vm._v("Maps")]),
+        _vm._v(" "),
+        _c("i", { staticClass: "menu-item-arrow fa fa-angle-down" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "br-menu-sub nav flex-column" }, [
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "map-google.html" } },
+          [_vm._v("Google Maps")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "map-leaflet.html" } },
+          [_vm._v("Leaflet Maps")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "map-vector.html" } },
+          [_vm._v("Vector Maps")]
+        )
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("a", { staticClass: "br-menu-link", attrs: { href: "#" } }, [
+      _c("div", { staticClass: "br-menu-item" }, [
+        _c("i", {
+          staticClass: "menu-item-icon icon ion-ios-briefcase-outline tx-22"
+        }),
+        _vm._v(" "),
+        _c("span", { staticClass: "menu-item-label" }, [_vm._v("Utilities")]),
+        _vm._v(" "),
+        _c("i", { staticClass: "menu-item-arrow fa fa-angle-down" })
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("ul", { staticClass: "br-menu-sub nav flex-column" }, [
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "background.html" } },
+          [_vm._v("Background")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "border.html" } }, [
+          _vm._v("Border")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "height.html" } }, [
+          _vm._v("Height")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "margin.html" } }, [
+          _vm._v("Margin")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "padding.html" } }, [
+          _vm._v("Padding")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "position.html" } }, [
+          _vm._v("Position")
+        ])
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c(
+          "a",
+          { staticClass: "nav-link", attrs: { href: "typography-util.html" } },
+          [_vm._v("Typography")]
+        )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "nav-item" }, [
+        _c("a", { staticClass: "nav-link", attrs: { href: "width.html" } }, [
+          _vm._v("Width")
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "br-menu-link", attrs: { href: "pages.html" } },
+      [
+        _c("div", { staticClass: "br-menu-item" }, [
+          _c("i", {
+            staticClass: "menu-item-icon icon ion-ios-paper-outline tx-22"
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "menu-item-label" }, [
+            _vm._v("Apps & Pages")
+          ])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "br-menu-link", attrs: { href: "layouts.html" } },
+      [
+        _c("div", { staticClass: "br-menu-item" }, [
+          _c("i", {
+            staticClass: "menu-item-icon icon ion-ios-book-outline tx-22"
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "menu-item-label" }, [_vm._v("Layouts")])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "a",
+      { staticClass: "br-menu-link", attrs: { href: "sitemap.html" } },
+      [
+        _c("div", { staticClass: "br-menu-item" }, [
+          _c("i", {
+            staticClass: "menu-item-icon icon ion-ios-list-outline tx-22"
+          }),
+          _vm._v(" "),
+          _c("span", { staticClass: "menu-item-label" }, [_vm._v("Sitemap")])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "info-list" }, [
+      _c(
+        "div",
+        {
+          staticClass:
+            "d-flex align-items-center justify-content-between pd-x-15"
+        },
+        [
+          _c("div", [
+            _c(
+              "p",
+              {
+                staticClass:
+                  "tx-10 tx-roboto tx-uppercase tx-spacing-1 tx-white op-3 mg-b-2 space-nowrap"
+              },
+              [_vm._v("Memory Usage")]
+            ),
+            _vm._v(" "),
+            _c("h5", { staticClass: "tx-lato tx-white tx-normal mg-b-0" }, [
+              _vm._v("32.3%")
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              staticClass: "peity-bar",
+              attrs: {
+                "data-peity":
+                  '{ "fill": ["#336490"], "height": 35, "width": 60 }'
+              }
+            },
+            [_vm._v("8,6,5,9,8,4,9,3,5,9")]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "d-flex align-items-center justify-content-between pd-x-15 mg-t-20"
+        },
+        [
+          _c("div", [
+            _c(
+              "p",
+              {
+                staticClass:
+                  "tx-10 tx-roboto tx-uppercase tx-spacing-1 tx-white op-3 mg-b-2 space-nowrap"
+              },
+              [_vm._v("CPU Usage")]
+            ),
+            _vm._v(" "),
+            _c("h5", { staticClass: "tx-lato tx-white tx-normal mg-b-0" }, [
+              _vm._v("140.05")
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              staticClass: "peity-bar",
+              attrs: {
+                "data-peity":
+                  '{ "fill": ["#1C7973"], "height": 35, "width": 60 }'
+              }
+            },
+            [_vm._v("4,3,5,7,12,10,4,5,11,7")]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "d-flex align-items-center justify-content-between pd-x-15 mg-t-20"
+        },
+        [
+          _c("div", [
+            _c(
+              "p",
+              {
+                staticClass:
+                  "tx-10 tx-roboto tx-uppercase tx-spacing-1 tx-white op-3 mg-b-2 space-nowrap"
+              },
+              [_vm._v("Disk Usage")]
+            ),
+            _vm._v(" "),
+            _c("h5", { staticClass: "tx-lato tx-white tx-normal mg-b-0" }, [
+              _vm._v("82.02%")
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              staticClass: "peity-bar",
+              attrs: {
+                "data-peity":
+                  '{ "fill": ["#8E4246"], "height": 35, "width": 60 }'
+              }
+            },
+            [_vm._v("1,2,1,3,2,10,4,12,7")]
+          )
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          staticClass:
+            "d-flex align-items-center justify-content-between pd-x-15 mg-t-20"
+        },
+        [
+          _c("div", [
+            _c(
+              "p",
+              {
+                staticClass:
+                  "tx-10 tx-roboto tx-uppercase tx-spacing-1 tx-white op-3 mg-b-2 space-nowrap"
+              },
+              [_vm._v("Daily Traffic")]
+            ),
+            _vm._v(" "),
+            _c("h5", { staticClass: "tx-lato tx-white tx-normal mg-b-0" }, [
+              _vm._v("62,201")
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              staticClass: "peity-bar",
+              attrs: {
+                "data-peity":
+                  '{ "fill": ["#9C7846"], "height": 35, "width": 60 }'
+              }
+            },
+            [_vm._v("3,12,7,9,2,3,4,5,2")]
+          )
+        ]
+      )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "br-header" }, [
+      _c("div", { staticClass: "br-header-left" }, [
+        _c("div", { staticClass: "navicon-left hidden-md-down" }, [
+          _c("a", { attrs: { id: "btnLeftMenu", href: "" } }, [
+            _c("i", { staticClass: "icon ion-navicon-round" })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "navicon-left hidden-lg-up" }, [
+          _c("a", { attrs: { id: "btnLeftMenuMobile", href: "" } }, [
+            _c("i", { staticClass: "icon ion-navicon-round" })
+          ])
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "input-group hidden-xs-down wd-170 transition" },
+          [
+            _c("input", {
+              staticClass: "form-control",
+              attrs: { id: "searchbox", type: "text", placeholder: "Search" }
+            }),
+            _vm._v(" "),
+            _c("span", { staticClass: "input-group-btn" }, [
+              _c(
+                "button",
+                { staticClass: "btn btn-secondary", attrs: { type: "button" } },
+                [_c("i", { staticClass: "fa fa-search" })]
+              )
+            ])
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "br-header-right" }, [
+        _c("nav", { staticClass: "nav" }, [
+          _c("div", { staticClass: "dropdown" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link pd-x-7 pos-relative",
+                attrs: { href: "", "data-toggle": "dropdown" }
+              },
+              [
+                _c("i", { staticClass: "icon ion-ios-email-outline tx-24" }),
+                _vm._v(" "),
+                _c("span", {
+                  staticClass:
+                    "square-8 bg-danger pos-absolute t-15 r-0 rounded-circle"
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "dropdown-menu dropdown-menu-header wd-300 pd-0-force"
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "d-flex align-items-center justify-content-between pd-y-10 pd-x-20 bd-b bd-gray-200"
+                  },
+                  [
+                    _c(
+                      "label",
+                      {
+                        staticClass:
+                          "tx-12 tx-info tx-uppercase tx-semibold tx-spacing-2 mg-b-0"
+                      },
+                      [_vm._v("Messages")]
+                    ),
+                    _vm._v(" "),
+                    _c("a", { staticClass: "tx-11", attrs: { href: "" } }, [
+                      _vm._v("+ Add New Message")
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "media-list" }, [
+                  _c(
+                    "a",
+                    { staticClass: "media-list-link", attrs: { href: "" } },
+                    [
+                      _c("div", { staticClass: "media pd-x-20 pd-y-15" }, [
+                        _c("img", {
+                          staticClass: "wd-40 rounded-circle",
+                          attrs: {
+                            src: "http://via.placeholder.com/280x280",
+                            alt: ""
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "media-body" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "d-flex align-items-center justify-content-between mg-b-5"
+                            },
+                            [
+                              _c(
+                                "p",
+                                {
+                                  staticClass:
+                                    "mg-b-0 tx-medium tx-gray-800 tx-14"
+                                },
+                                [_vm._v("Donna Seay")]
+                              ),
+                              _vm._v(" "),
+                              _c("span", { staticClass: "tx-11 tx-gray-500" }, [
+                                _vm._v("2 minutes ago")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "tx-12 mg-b-0" }, [
+                            _vm._v(
+                              "A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring."
+                            )
+                          ])
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "media-list-link read",
+                      attrs: { href: "" }
+                    },
+                    [
+                      _c("div", { staticClass: "media pd-x-20 pd-y-15" }, [
+                        _c("img", {
+                          staticClass: "wd-40 rounded-circle",
+                          attrs: {
+                            src: "http://via.placeholder.com/280x280",
+                            alt: ""
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "media-body" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "d-flex align-items-center justify-content-between mg-b-5"
+                            },
+                            [
+                              _c(
+                                "p",
+                                {
+                                  staticClass:
+                                    "mg-b-0 tx-medium tx-gray-800 tx-14"
+                                },
+                                [_vm._v("Samantha Francis")]
+                              ),
+                              _vm._v(" "),
+                              _c("span", { staticClass: "tx-11 tx-gray-500" }, [
+                                _vm._v("3 hours ago")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "tx-12 mg-b-0" }, [
+                            _vm._v(
+                              "My entire soul, like these sweet mornings of spring."
+                            )
+                          ])
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "media-list-link read",
+                      attrs: { href: "" }
+                    },
+                    [
+                      _c("div", { staticClass: "media pd-x-20 pd-y-15" }, [
+                        _c("img", {
+                          staticClass: "wd-40 rounded-circle",
+                          attrs: {
+                            src: "http://via.placeholder.com/280x280",
+                            alt: ""
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "media-body" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "d-flex align-items-center justify-content-between mg-b-5"
+                            },
+                            [
+                              _c(
+                                "p",
+                                {
+                                  staticClass:
+                                    "mg-b-0 tx-medium tx-gray-800 tx-14"
+                                },
+                                [_vm._v("Robert Walker")]
+                              ),
+                              _vm._v(" "),
+                              _c("span", { staticClass: "tx-11 tx-gray-500" }, [
+                                _vm._v("5 hours ago")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "tx-12 mg-b-0" }, [
+                            _vm._v(
+                              "I should be incapable of drawing a single stroke at the present moment..."
+                            )
+                          ])
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "media-list-link read",
+                      attrs: { href: "" }
+                    },
+                    [
+                      _c("div", { staticClass: "media pd-x-20 pd-y-15" }, [
+                        _c("img", {
+                          staticClass: "wd-40 rounded-circle",
+                          attrs: {
+                            src: "http://via.placeholder.com/280x280",
+                            alt: ""
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "media-body" }, [
+                          _c(
+                            "div",
+                            {
+                              staticClass:
+                                "d-flex align-items-center justify-content-between mg-b-5"
+                            },
+                            [
+                              _c(
+                                "p",
+                                {
+                                  staticClass:
+                                    "mg-b-0 tx-medium tx-gray-800 tx-14"
+                                },
+                                [_vm._v("Larry Smith")]
+                              ),
+                              _vm._v(" "),
+                              _c("span", { staticClass: "tx-11 tx-gray-500" }, [
+                                _vm._v("Yesterday")
+                              ])
+                            ]
+                          ),
+                          _vm._v(" "),
+                          _c("p", { staticClass: "tx-12 mg-b-0" }, [
+                            _vm._v(
+                              "When, while the lovely valley teems with vapour around me, and the meridian sun strikes..."
+                            )
+                          ])
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "pd-y-10 tx-center bd-t" }, [
+                    _c("a", { staticClass: "tx-12", attrs: { href: "" } }, [
+                      _c("i", { staticClass: "fa fa-angle-down mg-r-5" }),
+                      _vm._v(" Show All Messages")
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "dropdown" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link pd-x-7 pos-relative",
+                attrs: { href: "", "data-toggle": "dropdown" }
+              },
+              [
+                _c("i", { staticClass: "icon ion-ios-bell-outline tx-24" }),
+                _vm._v(" "),
+                _c("span", {
+                  staticClass:
+                    "square-8 bg-danger pos-absolute t-15 r-5 rounded-circle"
+                })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass:
+                  "dropdown-menu dropdown-menu-header wd-300 pd-0-force"
+              },
+              [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "d-flex align-items-center justify-content-between pd-y-10 pd-x-20 bd-b bd-gray-200"
+                  },
+                  [
+                    _c(
+                      "label",
+                      {
+                        staticClass:
+                          "tx-12 tx-info tx-uppercase tx-semibold tx-spacing-2 mg-b-0"
+                      },
+                      [_vm._v("Notifications")]
+                    ),
+                    _vm._v(" "),
+                    _c("a", { staticClass: "tx-11", attrs: { href: "" } }, [
+                      _vm._v("Mark All as Read")
+                    ])
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "media-list" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "media-list-link read",
+                      attrs: { href: "" }
+                    },
+                    [
+                      _c("div", { staticClass: "media pd-x-20 pd-y-15" }, [
+                        _c("img", {
+                          staticClass: "wd-40 rounded-circle",
+                          attrs: {
+                            src: "http://via.placeholder.com/280x280",
+                            alt: ""
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "media-body" }, [
+                          _c("p", { staticClass: "tx-13 mg-b-0 tx-gray-700" }, [
+                            _c(
+                              "strong",
+                              { staticClass: "tx-medium tx-gray-800" },
+                              [_vm._v("Suzzeth Bungaos")]
+                            ),
+                            _vm._v(" tagged you and 18 others in a post.")
+                          ]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "tx-12" }, [
+                            _vm._v("October 03, 2017 8:45am")
+                          ])
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "media-list-link read",
+                      attrs: { href: "" }
+                    },
+                    [
+                      _c("div", { staticClass: "media pd-x-20 pd-y-15" }, [
+                        _c("img", {
+                          staticClass: "wd-40 rounded-circle",
+                          attrs: {
+                            src: "http://via.placeholder.com/280x280",
+                            alt: ""
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "media-body" }, [
+                          _c("p", { staticClass: "tx-13 mg-b-0 tx-gray-700" }, [
+                            _c(
+                              "strong",
+                              { staticClass: "tx-medium tx-gray-800" },
+                              [_vm._v("Mellisa Brown")]
+                            ),
+                            _vm._v(" appreciated your work "),
+                            _c(
+                              "strong",
+                              { staticClass: "tx-medium tx-gray-800" },
+                              [_vm._v("The Social Network")]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "tx-12" }, [
+                            _vm._v("October 02, 2017 12:44am")
+                          ])
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "media-list-link read",
+                      attrs: { href: "" }
+                    },
+                    [
+                      _c("div", { staticClass: "media pd-x-20 pd-y-15" }, [
+                        _c("img", {
+                          staticClass: "wd-40 rounded-circle",
+                          attrs: {
+                            src: "http://via.placeholder.com/280x280",
+                            alt: ""
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "media-body" }, [
+                          _c("p", { staticClass: "tx-13 mg-b-0 tx-gray-700" }, [
+                            _vm._v("20+ new items added are for sale in your "),
+                            _c(
+                              "strong",
+                              { staticClass: "tx-medium tx-gray-800" },
+                              [_vm._v("Sale Group")]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "tx-12" }, [
+                            _vm._v("October 01, 2017 10:20pm")
+                          ])
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "a",
+                    {
+                      staticClass: "media-list-link read",
+                      attrs: { href: "" }
+                    },
+                    [
+                      _c("div", { staticClass: "media pd-x-20 pd-y-15" }, [
+                        _c("img", {
+                          staticClass: "wd-40 rounded-circle",
+                          attrs: {
+                            src: "http://via.placeholder.com/280x280",
+                            alt: ""
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "media-body" }, [
+                          _c("p", { staticClass: "tx-13 mg-b-0 tx-gray-700" }, [
+                            _c(
+                              "strong",
+                              { staticClass: "tx-medium tx-gray-800" },
+                              [_vm._v("Julius Erving")]
+                            ),
+                            _vm._v(
+                              " wants to connect with you on your conversation with "
+                            ),
+                            _c(
+                              "strong",
+                              { staticClass: "tx-medium tx-gray-800" },
+                              [_vm._v("Ronnie Mara")]
+                            )
+                          ]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "tx-12" }, [
+                            _vm._v("October 01, 2017 6:08pm")
+                          ])
+                        ])
+                      ])
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "pd-y-10 tx-center bd-t" }, [
+                    _c("a", { staticClass: "tx-12", attrs: { href: "" } }, [
+                      _c("i", { staticClass: "fa fa-angle-down mg-r-5" }),
+                      _vm._v(" Show All Notifications")
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "dropdown" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link nav-link-profile",
+                attrs: { href: "", "data-toggle": "dropdown" }
+              },
+              [
+                _c("span", { staticClass: "logged-name hidden-md-down" }, [
+                  _vm._v("Katherine")
+                ]),
+                _vm._v(" "),
+                _c("img", {
+                  staticClass: "wd-32 rounded-circle",
+                  attrs: { src: "http://via.placeholder.com/64x64", alt: "" }
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "square-10 bg-success" })
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "dropdown-menu dropdown-menu-header wd-200" },
+              [
+                _c("ul", { staticClass: "list-unstyled user-profile-nav" }, [
+                  _c("li", [
+                    _c("a", { attrs: { href: "" } }, [
+                      _c("i", { staticClass: "icon ion-ios-person" }),
+                      _vm._v(" Edit Profile")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("li", [
+                    _c("a", { attrs: { href: "" } }, [
+                      _c("i", { staticClass: "icon ion-ios-gear" }),
+                      _vm._v(" Settings")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("li", [
+                    _c("a", { attrs: { href: "" } }, [
+                      _c("i", { staticClass: "icon ion-ios-download" }),
+                      _vm._v(" Downloads")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("li", [
+                    _c("a", { attrs: { href: "" } }, [
+                      _c("i", { staticClass: "icon ion-ios-star" }),
+                      _vm._v(" Favorites")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("li", [
+                    _c("a", { attrs: { href: "" } }, [
+                      _c("i", { staticClass: "icon ion-ios-folder" }),
+                      _vm._v(" Collections")
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("li", [
+                    _c("a", { attrs: { href: "" } }, [
+                      _c("i", { staticClass: "icon ion-power" }),
+                      _vm._v(" Sign Out")
+                    ])
+                  ])
+                ])
+              ]
+            )
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "navicon-right" }, [
+          _c(
+            "a",
+            {
+              staticClass: "pos-relative",
+              attrs: { id: "btnRightMenu", href: "" }
+            },
+            [
+              _c("i", { staticClass: "icon ion-ios-chatboxes-outline" }),
+              _vm._v(" "),
+              _c("span", {
+                staticClass:
+                  "square-8 bg-danger pos-absolute t-10 r--5 rounded-circle"
+              })
+            ]
+          )
+        ])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "br-sideright" }, [
+      _c(
+        "ul",
+        {
+          staticClass: "nav nav-tabs sidebar-tabs",
+          attrs: { role: "tablist" }
+        },
+        [
+          _c("li", { staticClass: "nav-item" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link active",
+                attrs: { "data-toggle": "tab", role: "tab", href: "#contacts" }
+              },
+              [_c("i", { staticClass: "icon ion-ios-contact-outline tx-24" })]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link",
+                attrs: {
+                  "data-toggle": "tab",
+                  role: "tab",
+                  href: "#attachments"
+                }
+              },
+              [_c("i", { staticClass: "icon ion-ios-folder-outline tx-22" })]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link",
+                attrs: { "data-toggle": "tab", role: "tab", href: "#calendar" }
+              },
+              [_c("i", { staticClass: "icon ion-ios-calendar-outline tx-24" })]
+            )
+          ]),
+          _vm._v(" "),
+          _c("li", { staticClass: "nav-item" }, [
+            _c(
+              "a",
+              {
+                staticClass: "nav-link",
+                attrs: { "data-toggle": "tab", role: "tab", href: "#settings" }
+              },
+              [_c("i", { staticClass: "icon ion-ios-gear-outline tx-24" })]
+            )
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "tab-content" }, [
+        _c(
+          "div",
+          {
+            staticClass:
+              "tab-pane pos-absolute a-0 mg-t-60 overflow-y-auto active",
+            attrs: { id: "contacts", role: "tabpanel" }
+          },
+          [
+            _c("label", { staticClass: "sidebar-label pd-x-25 mg-t-25" }, [
+              _vm._v("Online Contacts")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "contact-list pd-x-10" }, [
+              _c(
+                "a",
+                { staticClass: "contact-list-link new", attrs: { href: "" } },
+                [
+                  _c("div", { staticClass: "d-flex" }, [
+                    _c("div", { staticClass: "pos-relative" }, [
+                      _c("img", {
+                        staticClass: "wd-40 rounded-circle",
+                        attrs: {
+                          src: "http://via.placeholder.com/280x280",
+                          alt: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        staticClass: "contact-status-indicator bg-success"
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "contact-person" }, [
+                      _c("p", { staticClass: "mg-b-0" }, [
+                        _vm._v("Marilyn Tarter")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
+                        _vm._v("Clemson, CA")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "tx-info tx-12" }, [
+                      _c("span", {
+                        staticClass: "square-8 bg-info rounded-circle"
+                      }),
+                      _vm._v(" 1 new")
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                { staticClass: "contact-list-link", attrs: { href: "" } },
+                [
+                  _c("div", { staticClass: "d-flex" }, [
+                    _c("div", { staticClass: "pos-relative" }, [
+                      _c("img", {
+                        staticClass: "wd-40 rounded-circle",
+                        attrs: {
+                          src: "http://via.placeholder.com/280x280",
+                          alt: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        staticClass: "contact-status-indicator bg-success"
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "contact-person" }, [
+                      _c("p", { staticClass: "mg-b-0 " }, [
+                        _vm._v("Belinda Connor")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
+                        _vm._v("Fort Kent, ME")
+                      ])
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                { staticClass: "contact-list-link new", attrs: { href: "" } },
+                [
+                  _c("div", { staticClass: "d-flex" }, [
+                    _c("div", { staticClass: "pos-relative" }, [
+                      _c("img", {
+                        staticClass: "wd-40 rounded-circle",
+                        attrs: {
+                          src: "http://via.placeholder.com/280x280",
+                          alt: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        staticClass: "contact-status-indicator bg-success"
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "contact-person" }, [
+                      _c("p", { staticClass: "mg-b-0" }, [
+                        _vm._v("Britanny Cevallos")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
+                        _vm._v("Shiboygan Falls, WI")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "tx-info tx-12" }, [
+                      _c("span", {
+                        staticClass: "square-8 bg-info rounded-circle"
+                      }),
+                      _vm._v(" 3 new")
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                { staticClass: "contact-list-link new", attrs: { href: "" } },
+                [
+                  _c("div", { staticClass: "d-flex" }, [
+                    _c("div", { staticClass: "pos-relative" }, [
+                      _c("img", {
+                        staticClass: "wd-40 rounded-circle",
+                        attrs: {
+                          src: "http://via.placeholder.com/280x280",
+                          alt: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        staticClass: "contact-status-indicator bg-success"
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "contact-person" }, [
+                      _c("p", { staticClass: "mg-b-0" }, [
+                        _vm._v("Brandon Lawrence")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
+                        _vm._v("Snohomish, WA")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("span", { staticClass: "tx-info tx-12" }, [
+                      _c("span", {
+                        staticClass: "square-8 bg-info rounded-circle"
+                      }),
+                      _vm._v(" 1 new")
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                { staticClass: "contact-list-link", attrs: { href: "" } },
+                [
+                  _c("div", { staticClass: "d-flex" }, [
+                    _c("div", { staticClass: "pos-relative" }, [
+                      _c("img", {
+                        staticClass: "wd-40 rounded-circle",
+                        attrs: {
+                          src: "http://via.placeholder.com/280x280",
+                          alt: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        staticClass: "contact-status-indicator bg-success"
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "contact-person" }, [
+                      _c("p", { staticClass: "mg-b-0" }, [
+                        _vm._v("Andrew Wiggins")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
+                        _vm._v("Springfield, MA")
+                      ])
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                { staticClass: "contact-list-link", attrs: { href: "" } },
+                [
+                  _c("div", { staticClass: "d-flex" }, [
+                    _c("div", { staticClass: "pos-relative" }, [
+                      _c("img", {
+                        staticClass: "wd-40 rounded-circle",
+                        attrs: {
+                          src: "http://via.placeholder.com/280x280",
+                          alt: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        staticClass: "contact-status-indicator bg-success"
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "contact-person" }, [
+                      _c("p", { staticClass: "mg-b-0" }, [
+                        _vm._v("Theodore Gristen")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
+                        _vm._v("Nashville, TN")
+                      ])
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                { staticClass: "contact-list-link", attrs: { href: "" } },
+                [
+                  _c("div", { staticClass: "d-flex" }, [
+                    _c("div", { staticClass: "pos-relative" }, [
+                      _c("img", {
+                        staticClass: "wd-40 rounded-circle",
+                        attrs: {
+                          src: "http://via.placeholder.com/280x280",
+                          alt: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        staticClass: "contact-status-indicator bg-success"
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "contact-person" }, [
+                      _c("p", { staticClass: "mg-b-0" }, [
+                        _vm._v("Deborah Miner")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
+                        _vm._v("North Shore, CA")
+                      ])
+                    ])
+                  ])
+                ]
+              )
+            ]),
+            _vm._v(" "),
+            _c("label", { staticClass: "sidebar-label pd-x-25 mg-t-25" }, [
+              _vm._v("Offline Contacts")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "contact-list pd-x-10" }, [
+              _c(
+                "a",
+                { staticClass: "contact-list-link", attrs: { href: "" } },
+                [
+                  _c("div", { staticClass: "d-flex" }, [
+                    _c("div", { staticClass: "pos-relative" }, [
+                      _c("img", {
+                        staticClass: "wd-40 rounded-circle",
+                        attrs: {
+                          src: "http://via.placeholder.com/280x280",
+                          alt: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        staticClass: "contact-status-indicator bg-gray-500"
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "contact-person" }, [
+                      _c("p", { staticClass: "mg-b-0" }, [
+                        _vm._v("Marilyn Tarter")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
+                        _vm._v("Clemson, CA")
+                      ])
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                { staticClass: "contact-list-link", attrs: { href: "" } },
+                [
+                  _c("div", { staticClass: "d-flex" }, [
+                    _c("div", { staticClass: "pos-relative" }, [
+                      _c("img", {
+                        staticClass: "wd-40 rounded-circle",
+                        attrs: {
+                          src: "http://via.placeholder.com/280x280",
+                          alt: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        staticClass: "contact-status-indicator bg-gray-500"
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "mg-l-10" }, [
+                      _c("p", { staticClass: "mg-b-0" }, [
+                        _vm._v("Belinda Connor")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
+                        _vm._v("Fort Kent, ME")
+                      ])
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                { staticClass: "contact-list-link", attrs: { href: "" } },
+                [
+                  _c("div", { staticClass: "d-flex" }, [
+                    _c("div", { staticClass: "pos-relative" }, [
+                      _c("img", {
+                        staticClass: "wd-40 rounded-circle",
+                        attrs: {
+                          src: "http://via.placeholder.com/280x280",
+                          alt: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        staticClass: "contact-status-indicator bg-gray-500"
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "contact-person" }, [
+                      _c("p", { staticClass: "mg-b-0" }, [
+                        _vm._v("Britanny Cevallos")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
+                        _vm._v("Shiboygan Falls, WI")
+                      ])
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                { staticClass: "contact-list-link", attrs: { href: "" } },
+                [
+                  _c("div", { staticClass: "d-flex" }, [
+                    _c("div", { staticClass: "pos-relative" }, [
+                      _c("img", {
+                        staticClass: "wd-40 rounded-circle",
+                        attrs: {
+                          src: "http://via.placeholder.com/280x280",
+                          alt: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        staticClass: "contact-status-indicator bg-gray-500"
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "contact-person" }, [
+                      _c("p", { staticClass: "mg-b-0" }, [
+                        _vm._v("Brandon Lawrence")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
+                        _vm._v("Snohomish, WA")
+                      ])
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                { staticClass: "contact-list-link", attrs: { href: "" } },
+                [
+                  _c("div", { staticClass: "d-flex" }, [
+                    _c("div", { staticClass: "pos-relative" }, [
+                      _c("img", {
+                        staticClass: "wd-40 rounded-circle",
+                        attrs: {
+                          src: "http://via.placeholder.com/280x280",
+                          alt: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        staticClass: "contact-status-indicator bg-gray-500"
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "contact-person" }, [
+                      _c("p", { staticClass: "mg-b-0" }, [
+                        _vm._v("Andrew Wiggins")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
+                        _vm._v("Springfield, MA")
+                      ])
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                { staticClass: "contact-list-link", attrs: { href: "" } },
+                [
+                  _c("div", { staticClass: "d-flex" }, [
+                    _c("div", { staticClass: "pos-relative" }, [
+                      _c("img", {
+                        staticClass: "wd-40 rounded-circle",
+                        attrs: {
+                          src: "http://via.placeholder.com/280x280",
+                          alt: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        staticClass: "contact-status-indicator bg-gray-500"
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "contact-person" }, [
+                      _c("p", { staticClass: "mg-b-0" }, [
+                        _vm._v("Theodore Gristen")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
+                        _vm._v("Nashville, TN")
+                      ])
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                { staticClass: "contact-list-link", attrs: { href: "" } },
+                [
+                  _c("div", { staticClass: "d-flex" }, [
+                    _c("div", { staticClass: "pos-relative" }, [
+                      _c("img", {
+                        staticClass: "wd-40 rounded-circle",
+                        attrs: {
+                          src: "http://via.placeholder.com/280x280",
+                          alt: ""
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("div", {
+                        staticClass: "contact-status-indicator bg-gray-500"
+                      })
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "contact-person" }, [
+                      _c("p", { staticClass: "mg-b-0" }, [
+                        _vm._v("Deborah Miner")
+                      ]),
+                      _vm._v(" "),
+                      _c("span", { staticClass: "tx-12 op-5 d-inline-block" }, [
+                        _vm._v("North Shore, CA")
+                      ])
+                    ])
+                  ])
+                ]
+              )
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "tab-pane pos-absolute a-0 mg-t-60 overflow-y-auto",
+            attrs: { id: "attachments", role: "tabpanel" }
+          },
+          [
+            _c("label", { staticClass: "sidebar-label pd-x-25 mg-t-25" }, [
+              _vm._v("Recent Attachments")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "media-file-list" }, [
+              _c("div", { staticClass: "media" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "pd-10 bg-primary wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
+                  },
+                  [
+                    _c("i", {
+                      staticClass: "fa fa-file-image-o tx-28 tx-white"
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "media-body" }, [
+                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
+                    _vm._v("IMG_43445")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("JPG Image")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("1.2mb")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("a", { staticClass: "more", attrs: { href: "" } }, [
+                  _c("i", {
+                    staticClass: "icon ion-android-more-vertical tx-18"
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "media mg-t-20" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "pd-10 bg-purple wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
+                  },
+                  [
+                    _c("i", {
+                      staticClass: "fa fa-file-video-o tx-28 tx-white"
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "media-body" }, [
+                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
+                    _vm._v("VID_6543")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("MP4 Video")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("24.8mb")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("a", { staticClass: "more", attrs: { href: "" } }, [
+                  _c("i", {
+                    staticClass: "icon ion-android-more-vertical tx-18"
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "media mg-t-20" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "pd-10 bg-success wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
+                  },
+                  [_c("i", { staticClass: "fa fa-file-word-o tx-28 tx-white" })]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "media-body" }, [
+                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
+                    _vm._v("Tax_Form")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("Word Document")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("5.5mb")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("a", { staticClass: "more", attrs: { href: "" } }, [
+                  _c("i", {
+                    staticClass: "icon ion-android-more-vertical tx-18"
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "media mg-t-20" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "pd-10 bg-warning wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
+                  },
+                  [_c("i", { staticClass: "fa fa-file-pdf-o tx-28 tx-white" })]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "media-body" }, [
+                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
+                    _vm._v("Getting_Started")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("PDF Document")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("12.7mb")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("a", { staticClass: "more", attrs: { href: "" } }, [
+                  _c("i", {
+                    staticClass: "icon ion-android-more-vertical tx-18"
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "media mg-t-20" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "pd-10 bg-warning wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
+                  },
+                  [_c("i", { staticClass: "fa fa-file-pdf-o tx-28 tx-white" })]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "media-body" }, [
+                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
+                    _vm._v("Introduction")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("PDF Document")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("7.7mb")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("a", { staticClass: "more", attrs: { href: "" } }, [
+                  _c("i", {
+                    staticClass: "icon ion-android-more-vertical tx-18"
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "media mg-t-20" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "pd-10 bg-primary wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
+                  },
+                  [
+                    _c("i", {
+                      staticClass: "fa fa-file-image-o tx-28 tx-white"
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "media-body" }, [
+                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
+                    _vm._v("IMG_43420")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("JPG Image")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("2.2mb")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("a", { staticClass: "more", attrs: { href: "" } }, [
+                  _c("i", {
+                    staticClass: "icon ion-android-more-vertical tx-18"
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "media mg-t-20" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "pd-10 bg-primary wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
+                  },
+                  [
+                    _c("i", {
+                      staticClass: "fa fa-file-image-o tx-28 tx-white"
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "media-body" }, [
+                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
+                    _vm._v("IMG_43447")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("JPG Image")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("3.2mb")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("a", { staticClass: "more", attrs: { href: "" } }, [
+                  _c("i", {
+                    staticClass: "icon ion-android-more-vertical tx-18"
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "media mg-t-20" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "pd-10 bg-purple wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
+                  },
+                  [
+                    _c("i", {
+                      staticClass: "fa fa-file-video-o tx-28 tx-white"
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "media-body" }, [
+                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
+                    _vm._v("VID_6545")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("AVI Video")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("14.8mb")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("a", { staticClass: "more", attrs: { href: "" } }, [
+                  _c("i", {
+                    staticClass: "icon ion-android-more-vertical tx-18"
+                  })
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "media mg-t-20" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "pd-10 bg-success wd-50 ht-60 tx-center d-flex align-items-center justify-content-center"
+                  },
+                  [_c("i", { staticClass: "fa fa-file-word-o tx-28 tx-white" })]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "media-body" }, [
+                  _c("p", { staticClass: "mg-b-0 tx-13" }, [
+                    _vm._v("Secret_Document")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("Word Document")
+                  ]),
+                  _vm._v(" "),
+                  _c("p", { staticClass: "mg-b-0 tx-12 op-5" }, [
+                    _vm._v("4.5mb")
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("a", { staticClass: "more", attrs: { href: "" } }, [
+                  _c("i", {
+                    staticClass: "icon ion-android-more-vertical tx-18"
+                  })
+                ])
+              ])
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "tab-pane pos-absolute a-0 mg-t-60 overflow-y-auto",
+            attrs: { id: "calendar", role: "tabpanel" }
+          },
+          [
+            _c("label", { staticClass: "sidebar-label pd-x-25 mg-t-25" }, [
+              _vm._v("Time & Date")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "pd-x-25" }, [
+              _c("h2", {
+                staticClass: "tx-white tx-lato mg-b-5",
+                attrs: { id: "brTime" }
+              }),
+              _vm._v(" "),
+              _c("h6", {
+                staticClass: "tx-white tx-light op-3",
+                attrs: { id: "brDate" }
+              })
+            ]),
+            _vm._v(" "),
+            _c("label", { staticClass: "sidebar-label pd-x-25 mg-t-25" }, [
+              _vm._v("Events Calendar")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "datepicker sidebar-datepicker" }),
+            _vm._v(" "),
+            _c("label", { staticClass: "sidebar-label pd-x-25 mg-t-25" }, [
+              _vm._v("Event Today")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "pd-x-25" }, [
+              _c(
+                "div",
+                { staticClass: "list-group sidebar-event-list mg-b-20" },
+                [
+                  _c("div", { staticClass: "list-group-item" }, [
+                    _c("div", [
+                      _c(
+                        "h6",
+                        { staticClass: "tx-white tx-13 mg-b-5 tx-normal" },
+                        [_vm._v("Roven's 32th Birthday")]
+                      ),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "mg-b-0 tx-white tx-12 op-2" }, [
+                        _vm._v("2:30PM")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("a", { staticClass: "more", attrs: { href: "" } }, [
+                      _c("i", {
+                        staticClass: "icon ion-android-more-vertical tx-18"
+                      })
+                    ])
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "list-group-item" }, [
+                    _c("div", [
+                      _c(
+                        "h6",
+                        { staticClass: "tx-white tx-13 mg-b-5 tx-normal" },
+                        [_vm._v("Regular Workout Schedule")]
+                      ),
+                      _vm._v(" "),
+                      _c("p", { staticClass: "mg-b-0 tx-white tx-12 op-2" }, [
+                        _vm._v("7:30PM")
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("a", { staticClass: "more", attrs: { href: "" } }, [
+                      _c("i", {
+                        staticClass: "icon ion-android-more-vertical tx-18"
+                      })
+                    ])
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "btn btn-block btn-outline-secondary tx-uppercase tx-11 tx-spacing-2",
+                  attrs: { href: "" }
+                },
+                [_vm._v("+ Add Event")]
+              ),
+              _vm._v(" "),
+              _c("br")
+            ])
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            staticClass: "tab-pane pos-absolute a-0 mg-t-60 overflow-y-auto",
+            attrs: { id: "settings", role: "tabpanel" }
+          },
+          [
+            _c("label", { staticClass: "sidebar-label pd-x-25 mg-t-25" }, [
+              _vm._v("Quick Settings")
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "pd-y-20 pd-x-25 tx-white" }, [
+              _c("h6", { staticClass: "tx-13 tx-normal" }, [
+                _vm._v("Sound Notification")
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "op-5 tx-13" }, [
+                _vm._v(
+                  "Play an alert sound everytime there is a new notification."
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "pos-relative" }, [
+                _c("input", {
+                  staticClass: "switch-button",
+                  attrs: { type: "checkbox", name: "checkbox", checked: "" }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "pd-y-20 pd-x-25 tx-white" }, [
+              _c("h6", { staticClass: "tx-13 tx-normal" }, [
+                _vm._v("2 Steps Verification")
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "op-5 tx-13" }, [
+                _vm._v(
+                  "Sign in using a two step verification by sending a verification code to your phone."
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "pos-relative" }, [
+                _c("input", {
+                  staticClass: "switch-button",
+                  attrs: { type: "checkbox", name: "checkbox2" }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "pd-y-20 pd-x-25 tx-white" }, [
+              _c("h6", { staticClass: "tx-13 tx-normal" }, [
+                _vm._v("Location Services")
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "op-5 tx-13" }, [
+                _vm._v("Allowing us to access your location")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "pos-relative" }, [
+                _c("input", {
+                  staticClass: "switch-button",
+                  attrs: { type: "checkbox", name: "checkbox3" }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "pd-y-20 pd-x-25 tx-white" }, [
+              _c("h6", { staticClass: "tx-13 tx-normal" }, [
+                _vm._v("Newsletter Subscription")
+              ]),
+              _vm._v(" "),
+              _c("p", { staticClass: "op-5 tx-13" }, [
+                _vm._v(
+                  "Enables you to send us news and updates send straight to your email."
+                )
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "pos-relative" }, [
+                _c("input", {
+                  staticClass: "switch-button",
+                  attrs: { type: "checkbox", name: "checkbox4", checked: "" }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "pd-y-20 pd-x-25 tx-white" }, [
+              _c("h6", { staticClass: "tx-13 tx-normal" }, [
+                _vm._v("Your email")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "pos-relative" }, [
+                _c("input", {
+                  staticClass:
+                    "form-control form-control-inverse transition pd-y-10",
+                  attrs: {
+                    type: "email",
+                    name: "email",
+                    value: "janedoe@domain.com"
+                  }
+                })
+              ])
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "pd-y-20 pd-x-25" }, [
+              _c("h6", { staticClass: "tx-13 tx-normal tx-white mg-b-20" }, [
+                _vm._v("More Settings")
+              ]),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "btn btn-block btn-outline-secondary tx-uppercase tx-11 tx-spacing-2",
+                  attrs: { href: "" }
+                },
+                [_vm._v("Account Settings")]
+              ),
+              _vm._v(" "),
+              _c(
+                "a",
+                {
+                  staticClass:
+                    "btn btn-block btn-outline-secondary tx-uppercase tx-11 tx-spacing-2",
+                  attrs: { href: "" }
+                },
+                [_vm._v("Privacy Settings")]
+              )
+            ])
+          ]
+        )
+      ])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-cd7fb372", module.exports)
+  }
+}
+
+/***/ }),
+/* 52 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            query: {
+                name: '',
+                course: ''
+            },
+            search: '',
+            flag: false,
+            queries: []
+        };
+    },
+
+
+    computed: {
+        filterQueries: function filterQueries() {
+            var _this = this;
+
+            return this.queries.filter(function (query) {
+                return query.qr_name.match(new RegExp(_this.search, "i")) || query.qr_course.match(new RegExp(_this.search, "i"));
+            });
+        }
+    },
+
+    created: function created() {
+        this.fetchData();
+    },
+
+
+    methods: {
+        fetchData: function fetchData() {
+            var _this2 = this;
+
+            this.$http.get('http://127.0.0.1:8000/api/queries').then(function (response) {
+                return response.json();
+            }).then(function (data) {
+                console.log(data);
+                _this2.queries = data.data;
+            });
+        }
+
+    }
+});
+
+/***/ }),
+/* 53 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("h2", { staticClass: "text-center" }, [_vm._v("Query Register")]),
+    _vm._v(" "),
+    _c("p", { staticClass: "text-center" }, [
+      _vm._v("Manage all your queries in a blink of an eye.")
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "container" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-md-10" }, [
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.search,
+                expression: "search"
+              }
+            ],
+            staticClass: "form-control mg-b-20",
+            attrs: {
+              type: "text",
+              placeholder: "Search for some data in here."
+            },
+            domProps: { value: _vm.search },
+            on: {
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.search = $event.target.value
+              }
+            }
+          })
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-md-2" }, [
+          _c(
+            "button",
+            { staticClass: "btn btn-primary", on: { click: _vm.fetchData } },
+            [_vm._v("Get Data")]
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "row" }, [
+        _c(
+          "table",
+          { staticClass: "table table-striped table-dark" },
+          _vm._l(_vm.filterQueries, function(query, n) {
+            return _c("tr", { key: query.id }, [
+              _c("td", [_vm._v(_vm._s(n + 1))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(query.qr_name))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(query.qr_course))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(query.qr_number))]),
+              _vm._v(" "),
+              _c("td", [_vm._v(_vm._s(query.created_at))])
+            ])
+          })
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-c5350982", module.exports)
+  }
+}
+
+/***/ }),
+/* 54 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(55);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(16)("042517f7", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-41df254a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Contacts.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-41df254a\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Contacts.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 55 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(15)(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/***/ }),
+/* 56 */
+/***/ (function(module, exports) {
+
+/**
+ * Translates the list format produced by css-loader into something
+ * easier to manipulate.
+ */
+module.exports = function listToStyles (parentId, list) {
+  var styles = []
+  var newStyles = {}
+  for (var i = 0; i < list.length; i++) {
+    var item = list[i]
+    var id = item[0]
+    var css = item[1]
+    var media = item[2]
+    var sourceMap = item[3]
+    var part = {
+      id: parentId + ':' + i,
+      css: css,
+      media: media,
+      sourceMap: sourceMap
+    }
+    if (!newStyles[id]) {
+      styles.push(newStyles[id] = { id: id, parts: [part] })
+    } else {
+      newStyles[id].parts.push(part)
+    }
+  }
+  return styles
+}
+
+
+/***/ }),
+/* 57 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    data: function data() {
+        return {
+            contacts: [],
+            contact: {
+                contact_name: '',
+                contact_mobile: '',
+                contact_message: ''
+            },
+            contact_id: '',
+            search: '',
+            pagination: {},
+            flag: false,
+            edit: false,
+            editMode: false,
+            createMode: true
+        };
+    },
+
+
+    computed: {
+        filterContacts: function filterContacts() {
+            var _this = this;
+
+            return this.contacts.filter(function (contact) {
+                return contact.contact_name.match(new RegExp(_this.search, "i")) || contact.contact_message.match(new RegExp(_this.search, "i"));
+            });
+        }
+    },
+
+    created: function created() {
+        this.fetchData();
+    },
+
+
+    methods: {
+        fetchData: function fetchData(page_url) {
+            var _this2 = this;
+
+            var vm = this;
+            page_url = page_url || '/api/contacts';
+            fetch(page_url).then(function (res) {
+                return res.json();
+            }).then(function (res) {
+                _this2.contacts = res.data;
+                vm.makePagination(res.meta, res.links);
+            }).catch(function (err) {
+                return console.log(err);
+            });
+        },
+        makePagination: function makePagination(meta, links) {
+            var paginate = {
+                current_page: meta.current_page,
+                last_page: meta.last_page,
+                first_page_url: links.first,
+                last_page_url: links.last,
+                next_page_url: links.next,
+                prev_page_url: links.prev
+            };
+            this.pagination = paginate;
+        },
+        deleteContact: function deleteContact(id) {
+            var _this3 = this;
+
+            if (confirm('Are You Sure?')) {
+                fetch('api/contacts/' + id, {
+                    method: 'delete'
+                }).then(function (res) {
+                    return res.json();
+                }).then(function (data) {
+                    alert('Contact Removed');
+                    _this3.fetchData();
+                }).catch(function (err) {
+                    return console.log(err);
+                });
+            }
+        },
+        addContact: function addContact() {
+            var _this4 = this;
+
+            if (this.edit === false) {
+                // Add
+                fetch('api/contacts', {
+                    method: 'post',
+                    body: JSON.stringify(this.contact),
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                }).then(function (res) {
+                    return res.json();
+                }).then(function (data) {
+                    _this4.contact.contact_name = '';
+                    _this4.contact.contact_mobile = '';
+                    _this4.contact.contact_message = '';
+                    alert('Contact Added');
+                    _this4.fetchData();
+                }).catch(function (err) {
+                    return console.log(err);
+                });
+            } else {
+                // Update
+                fetch('api/contacts', {
+                    method: 'put',
+                    body: JSON.stringify(this.contact),
+                    headers: {
+                        'content-type': 'application/json'
+                    }
+                }).then(function (res) {
+                    return res.json();
+                }).then(function (data) {
+                    _this4.contact.contact_name = '';
+                    _this4.contact.contact_mobile = '';
+                    _this4.contact.contact_message = '';
+                    alert('Contact Updated');
+                    _this4.fetchData();
+                }).catch(function (err) {
+                    return console.log(err);
+                });
+            }
+            this.editMode = false;
+        },
+        editContact: function editContact(contact) {
+            this.editMode = true;
+            this.edit = true;
+            this.contact.id = contact.id;
+            this.contact.contact_id = contact.id;
+            this.contact.contact_name = contact.contact_name;
+            this.contact.contact_mobile = contact.contact_mobile;
+            this.contact.contact_message = contact.contact_message;
+        }
+    }
+});
+
+/***/ }),
+/* 58 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("h2", { staticClass: "text-center" }, [_vm._v("Contact Form Messages")]),
+    _vm._v(" "),
+    _c("p", { staticClass: "text-center" }, [
+      _vm._v("Manage all your contact form queries in a blink of an eye.")
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "br-section-wrapper" }, [
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.editMode,
+              expression: "!editMode"
+            }
+          ],
+          staticClass: "continer"
+        },
+        [
+          _c("div", { staticClass: "row" }, [
+            _c("div", { staticClass: "col-md-10" }, [
+              _c("input", {
+                directives: [
+                  {
+                    name: "model",
+                    rawName: "v-model",
+                    value: _vm.search,
+                    expression: "search"
+                  }
+                ],
+                staticClass: "form-control mg-b-20",
+                attrs: {
+                  type: "text",
+                  placeholder: "Search for some data in here."
+                },
+                domProps: { value: _vm.search },
+                on: {
+                  input: function($event) {
+                    if ($event.target.composing) {
+                      return
+                    }
+                    _vm.search = $event.target.value
+                  }
+                }
+              })
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "col-md-2" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-primary",
+                  on: { click: _vm.fetchData }
+                },
+                [_vm._v("Get Contact Forms")]
+              )
+            ])
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: _vm.editMode,
+              expression: "editMode"
+            }
+          ],
+          staticClass: "row"
+        },
+        [
+          _c("div", { staticClass: "col-md-12" }, [
+            _c(
+              "form",
+              {
+                staticClass: "mb-3",
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.addContact($event)
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "form-group" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.contact.contact_name,
+                        expression: "contact.contact_name"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "Contact Name" },
+                    domProps: { value: _vm.contact.contact_name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.contact,
+                          "contact_name",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.contact.contact_mobile,
+                        expression: "contact.contact_mobile"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { type: "text", placeholder: "Contact Mobile" },
+                    domProps: { value: _vm.contact.contact_mobile },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.contact,
+                          "contact_mobile",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "form-group" }, [
+                  _c("textarea", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.contact.contact_message,
+                        expression: "contact.contact_message"
+                      }
+                    ],
+                    staticClass: "form-control",
+                    attrs: { placeholder: "Contact Message" },
+                    domProps: { value: _vm.contact.contact_message },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(
+                          _vm.contact,
+                          "contact_message",
+                          $event.target.value
+                        )
+                      }
+                    }
+                  })
+                ]),
+                _vm._v(" "),
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-light btn-block",
+                    attrs: { type: "submit" }
+                  },
+                  [_vm._v("Save")]
+                )
+              ]
+            )
+          ])
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.editMode,
+              expression: "!editMode"
+            }
+          ]
+        },
+        [
+          _c(
+            "div",
+            {
+              staticClass:
+                "ht-60 mg-b-20 bd d-flex align-items-center justify-content-center"
+            },
+            [
+              _c("nav", { attrs: { "aria-label": "Page navigation" } }, [
+                _c(
+                  "ul",
+                  { staticClass: "pagination pagination-basic mg-b-0" },
+                  [
+                    _c("li", { staticClass: "page-item" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "page-link",
+                          attrs: { href: "#", "aria-label": "First" },
+                          on: {
+                            click: function($event) {
+                              _vm.fetchData(_vm.pagination.first_page_url)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-angle-double-left" })]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "li",
+                      {
+                        staticClass: "page-item",
+                        class: [{ disabled: !_vm.pagination.prev_page_url }]
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "page-link",
+                            attrs: { href: "#", "aria-label": "Prev" },
+                            on: {
+                              click: function($event) {
+                                _vm.fetchData(_vm.pagination.prev_page_url)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-angle-left" })]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("li", { staticClass: "page-item active" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "page-link",
+                          staticStyle: {
+                            "min-width": "250px",
+                            margin: "0px 10px"
+                          },
+                          attrs: { href: "#" }
+                        },
+                        [
+                          _vm._v(
+                            "Page " +
+                              _vm._s(_vm.pagination.current_page) +
+                              " of " +
+                              _vm._s(_vm.pagination.last_page)
+                          )
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "li",
+                      {
+                        staticClass: "page-item",
+                        class: [{ disabled: !_vm.pagination.next_page_url }]
+                      },
+                      [
+                        _c(
+                          "a",
+                          {
+                            staticClass: "page-link",
+                            attrs: { href: "#", "aria-label": "Next" },
+                            on: {
+                              click: function($event) {
+                                _vm.fetchData(_vm.pagination.next_page_url)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fa fa-angle-right" })]
+                        )
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("li", { staticClass: "page-item" }, [
+                      _c(
+                        "a",
+                        {
+                          staticClass: "page-link",
+                          attrs: { href: "#", "aria-label": "Last" },
+                          on: {
+                            click: function($event) {
+                              _vm.fetchData(_vm.pagination.last_page_url)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fa fa-angle-double-right" })]
+                      )
+                    ])
+                  ]
+                )
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "containe" }, [
+            _c("div", { staticClass: "ro" }, [
+              _c(
+                "table",
+                { staticClass: "table table-striped " },
+                [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _vm._l(_vm.filterContacts, function(contact, n) {
+                    return _c("tr", { key: contact.id }, [
+                      _c("td", [_vm._v("Q-" + _vm._s(contact.id))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(contact.contact_name))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(contact.contact_mobile))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(contact.contact_email))]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(contact.contact_status))]),
+                      _vm._v(" "),
+                      _c("td", [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("moment")(contact.created_at, "from", "now")
+                          )
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("td", { staticStyle: { "font-size": "18px" } }, [
+                        _c(
+                          "a",
+                          {
+                            attrs: { href: "#" },
+                            on: {
+                              click: function($event) {
+                                _vm.editContact(contact)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "icon ion-wrench" })]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            staticStyle: { "margin-left": "10px" },
+                            attrs: { href: "#" },
+                            on: {
+                              click: function($event) {
+                                _vm.deleteContact(contact.id)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "icon ion-trash-b" })]
+                        )
+                      ])
+                    ])
+                  })
+                ],
+                2
+              )
+            ])
+          ])
+        ]
+      )
+    ])
+  ])
+}
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Sr. No")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Name")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Mobile")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Email")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Status")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Time")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Actions")])
+    ])
+  }
+]
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-41df254a", module.exports)
+  }
+}
+
+/***/ }),
+/* 59 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+function injectStyle (ssrContext) {
+  if (disposed) return
+  __webpack_require__(60)
+}
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(62)
+/* template */
+var __vue_template__ = __webpack_require__(63)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = injectStyle
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\Home.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-85ef4954", Component.options)
+  } else {
+    hotAPI.reload("data-v-85ef4954", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 60 */
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__(61);
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var update = __webpack_require__(16)("59dc0a9c", content, false, {});
+// Hot Module Replacement
+if(false) {
+ // When the styles change, update the <style> tags
+ if(!content.locals) {
+   module.hot.accept("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-85ef4954\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Home.vue", function() {
+     var newContent = require("!!../../../../node_modules/css-loader/index.js!../../../../node_modules/vue-loader/lib/style-compiler/index.js?{\"vue\":true,\"id\":\"data-v-85ef4954\",\"scoped\":false,\"hasInlineConfig\":true}!../../../../node_modules/sass-loader/lib/loader.js!../../../../node_modules/vue-loader/lib/selector.js?type=styles&index=0!./Home.vue");
+     if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+     update(newContent);
+   });
+ }
+ // When the module is disposed, remove the <style> tags
+ module.hot.dispose(function() { update(); });
+}
+
+/***/ }),
+/* 61 */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(15)(false);
+// imports
+
+
+// module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/***/ }),
+/* 62 */
+/***/ (function(module, exports) {
+
+//
+//
+//
+//
+//
+//
+//
+
+/***/ }),
+/* 63 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [_vm._v("\n    Hello to this World\n")])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-85ef4954", module.exports)
+  }
+}
+
+/***/ }),
+/* 64 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
 
 /***/ })
 /******/ ]);

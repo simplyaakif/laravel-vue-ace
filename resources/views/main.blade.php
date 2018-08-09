@@ -16,6 +16,7 @@
         <link href="{{asset('lib/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
         <link href="{{asset('lib/Ionicons/css/ionicons.css')}}" rel="stylesheet">
         <link href="{{asset('lib/perfect-scrollbar/css/perfect-scrollbar.css')}}" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
         <link href="{{asset('lib/jquery-switchbutton/jquery.switchButton.css')}}" rel="stylesheet">
         <link href="{{asset('lib/rickshaw/rickshaw.min.css')}}" rel="stylesheet">
         <link href="{{asset('lib/chartist/chartist.css')}}" rel="stylesheet">
@@ -49,7 +50,7 @@
             <script src="{{asset('lib/d3/d3.js')}}"></script>
             <script src="{{asset('lib/rickshaw/rickshaw.min.js')}}"></script>
 
-            
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
             <script src="{{asset('lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js')}}"></script>
             {{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.7/js/min/perfect-scrollbar.jquery.min.js"></script> --}}
 
