@@ -82,7 +82,7 @@
                             <td>{{contact.contact_email}}</td>
                             <!-- <td>{{contact.contact_message}}</td> -->
                             <td>{{contact.contact_status}}</td>
-                            <td>{{contact.created_at | moment("from", "now") }}</td>
+                            <td>{{contact.updated_at | moment("from", "now") }}</td>
                             <td style="font-size:18px;">
                                 <a href="#" @click="editContact(contact)">
                                     <i class="icon ion-wrench"></i>

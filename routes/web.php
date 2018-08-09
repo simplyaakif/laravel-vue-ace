@@ -11,8 +11,22 @@
 |
 */
 
+use Illuminate\Support\Facades\Mail;
+
 Route::get('/', function () {
     return view('main');
+});
+
+Route::get('sendmail', function () {
+    $data = [
+        'title'=>'Something great happened today.',
+        'content'=> 'Not only was i able to set mail server but also the sms server. Thats great guys..',
+    ];
+
+    Mail::send('emails.test',$data, function($message){
+        $message->to('simply.aakif@gmail.com','Raza Aakif')->subject('Today\'s Update guy');
+    });
+
 });
 
 

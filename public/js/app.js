@@ -14453,6 +14453,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Home__ = __webpack_require__(59);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_Home___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_Home__);
 
+
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -60072,7 +60073,7 @@ var render = function() {
                       _c("td", [
                         _vm._v(
                           _vm._s(
-                            _vm._f("moment")(contact.created_at, "from", "now")
+                            _vm._f("moment")(contact.updated_at, "from", "now")
                           )
                         )
                       ]),
