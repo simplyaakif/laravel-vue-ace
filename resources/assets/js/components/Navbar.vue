@@ -24,6 +24,19 @@
           </div>
         </router-link>
 
+        <router-link to="/admissions" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon icon ion-ios-paper-outline tx-22"></i>
+            <span class="menu-item-label">Admissions</span>
+          </div>
+        </router-link>
+
+        <router-link to="/sms" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon icon ion-ios-filing-outline tx-22"></i>
+            <span class="menu-item-label">Send Sms or Email</span>
+          </div>
+        </router-link>
 
 
 
@@ -129,12 +142,7 @@
           <li class="nav-item"><a href="typography-util.html" class="nav-link">Typography</a></li>
           <li class="nav-item"><a href="width.html" class="nav-link">Width</a></li>
         </ul>
-        <a href="pages.html" class="br-menu-link">
-          <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-paper-outline tx-22"></i>
-            <span class="menu-item-label">Apps &amp; Pages</span>
-          </div>
-        </a>
+        
         <a href="layouts.html" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-book-outline tx-22"></i>

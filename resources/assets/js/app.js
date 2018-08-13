@@ -26,11 +26,15 @@ Vue.component('app', require('./components/App.vue'));
 Vue.component('navbar', require('./components/Navbar.vue'));
 Vue.component('queries', require('./components/Queries.vue'));
 Vue.component('contacts', require('./components/Contacts.vue'));
+Vue.component('admissions', require('./components/Admissions.vue'));
+Vue.component('sms', require('./components/Sms.vue'));
 
 import App from './components/App';
 import Queries from './components/Queries';
 import Contacts from './components/Contacts';
 import Home from './components/Home';
+import Admissions from './components/Admissions';
+import Sms from './components/Sms';
 
 const router = new VueRouter({
     mode: 'history',
@@ -49,6 +53,16 @@ const router = new VueRouter({
             path: '/contacts',
             name: 'contacts',
             component: Contacts,
+        },
+        {
+            path: '/admissions',
+            name: 'admissions',
+            component: Admissions,
+        },
+        {
+            path: '/sms',
+            name: 'sms',
+            component: Sms,
         },
     ],
 });

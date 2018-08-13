@@ -55,9 +55,8 @@ Route::put('api/contacts','ContactController@store');
 Route::delete('api/contacts/{contact}','ContactController@destroy'); 
 
 
-
-
-
+//Send Sms & Email
+Route::post('api/sms-email','EmailController@store'); 
 
 
 

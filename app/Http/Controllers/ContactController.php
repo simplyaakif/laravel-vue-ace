@@ -81,13 +81,10 @@ class ContactController extends Controller
             $this->sms($contact);
             $this->email($contact);
         }
-
-        
         if($contact->save()){
             return new ContactResource($contact);
         }
     }
-
     /**
      * Display the specified resource.
      *

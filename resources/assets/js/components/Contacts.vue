@@ -39,8 +39,8 @@
                         <div class="form-group">
                             <textarea class="form-control" placeholder="Contact Message" v-model="contact.contact_message"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-light btn-block">Save</button>
-                        <button @click="goBack()" class="btn btn-light btn-block">Go Back</button>
+                        <button type="submit" class="btn btn-light ">Save</button>
+                        <button @click="goBack()" class="btn btn-light">Go Back</button>
                     </form>
                 </div>
             </div>
