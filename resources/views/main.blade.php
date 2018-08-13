@@ -31,9 +31,6 @@
 
         <div id="app">
             <app></app>
-            {{-- <navbar></navbar> --}}
-           
-            {{-- <queries></queries> --}}
         </div>
 
             <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
@@ -57,6 +54,6 @@
             <script src="{{asset('js/bracket.js')}} "></script>
             <script src="{{asset('js/ResizeSensor.js')}} "></script>
             <script src="{{asset('js/dashboard.js')}} "></script>
-        
+
     </body>
 </html>

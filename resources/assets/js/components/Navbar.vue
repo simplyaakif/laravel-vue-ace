@@ -1,7 +1,7 @@
 <template>
 <div>
     <!-- ########## START: LEFT PANEL ########## -->
-    <div class="br-logo"><a href=""><span>[</span>bracket<span>]</span></a></div>
+    <div class="br-logo"><a href=""><span>[</span>ACE<span>]</span></a></div>
     <div class="br-sideleft overflow-y-auto">
       <label class="sidebar-label pd-x-15 mg-t-20">Navigation</label>
       <div class="br-sideleft-menu">
@@ -9,27 +9,31 @@
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
             <span class="menu-item-label">Dashboard</span>
-          </div><!-- menu-item -->
-        </router-link><!-- br-menu-link -->
+          </div>
+        </router-link>
         <router-link to="/contacts" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
             <span class="menu-item-label">Contact Messages</span>
-          </div><!-- menu-item -->
-        </router-link><!-- br-menu-link -->
+          </div>
+        </router-link>
         <router-link to="/queries" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
             <span class="menu-item-label">All Queries</span>
-          </div><!-- menu-item -->
-        </router-link><!-- br-menu-link -->
-        <a href="#" class="br-menu-link">
+          </div>
+        </router-link>
+
+
+
+
+        <!-- <a href="#" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-filing-outline tx-24"></i>
             <span class="menu-item-label">UI Elements</span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
+          </div>
+        </a>
         <ul class="br-menu-sub nav flex-column">
           <li class="nav-item"><a href="accordion.html" class="nav-link">Accordion</a></li>
           <li class="nav-item"><a href="alerts.html" class="nav-link">Alerts</a></li>
@@ -48,8 +52,8 @@
             <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
             <span class="menu-item-label">Navigation</span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
+          </div>
+        </a>
         <ul class="br-menu-sub nav flex-column">
           <li class="nav-item"><a href="navigation.html" class="nav-link">Basic Nav</a></li>
           <li class="nav-item"><a href="navigation-layouts.html" class="nav-link">Nav Layouts</a></li>
@@ -59,8 +63,8 @@
             <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
             <span class="menu-item-label">Charts</span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
+          </div>
+        </a>
         <ul class="br-menu-sub nav flex-column">
           <li class="nav-item"><a href="chart-morris.html" class="nav-link">Morris Charts</a></li>
           <li class="nav-item"><a href="chart-flot.html" class="nav-link">Flot Charts</a></li>
@@ -75,8 +79,8 @@
             <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
             <span class="menu-item-label">Forms</span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
+          </div>
+        </a>
         <ul class="br-menu-sub nav flex-column">
           <li class="nav-item"><a href="form-elements.html" class="nav-link">Form Elements</a></li>
           <li class="nav-item"><a href="form-layouts.html" class="nav-link">Form Layouts</a></li>
@@ -90,8 +94,8 @@
             <i class="menu-item-icon icon ion-ios-bookmarks-outline tx-20"></i>
             <span class="menu-item-label">Tables</span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
+          </div>
+        </a>
         <ul class="br-menu-sub nav flex-column">
           <li class="nav-item"><a href="table-basic.html" class="nav-link">Basic Table</a></li>
           <li class="nav-item"><a href="table-datatable.html" class="nav-link">Data Table</a></li>
@@ -101,8 +105,8 @@
             <i class="menu-item-icon icon ion-ios-navigate-outline tx-24"></i>
             <span class="menu-item-label">Maps</span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
+          </div>
+        </a>
         <ul class="br-menu-sub nav flex-column">
           <li class="nav-item"><a href="map-google.html" class="nav-link">Google Maps</a></li>
           <li class="nav-item"><a href="map-leaflet.html" class="nav-link">Leaflet Maps</a></li>
@@ -113,8 +117,8 @@
             <i class="menu-item-icon icon ion-ios-briefcase-outline tx-22"></i>
             <span class="menu-item-label">Utilities</span>
             <i class="menu-item-arrow fa fa-angle-down"></i>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
+          </div>
+        </a>
         <ul class="br-menu-sub nav flex-column">
           <li class="nav-item"><a href="background.html" class="nav-link">Background</a></li>
           <li class="nav-item"><a href="border.html" class="nav-link">Border</a></li>
@@ -129,32 +133,35 @@
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-paper-outline tx-22"></i>
             <span class="menu-item-label">Apps &amp; Pages</span>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
+          </div>
+        </a>
         <a href="layouts.html" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-book-outline tx-22"></i>
             <span class="menu-item-label">Layouts</span>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
+          </div>
+        </a>
         <a href="sitemap.html" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-list-outline tx-22"></i>
             <span class="menu-item-label">Sitemap</span>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
-      </div><!-- br-sideleft-menu -->
+          </div>
+        </a> -->
 
-      <label class="sidebar-label pd-x-15 mg-t-25 mg-b-20 tx-info op-9">Information Summary</label>
 
-      <div class="info-list">
+        
+      </div>
+
+      <!-- <label class="sidebar-label pd-x-15 mg-t-25 mg-b-20 tx-info op-9">Information Summary</label> -->
+
+      <!-- <div class="info-list">
         <div class="d-flex align-items-center justify-content-between pd-x-15">
           <div>
             <p class="tx-10 tx-roboto tx-uppercase tx-spacing-1 tx-white op-3 mg-b-2 space-nowrap">Memory Usage</p>
             <h5 class="tx-lato tx-white tx-normal mg-b-0">32.3%</h5>
           </div>
           <span class="peity-bar" data-peity='{ "fill": ["#336490"], "height": 35, "width": 60 }'>8,6,5,9,8,4,9,3,5,9</span>
-        </div><!-- d-flex -->
+        </div>
 
         <div class="d-flex align-items-center justify-content-between pd-x-15 mg-t-20">
           <div>
@@ -162,7 +169,7 @@
             <h5 class="tx-lato tx-white tx-normal mg-b-0">140.05</h5>
           </div>
           <span class="peity-bar" data-peity='{ "fill": ["#1C7973"], "height": 35, "width": 60 }'>4,3,5,7,12,10,4,5,11,7</span>
-        </div><!-- d-flex -->
+        </div>
 
         <div class="d-flex align-items-center justify-content-between pd-x-15 mg-t-20">
           <div>
@@ -170,7 +177,7 @@
             <h5 class="tx-lato tx-white tx-normal mg-b-0">82.02%</h5>
           </div>
           <span class="peity-bar" data-peity='{ "fill": ["#8E4246"], "height": 35, "width": 60 }'>1,2,1,3,2,10,4,12,7</span>
-        </div><!-- d-flex -->
+        </div>
 
         <div class="d-flex align-items-center justify-content-between pd-x-15 mg-t-20">
           <div>
@@ -178,8 +185,8 @@
             <h5 class="tx-lato tx-white tx-normal mg-b-0">62,201</h5>
           </div>
           <span class="peity-bar" data-peity='{ "fill": ["#9C7846"], "height": 35, "width": 60 }'>3,12,7,9,2,3,4,5,2</span>
-        </div><!-- d-flex -->
-      </div><!-- info-lst -->
+        </div>
+      </div> -->
 
       <br>
     </div><!-- br-sideleft -->
@@ -210,7 +217,7 @@
               <div class="d-flex align-items-center justify-content-between pd-y-10 pd-x-20 bd-b bd-gray-200">
                 <label class="tx-12 tx-info tx-uppercase tx-semibold tx-spacing-2 mg-b-0">Messages</label>
                 <a href="" class="tx-11">+ Add New Message</a>
-              </div><!-- d-flex -->
+              </div>
 
               <div class="media-list">
                 <!-- loop starts here -->
@@ -221,10 +228,10 @@
                       <div class="d-flex align-items-center justify-content-between mg-b-5">
                         <p class="mg-b-0 tx-medium tx-gray-800 tx-14">Donna Seay</p>
                         <span class="tx-11 tx-gray-500">2 minutes ago</span>
-                      </div><!-- d-flex -->
+                      </div>
                       <p class="tx-12 mg-b-0">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring.</p>
                     </div>
-                  </div><!-- media -->
+                  </div>
                 </a>
                 <!-- loop ends here -->
                 <a href="" class="media-list-link read">
@@ -234,10 +241,10 @@
                       <div class="d-flex align-items-center justify-content-between mg-b-5">
                         <p class="mg-b-0 tx-medium tx-gray-800 tx-14">Samantha Francis</p>
                         <span class="tx-11 tx-gray-500">3 hours ago</span>
-                      </div><!-- d-flex -->
+                      </div>
                       <p class="tx-12 mg-b-0">My entire soul, like these sweet mornings of spring.</p>
                     </div>
-                  </div><!-- media -->
+                  </div>
                 </a>
                 <a href="" class="media-list-link read">
                   <div class="media pd-x-20 pd-y-15">
@@ -246,10 +253,10 @@
                       <div class="d-flex align-items-center justify-content-between mg-b-5">
                         <p class="mg-b-0 tx-medium tx-gray-800 tx-14">Robert Walker</p>
                         <span class="tx-11 tx-gray-500">5 hours ago</span>
-                      </div><!-- d-flex -->
+                      </div>
                       <p class="tx-12 mg-b-0">I should be incapable of drawing a single stroke at the present moment...</p>
                     </div>
-                  </div><!-- media -->
+                  </div>
                 </a>
                 <a href="" class="media-list-link read">
                   <div class="media pd-x-20 pd-y-15">
@@ -258,10 +265,10 @@
                       <div class="d-flex align-items-center justify-content-between mg-b-5">
                         <p class="mg-b-0 tx-medium tx-gray-800 tx-14">Larry Smith</p>
                         <span class="tx-11 tx-gray-500">Yesterday</span>
-                      </div><!-- d-flex -->
+                      </div>
                       <p class="tx-12 mg-b-0">When, while the lovely valley teems with vapour around me, and the meridian sun strikes...</p>
                     </div>
-                  </div><!-- media -->
+                  </div>
                 </a>
                 <div class="pd-y-10 tx-center bd-t">
                   <a href="" class="tx-12"><i class="fa fa-angle-down mg-r-5"></i> Show All Messages</a>
@@ -280,7 +287,7 @@
               <div class="d-flex align-items-center justify-content-between pd-y-10 pd-x-20 bd-b bd-gray-200">
                 <label class="tx-12 tx-info tx-uppercase tx-semibold tx-spacing-2 mg-b-0">Notifications</label>
                 <a href="" class="tx-11">Mark All as Read</a>
-              </div><!-- d-flex -->
+              </div>
 
               <div class="media-list">
                 <!-- loop starts here -->
@@ -291,7 +298,7 @@
                       <p class="tx-13 mg-b-0 tx-gray-700"><strong class="tx-medium tx-gray-800">Suzzeth Bungaos</strong> tagged you and 18 others in a post.</p>
                       <span class="tx-12">October 03, 2017 8:45am</span>
                     </div>
-                  </div><!-- media -->
+                  </div>
                 </a>
                 <!-- loop ends here -->
                 <a href="" class="media-list-link read">
@@ -301,7 +308,7 @@
                       <p class="tx-13 mg-b-0 tx-gray-700"><strong class="tx-medium tx-gray-800">Mellisa Brown</strong> appreciated your work <strong class="tx-medium tx-gray-800">The Social Network</strong></p>
                       <span class="tx-12">October 02, 2017 12:44am</span>
                     </div>
-                  </div><!-- media -->
+                  </div>
                 </a>
                 <a href="" class="media-list-link read">
                   <div class="media pd-x-20 pd-y-15">
@@ -310,7 +317,7 @@
                       <p class="tx-13 mg-b-0 tx-gray-700">20+ new items added are for sale in your <strong class="tx-medium tx-gray-800">Sale Group</strong></p>
                       <span class="tx-12">October 01, 2017 10:20pm</span>
                     </div>
-                  </div><!-- media -->
+                  </div>
                 </a>
                 <a href="" class="media-list-link read">
                   <div class="media pd-x-20 pd-y-15">
@@ -319,7 +326,7 @@
                       <p class="tx-13 mg-b-0 tx-gray-700"><strong class="tx-medium tx-gray-800">Julius Erving</strong> wants to connect with you on your conversation with <strong class="tx-medium tx-gray-800">Ronnie Mara</strong></p>
                       <span class="tx-12">October 01, 2017 6:08pm</span>
                     </div>
-                  </div><!-- media -->
+                  </div>
                 </a>
                 <div class="pd-y-10 tx-center bd-t">
                   <a href="" class="tx-12"><i class="fa fa-angle-down mg-r-5"></i> Show All Notifications</a>
@@ -372,9 +379,9 @@
         <li class="nav-item">
           <a class="nav-link" data-toggle="tab" role="tab" href="#settings"><i class="icon ion-ios-gear-outline tx-24"></i></a>
         </li>
-      </ul><!-- sidebar-tabs -->
+      </ul>
 
-      <!-- Tab panes -->
+      
       <div class="tab-content">
         <div class="tab-pane pos-absolute a-0 mg-t-60 overflow-y-auto active" id="contacts" role="tabpanel">
           <label class="sidebar-label pd-x-25 mg-t-25">Online Contacts</label>
@@ -390,8 +397,8 @@
                   <span class="tx-12 op-5 d-inline-block">Clemson, CA</span>
                 </div>
                 <span class="tx-info tx-12"><span class="square-8 bg-info rounded-circle"></span> 1 new</span>
-              </div><!-- d-flex -->
-            </a><!-- contact-list-link -->
+              </div>
+            </a>
             <a href="" class="contact-list-link">
               <div class="d-flex">
                 <div class="pos-relative">
@@ -402,8 +409,8 @@
                   <p class="mg-b-0 ">Belinda Connor</p>
                   <span class="tx-12 op-5 d-inline-block">Fort Kent, ME</span>
                 </div>
-              </div><!-- d-flex -->
-            </a><!-- contact-list-link -->
+              </div>
+            </a>
             <a href="" class="contact-list-link new">
               <div class="d-flex">
                 <div class="pos-relative">
@@ -415,8 +422,8 @@
                   <span class="tx-12 op-5 d-inline-block">Shiboygan Falls, WI</span>
                 </div>
                 <span class="tx-info tx-12"><span class="square-8 bg-info rounded-circle"></span> 3 new</span>
-              </div><!-- d-flex -->
-            </a><!-- contact-list-link -->
+              </div>
+            </a>
             <a href="" class="contact-list-link new">
               <div class="d-flex">
                 <div class="pos-relative">
@@ -428,8 +435,8 @@
                   <span class="tx-12 op-5 d-inline-block">Snohomish, WA</span>
                 </div>
                 <span class="tx-info tx-12"><span class="square-8 bg-info rounded-circle"></span> 1 new</span>
-              </div><!-- d-flex -->
-            </a><!-- contact-list-link -->
+              </div>
+            </a>
             <a href="" class="contact-list-link">
               <div class="d-flex">
                 <div class="pos-relative">
@@ -440,8 +447,8 @@
                   <p class="mg-b-0">Andrew Wiggins</p>
                   <span class="tx-12 op-5 d-inline-block">Springfield, MA</span>
                 </div>
-              </div><!-- d-flex -->
-            </a><!-- contact-list-link -->
+              </div>
+            </a>
             <a href="" class="contact-list-link">
               <div class="d-flex">
                 <div class="pos-relative">
@@ -452,8 +459,8 @@
                   <p class="mg-b-0">Theodore Gristen</p>
                   <span class="tx-12 op-5 d-inline-block">Nashville, TN</span>
                 </div>
-              </div><!-- d-flex -->
-            </a><!-- contact-list-link -->
+              </div>
+            </a>
             <a href="" class="contact-list-link">
               <div class="d-flex">
                 <div class="pos-relative">
@@ -464,9 +471,9 @@
                   <p class="mg-b-0">Deborah Miner</p>
                   <span class="tx-12 op-5 d-inline-block">North Shore, CA</span>
                 </div>
-              </div><!-- d-flex -->
-            </a><!-- contact-list-link -->
-          </div><!-- contact-list -->
+              </div>
+            </a>
+          </div>
 
 
           <label class="sidebar-label pd-x-25 mg-t-25">Offline Contacts</label>
@@ -481,8 +488,8 @@
                   <p class="mg-b-0">Marilyn Tarter</p>
                   <span class="tx-12 op-5 d-inline-block">Clemson, CA</span>
                 </div>
-              </div><!-- d-flex -->
-            </a><!-- contact-list-link -->
+              </div>
+            </a>
             <a href="" class="contact-list-link">
               <div class="d-flex">
                 <div class="pos-relative">
@@ -493,8 +500,8 @@
                   <p class="mg-b-0">Belinda Connor</p>
                   <span class="tx-12 op-5 d-inline-block">Fort Kent, ME</span>
                 </div>
-              </div><!-- d-flex -->
-            </a><!-- contact-list-link -->
+              </div>
+            </a>
             <a href="" class="contact-list-link">
               <div class="d-flex">
                 <div class="pos-relative">
@@ -505,8 +512,8 @@
                   <p class="mg-b-0">Britanny Cevallos</p>
                   <span class="tx-12 op-5 d-inline-block">Shiboygan Falls, WI</span>
                 </div>
-              </div><!-- d-flex -->
-            </a><!-- contact-list-link -->
+              </div>
+            </a>
             <a href="" class="contact-list-link">
               <div class="d-flex">
                 <div class="pos-relative">
@@ -517,8 +524,8 @@
                   <p class="mg-b-0">Brandon Lawrence</p>
                   <span class="tx-12 op-5 d-inline-block">Snohomish, WA</span>
                 </div>
-              </div><!-- d-flex -->
-            </a><!-- contact-list-link -->
+              </div>
+            </a>
             <a href="" class="contact-list-link">
               <div class="d-flex">
                 <div class="pos-relative">
@@ -529,8 +536,8 @@
                   <p class="mg-b-0">Andrew Wiggins</p>
                   <span class="tx-12 op-5 d-inline-block">Springfield, MA</span>
                 </div>
-              </div><!-- d-flex -->
-            </a><!-- contact-list-link -->
+              </div>
+            </a>
             <a href="" class="contact-list-link">
               <div class="d-flex">
                 <div class="pos-relative">
@@ -541,8 +548,8 @@
                   <p class="mg-b-0">Theodore Gristen</p>
                   <span class="tx-12 op-5 d-inline-block">Nashville, TN</span>
                 </div>
-              </div><!-- d-flex -->
-            </a><!-- contact-list-link -->
+              </div>
+            </a>
             <a href="" class="contact-list-link">
               <div class="d-flex">
                 <div class="pos-relative">
@@ -553,9 +560,9 @@
                   <p class="mg-b-0">Deborah Miner</p>
                   <span class="tx-12 op-5 d-inline-block">North Shore, CA</span>
                 </div>
-              </div><!-- d-flex -->
-            </a><!-- contact-list-link -->
-          </div><!-- contact-list -->
+              </div>
+            </a>
+          </div>
 
         </div><!-- #contacts -->
 
@@ -571,9 +578,9 @@
                 <p class="mg-b-0 tx-13">IMG_43445</p>
                 <p class="mg-b-0 tx-12 op-5">JPG Image</p>
                 <p class="mg-b-0 tx-12 op-5">1.2mb</p>
-              </div><!-- media-body -->
+              </div>
               <a href="" class="more"><i class="icon ion-android-more-vertical tx-18"></i></a>
-            </div><!-- media -->
+            </div>
             <div class="media mg-t-20">
               <div class="pd-10 bg-purple wd-50 ht-60 tx-center d-flex align-items-center justify-content-center">
                 <i class="fa fa-file-video-o tx-28 tx-white"></i>
@@ -582,9 +589,9 @@
                 <p class="mg-b-0 tx-13">VID_6543</p>
                 <p class="mg-b-0 tx-12 op-5">MP4 Video</p>
                 <p class="mg-b-0 tx-12 op-5">24.8mb</p>
-              </div><!-- media-body -->
+              </div>
               <a href="" class="more"><i class="icon ion-android-more-vertical tx-18"></i></a>
-            </div><!-- media -->
+            </div>
             <div class="media mg-t-20">
               <div class="pd-10 bg-success wd-50 ht-60 tx-center d-flex align-items-center justify-content-center">
                 <i class="fa fa-file-word-o tx-28 tx-white"></i>
@@ -593,9 +600,9 @@
                 <p class="mg-b-0 tx-13">Tax_Form</p>
                 <p class="mg-b-0 tx-12 op-5">Word Document</p>
                 <p class="mg-b-0 tx-12 op-5">5.5mb</p>
-              </div><!-- media-body -->
+              </div>
               <a href="" class="more"><i class="icon ion-android-more-vertical tx-18"></i></a>
-            </div><!-- media -->
+            </div>
             <div class="media mg-t-20">
               <div class="pd-10 bg-warning wd-50 ht-60 tx-center d-flex align-items-center justify-content-center">
                 <i class="fa fa-file-pdf-o tx-28 tx-white"></i>
@@ -604,9 +611,9 @@
                 <p class="mg-b-0 tx-13">Getting_Started</p>
                 <p class="mg-b-0 tx-12 op-5">PDF Document</p>
                 <p class="mg-b-0 tx-12 op-5">12.7mb</p>
-              </div><!-- media-body -->
+              </div>
               <a href="" class="more"><i class="icon ion-android-more-vertical tx-18"></i></a>
-            </div><!-- media -->
+            </div>
             <div class="media mg-t-20">
               <div class="pd-10 bg-warning wd-50 ht-60 tx-center d-flex align-items-center justify-content-center">
                 <i class="fa fa-file-pdf-o tx-28 tx-white"></i>
@@ -615,9 +622,9 @@
                 <p class="mg-b-0 tx-13">Introduction</p>
                 <p class="mg-b-0 tx-12 op-5">PDF Document</p>
                 <p class="mg-b-0 tx-12 op-5">7.7mb</p>
-              </div><!-- media-body -->
+              </div>
               <a href="" class="more"><i class="icon ion-android-more-vertical tx-18"></i></a>
-            </div><!-- media -->
+            </div>
             <div class="media mg-t-20">
               <div class="pd-10 bg-primary wd-50 ht-60 tx-center d-flex align-items-center justify-content-center">
                 <i class="fa fa-file-image-o tx-28 tx-white"></i>
@@ -626,9 +633,9 @@
                 <p class="mg-b-0 tx-13">IMG_43420</p>
                 <p class="mg-b-0 tx-12 op-5">JPG Image</p>
                 <p class="mg-b-0 tx-12 op-5">2.2mb</p>
-              </div><!-- media-body -->
+              </div>
               <a href="" class="more"><i class="icon ion-android-more-vertical tx-18"></i></a>
-            </div><!-- media -->
+            </div>
             <div class="media mg-t-20">
               <div class="pd-10 bg-primary wd-50 ht-60 tx-center d-flex align-items-center justify-content-center">
                 <i class="fa fa-file-image-o tx-28 tx-white"></i>
@@ -637,9 +644,9 @@
                 <p class="mg-b-0 tx-13">IMG_43447</p>
                 <p class="mg-b-0 tx-12 op-5">JPG Image</p>
                 <p class="mg-b-0 tx-12 op-5">3.2mb</p>
-              </div><!-- media-body -->
+              </div>
               <a href="" class="more"><i class="icon ion-android-more-vertical tx-18"></i></a>
-            </div><!-- media -->
+            </div>
             <div class="media mg-t-20">
               <div class="pd-10 bg-purple wd-50 ht-60 tx-center d-flex align-items-center justify-content-center">
                 <i class="fa fa-file-video-o tx-28 tx-white"></i>
@@ -648,9 +655,9 @@
                 <p class="mg-b-0 tx-13">VID_6545</p>
                 <p class="mg-b-0 tx-12 op-5">AVI Video</p>
                 <p class="mg-b-0 tx-12 op-5">14.8mb</p>
-              </div><!-- media-body -->
+              </div>
               <a href="" class="more"><i class="icon ion-android-more-vertical tx-18"></i></a>
-            </div><!-- media -->
+            </div>
             <div class="media mg-t-20">
               <div class="pd-10 bg-success wd-50 ht-60 tx-center d-flex align-items-center justify-content-center">
                 <i class="fa fa-file-word-o tx-28 tx-white"></i>
@@ -659,9 +666,9 @@
                 <p class="mg-b-0 tx-13">Secret_Document</p>
                 <p class="mg-b-0 tx-12 op-5">Word Document</p>
                 <p class="mg-b-0 tx-12 op-5">4.5mb</p>
-              </div><!-- media-body -->
+              </div>
               <a href="" class="more"><i class="icon ion-android-more-vertical tx-18"></i></a>
-            </div><!-- media -->
+            </div>
           </div><!-- media-list -->
         </div><!-- #history -->
         <div class="tab-pane pos-absolute a-0 mg-t-60 overflow-y-auto" id="calendar" role="tabpanel">

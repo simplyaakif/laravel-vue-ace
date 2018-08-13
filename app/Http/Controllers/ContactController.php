@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ContactResource;
 use App\Contact;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
@@ -14,7 +15,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        $contacts = Contact::orderBy('id', 'desc')->paginate(5);
+        $contacts = Contact::orderBy('id', 'desc')->paginate(30);
         return ContactResource::collection($contacts);
     }
 
@@ -31,7 +32,7 @@ class ContactController extends Controller
         $password = 'ayesha420';
         $to = $contact->contact_mobile;
         $from = 'ACE';
-        $message = 'Test SMS from Lifetimesms.com';
+        $message = 'Thanks for submitting your query. Our staff will get back to you soon.';
         $url = "http://Lifetimesms.com/plain?username=".$username."&password=" .$password.
         "&to=" .$to. "&from=" .urlencode($from)."&message=" .urlencode($message)."";
         //Curl Start
@@ -43,8 +44,21 @@ class ContactController extends Controller
         $response = curl_exec($ch) ;
         curl_close($ch) ; 
         //Write out the response
-        echo $response ;
+        // echo $response ;
+        return null;
+    }
 
+    public function email(Contact $contact){
+        $data = [
+            'title'=>'Online Contact Query Recieved',
+            'content'=> 'Thank you for contacting us. Our staff is currently processing your request. We will get back to you soon. Your message was '.$contact->contact_message ,
+            'email'=>$contact->contact_email,
+            
+        ];
+    
+        Mail::send('emails.test',$data, function($message) use ($contact){
+            $message->to($contact->contact_email,'ACE - American Institute of English')->subject('Contact Form Recieved');
+        });
         return null;
     }
 
@@ -53,10 +67,20 @@ class ContactController extends Controller
         $contact = $request->isMethod('put') ? Contact::findOrFail($request->id) : new Contact;
         $contact->id = $request->input('id');
         $contact->contact_name = $request->input('contact_name');
-        $contact->contact_mobile = $request->input('contact_mobile');
+        $contact->contact_mobile = str_replace("-","",$request->input('contact_mobile'));
+        $contact->contact_email = $request->input('contact_email');
+        if(!$request->input('id')){
+            $contact->status = 'Pending';
+        }
+        else{
+            $contact->status = $request->input('status');
+        }
         $contact->contact_message = $request->input('contact_message');
         
-        // $this->sms($contact);
+        if($request->isMethod('post')){
+            $this->sms($contact);
+            $this->email($contact);
+        }
 
         
         if($contact->save()){

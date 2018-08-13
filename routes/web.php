@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
     return view('main');
-});
+}); 
 
 Route::get('sendmail', function () {
     $data = [
