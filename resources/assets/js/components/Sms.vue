@@ -81,6 +81,7 @@ export default {
             this.sms.sms_message = '';
           })
           .catch(err => console.log(err));
+          // alert('Error Sending the Sms');
         },
         sendemail(){
             fetch('api/sms-email', {
@@ -97,6 +98,7 @@ export default {
             this.sms.sms_message = '';
           })
           .catch(err => console.log(err));
+          // alert('Error Sending the Mail');
         },
     }
 }

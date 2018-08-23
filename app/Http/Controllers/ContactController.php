@@ -8,23 +8,11 @@ use Illuminate\Support\Facades\Mail;
 
 class ContactController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $contacts = Contact::orderBy('id', 'desc')->paginate(30);
         return ContactResource::collection($contacts);
     }
-
-     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
 
     public function sms(Contact $contact){
 
@@ -43,8 +31,6 @@ class ContactController extends Controller
         curl_setopt ($ch,CURLOPT_CONNECTTIMEOUT, $timeout) ;
         $response = curl_exec($ch) ;
         curl_close($ch) ; 
-        //Write out the response
-        // echo $response ;
         return null;
     }
 
@@ -85,24 +71,12 @@ class ContactController extends Controller
             return new ContactResource($contact);
         }
     }
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Contact  $contact
-     * @return \Illuminate\Http\Response
-     */
     public function show(Contact $contact)
     {
         $contact = Contact::findOrFail($contact->id);
         return new ContactResource($contact);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Contact  $contact
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Contact $contact)
     {
         $contact = Contact::findOrFail($contact->id);

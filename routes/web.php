@@ -29,7 +29,6 @@ Route::get('sendmail', function () {
 
 });
 
-
 //List Queries
 Route::get('api/queries','QueriesController@index'); 
 //List Query
@@ -41,18 +40,27 @@ Route::put('api/queries','QueriesController@store');
 //Delete Query
 Route::delete('api/queries/{queries}','QueriesController@destroy'); 
 
-
-
-//List contact
+//List Contacts
 Route::get('api/contacts','ContactController@index'); 
-//List Query
+//List Contact
 Route::get('api/contacts/{contact}','ContactController@show'); 
-//Create Query
+//Create Contact
 Route::post('api/contacts','ContactController@store'); 
-//Update Query
+//Update Contact
 Route::put('api/contacts','ContactController@store'); 
-//Delete Query
+//Delete Contact
 Route::delete('api/contacts/{contact}','ContactController@destroy'); 
+
+//List Courses
+Route::get('api/courses','CoursesController@index'); 
+//List Course
+Route::get('api/courses/{courses}','CoursesController@show'); 
+//Create Course
+Route::post('api/courses','CoursesController@store'); 
+//Update Course
+Route::put('api/courses','CoursesController@store'); 
+//Delete Course
+Route::delete('api/courses/{courses}','CoursesController@destroy'); 
 
 
 //Send Sms & Email

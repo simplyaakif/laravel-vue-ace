@@ -13,5 +13,6 @@ class DatabaseSeeder extends Seeder
     {
         factory('App\Queries', 50)->create();
         factory('App\Contact',50)->create();
+        factory('App\Courses',50)->create();
     }
 }
