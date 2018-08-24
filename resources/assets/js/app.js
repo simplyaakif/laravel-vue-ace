@@ -35,6 +35,8 @@ import Contacts from './components/Contacts';
 import Home from './components/Home';
 import Admissions from './components/Admissions';
 import Sms from './components/Sms';
+import Courses from './components/Courses';
+import Expenses from './components/Expenses';
 
 const router = new VueRouter({
     mode: 'history',
@@ -63,6 +65,16 @@ const router = new VueRouter({
             path: '/sms',
             name: 'sms',
             component: Sms,
+        },
+        {
+            path: '/courses',
+            name: 'courses',
+            component: Courses,
+        },
+        {
+            path: '/expenses',
+            name: 'expenses',
+            component: Expenses,
         },
     ],
 });

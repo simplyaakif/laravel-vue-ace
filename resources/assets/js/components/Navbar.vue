@@ -45,6 +45,13 @@
           </div>
         </router-link>
 
+        <router-link to="/expense" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon icon ion-ios-list-outline tx-22"></i>
+            <span class="menu-item-label">Expenses</span>
+          </div>
+        </router-link>
+
 
 
         <!-- <a href="#" class="br-menu-link">
