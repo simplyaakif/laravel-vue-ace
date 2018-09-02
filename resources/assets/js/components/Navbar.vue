@@ -11,6 +11,13 @@
             <span class="menu-item-label">Dashboard</span>
           </div>
         </router-link>
+        <router-link to="/tasks" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon icon ion-ios-moon-outline tx-22"></i>
+            <span class="menu-item-label">Pending Tasks</span>
+          </div>
+        </router-link>
+        <label class="sidebar-label pd-x-15 mg-t-20">Queries</label>
         <router-link to="/contacts" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
@@ -23,36 +30,42 @@
             <span class="menu-item-label">All Queries</span>
           </div>
         </router-link>
-
+        <label class="sidebar-label pd-x-15 mg-t-20">Student Section</label>
         <router-link to="/admissions" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-paper-outline tx-22"></i>
             <span class="menu-item-label">Admissions</span>
           </div>
         </router-link>
-
-        <router-link to="/sms" class="br-menu-link">
+        <router-link to="/attendance" class="br-menu-link">
           <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-filing-outline tx-22"></i>
-            <span class="menu-item-label">Send Sms or Email</span>
+            <i class="menu-item-icon icon ion-ios-paper-outline tx-22"></i>
+            <span class="menu-item-label">Attendance</span>
           </div>
         </router-link>
 
+        
+        <label class="sidebar-label pd-x-15 mg-t-20">Classes &amp; Batches</label>
         <router-link to="/courses" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-list-outline tx-22"></i>
             <span class="menu-item-label">Courses</span>
           </div>
         </router-link>
-
+        <label class="sidebar-label pd-x-15 mg-t-20">Finance Section</label>
         <router-link to="/expense" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-list-outline tx-22"></i>
             <span class="menu-item-label">Expenses</span>
           </div>
         </router-link>
-
-
+        <label class="sidebar-label pd-x-15 mg-t-20">Misc</label>
+        <router-link to="/sms" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon icon ion-ios-filing-outline tx-22"></i>
+            <span class="menu-item-label">Send Sms or Email</span>
+          </div>
+        </router-link>
 
         <!-- <a href="#" class="br-menu-link">
           <div class="br-menu-item">

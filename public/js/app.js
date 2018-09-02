@@ -57073,6 +57073,26 @@ var render = function() {
           _vm._v(" "),
           _c(
             "router-link",
+            { staticClass: "br-menu-link", attrs: { to: "/tasks" } },
+            [
+              _c("div", { staticClass: "br-menu-item" }, [
+                _c("i", {
+                  staticClass: "menu-item-icon icon ion-ios-moon-outline tx-22"
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "menu-item-label" }, [
+                  _vm._v("Pending Tasks")
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c("label", { staticClass: "sidebar-label pd-x-15 mg-t-20" }, [
+            _vm._v("Queries")
+          ]),
+          _vm._v(" "),
+          _c(
+            "router-link",
             { staticClass: "br-menu-link", attrs: { to: "/contacts" } },
             [
               _c("div", { staticClass: "br-menu-item" }, [
@@ -57104,6 +57124,10 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
+          _c("label", { staticClass: "sidebar-label pd-x-15 mg-t-20" }, [
+            _vm._v("Student Section")
+          ]),
+          _vm._v(" "),
           _c(
             "router-link",
             { staticClass: "br-menu-link", attrs: { to: "/admissions" } },
@@ -57122,20 +57146,23 @@ var render = function() {
           _vm._v(" "),
           _c(
             "router-link",
-            { staticClass: "br-menu-link", attrs: { to: "/sms" } },
+            { staticClass: "br-menu-link", attrs: { to: "/attendance" } },
             [
               _c("div", { staticClass: "br-menu-item" }, [
                 _c("i", {
-                  staticClass:
-                    "menu-item-icon icon ion-ios-filing-outline tx-22"
+                  staticClass: "menu-item-icon icon ion-ios-paper-outline tx-22"
                 }),
                 _vm._v(" "),
                 _c("span", { staticClass: "menu-item-label" }, [
-                  _vm._v("Send Sms or Email")
+                  _vm._v("Attendance")
                 ])
               ])
             ]
           ),
+          _vm._v(" "),
+          _c("label", { staticClass: "sidebar-label pd-x-15 mg-t-20" }, [
+            _vm._v("Classes & Batches")
+          ]),
           _vm._v(" "),
           _c(
             "router-link",
@@ -57153,6 +57180,10 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
+          _c("label", { staticClass: "sidebar-label pd-x-15 mg-t-20" }, [
+            _vm._v("Finance Section")
+          ]),
+          _vm._v(" "),
           _c(
             "router-link",
             { staticClass: "br-menu-link", attrs: { to: "/expense" } },
@@ -57164,6 +57195,27 @@ var render = function() {
                 _vm._v(" "),
                 _c("span", { staticClass: "menu-item-label" }, [
                   _vm._v("Expenses")
+                ])
+              ])
+            ]
+          ),
+          _vm._v(" "),
+          _c("label", { staticClass: "sidebar-label pd-x-15 mg-t-20" }, [
+            _vm._v("Misc")
+          ]),
+          _vm._v(" "),
+          _c(
+            "router-link",
+            { staticClass: "br-menu-link", attrs: { to: "/sms" } },
+            [
+              _c("div", { staticClass: "br-menu-item" }, [
+                _c("i", {
+                  staticClass:
+                    "menu-item-icon icon ion-ios-filing-outline tx-22"
+                }),
+                _vm._v(" "),
+                _c("span", { staticClass: "menu-item-label" }, [
+                  _vm._v("Send Sms or Email")
                 ])
               ])
             ]

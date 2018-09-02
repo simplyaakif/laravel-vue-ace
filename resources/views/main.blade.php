@@ -24,31 +24,31 @@
 
         <link rel="stylesheet" href=" {{asset('css/app.css')}} ">
         <link rel="stylesheet" href=" {{asset('css/bracket.css')}} ">
-        <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
-
+    
     <body>
-
+        
         <div id="app">
             <app></app>
         </div>
-
-            <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-
-            {{-- <script src="{{asset('lib/jquery/jquery.js')}}"></script> --}}
-            <script src="{{asset('lib/popper.js/popper.js')}}"></script>
-            <script src="{{asset('lib/bootstrap/bootstrap.js')}}"></script>
-            <script src="{{asset('lib/moment/moment.js')}}"></script>
-            <script src="{{asset('lib/jquery-ui/jquery-ui.js')}}"></script>
-            <script src="{{asset('lib/jquery-switchbutton/jquery.switchButton.js')}}"></script>
-            <script src="{{asset('lib/peity/jquery.peity.js')}}"></script>
-            <script src="{{asset('lib/chartist/chartist.js')}}"></script>
-            <script src="{{asset('lib/jquery.sparkline.bower/jquery.sparkline.min.js')}}"></script>
-            <script src="{{asset('lib/d3/d3.js')}}"></script>
-            <script src="{{asset('lib/rickshaw/rickshaw.min.js')}}"></script>
-
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
-            <script src="{{asset('lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js')}}"></script>
+        
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        
+        {{-- <script src="{{asset('lib/jquery/jquery.js')}}"></script> --}}
+        <script src="{{asset('lib/popper.js/popper.js')}}"></script>
+        <script src="{{asset('lib/bootstrap/bootstrap.js')}}"></script>
+        <script src="{{asset('lib/moment/moment.js')}}"></script>
+        <script src="{{asset('lib/jquery-ui/jquery-ui.js')}}"></script>
+        <script src="{{asset('lib/jquery-switchbutton/jquery.switchButton.js')}}"></script>
+        <script src="{{asset('lib/peity/jquery.peity.js')}}"></script>
+        <script src="{{asset('lib/chartist/chartist.js')}}"></script>
+        <script src="{{asset('lib/jquery.sparkline.bower/jquery.sparkline.min.js')}}"></script>
+        <script src="{{asset('lib/d3/d3.js')}}"></script>
+        <script src="{{asset('lib/rickshaw/rickshaw.min.js')}}"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+        <script src="{{ asset('js/app.js') }}" ></script>
+        <script src="{{asset('lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js')}}"></script>
             {{-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.7/js/min/perfect-scrollbar.jquery.min.js"></script> --}}
 
             <script src="{{asset('js/bracket.js')}} "></script>

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateExpensesTable extends Migration
+class CreateBatchesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class CreateExpensesTable extends Migration
      */
     public function up()
     {
-        Schema::create('expenses', function (Blueprint $table) {
+        Schema::create('batches', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('expense_name');
-            $table->string('expense_company');
-            $table->float('expense_amount');
-            $table->date('expense_issuedate');
-            $table->date('expense_duedate');
+            $table->string('batch_name');
+            $table->time('batch_starttime');
+            $table->time('batch_endtime');
+            $table->text('batch_comments');
+            $table->integer('course_id')->nullable();
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ class CreateExpensesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('expenses');
+        Schema::dropIfExists('batches');
     }
 }
